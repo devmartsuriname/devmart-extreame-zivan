@@ -1,0 +1,143 @@
+{
+  "sections": {
+    "Hero": {
+      "category": "Hero",
+      "displayName": "Hero Sections",
+      "description": "Large banner sections at the top of pages",
+      "blocks": [
+        {
+          "id": "hero1-creative-agency",
+          "name": "Creative Agency Hero",
+          "component": "Hero1_CreativeAgency",
+          "description": "Text animation hero with video modal",
+          "theme": "both",
+          "tags": ["video", "animation", "text-transition"],
+          "usedIn": ["Creative Agency"]
+        },
+        {
+          "id": "hero2-marketing-agency",
+          "name": "Marketing Agency Hero",
+          "component": "Hero2_MarketingAgency",
+          "description": "Parallax image hero with icon",
+          "theme": "both",
+          "tags": ["parallax", "image"],
+          "usedIn": ["Marketing Agency"]
+        },
+        {
+          "id": "hero3-studio-agency",
+          "name": "Studio Agency Hero",
+          "component": "Hero3_StudioAgency",
+          "description": "Full-screen background with scrolling text",
+          "theme": "both",
+          "tags": ["fullscreen", "scrolling-text"],
+          "usedIn": ["Studio Agency"]
+        },
+        {
+          "id": "hero4-digital-agency",
+          "name": "Digital Agency Hero",
+          "component": "Hero4_DigitalAgency",
+          "description": "Video modal hero with shapes",
+          "theme": "both",
+          "tags": ["video", "shapes"],
+          "usedIn": ["Digital Agency"]
+        },
+        {
+          "id": "hero5-tech-startup",
+          "name": "Tech Startup Hero",
+          "component": "Hero5_TechStartup",
+          "description": "Ripple effect hero with dual CTAs",
+          "theme": "both",
+          "tags": ["ripple", "animation", "cta"],
+          "usedIn": ["Tech Startup"]
+        }
+      ]
+    },
+    "About": {
+      "category": "About",
+      "displayName": "About Sections",
+      "blocks": [
+        {
+          "id": "about1-standard",
+          "name": "Standard About",
+          "component": "About1_Standard",
+          "theme": "both",
+          "usedIn": ["Creative Agency"]
+        },
+        {
+          "id": "about2-dual-image",
+          "name": "Dual Image About",
+          "component": "About2_DualImage",
+          "theme": "both",
+          "usedIn": ["Marketing Agency"]
+        },
+        {
+          "id": "about3-cta-style",
+          "name": "CTA Style About",
+          "component": "About3_CTAStyle",
+          "theme": "both",
+          "usedIn": ["Marketing Agency"]
+        },
+        {
+          "id": "about5-video-progress",
+          "name": "Video Progress About",
+          "component": "About5_VideoProgress",
+          "theme": "both",
+          "usedIn": ["Digital Agency"]
+        }
+      ]
+    },
+    "Services": {
+      "category": "Services",
+      "displayName": "Service Sections",
+      "blocks": [
+        {
+          "id": "services1-grid",
+          "name": "Grid Services",
+          "component": "Services1_Grid",
+          "theme": "both",
+          "usedIn": ["Creative Agency", "Studio Agency"]
+        },
+        {
+          "id": "services2-numbered",
+          "name": "Numbered Services",
+          "component": "Services2_Numbered",
+          "theme": "both",
+          "usedIn": ["Studio Agency"]
+        },
+        {
+          "id": "services3-slider",
+          "name": "Service Slider",
+          "component": "Services3_Slider",
+          "theme": "both",
+          "usedIn": ["Marketing Agency"]
+        }
+      ]
+    },
+    "CTA": {
+      "category": "CTA",
+      "displayName": "Call-to-Action Sections",
+      "blocks": [
+        {
+          "id": "cta1-image-background",
+          "name": "Image Background CTA",
+          "component": "CTA1_ImageBackground",
+          "theme": "both",
+          "usedIn": ["All variants"]
+        },
+        {
+          "id": "cta2-centered",
+          "name": "Centered CTA",
+          "component": "CTA2_Centered",
+          "theme": "both",
+          "usedIn": ["Various"]
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "totalCategories": 8,
+    "totalBlocks": 20,
+    "version": "1.0.0",
+    "lastUpdated": "2025-11-11"
+  }
+}
