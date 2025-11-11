@@ -113,6 +113,73 @@
         }
       ]
     },
+    "Portfolio": {
+      "category": "Portfolio",
+      "displayName": "Portfolio Sections",
+      "blocks": [
+        {
+          "id": "portfolio1-grid",
+          "name": "Grid Portfolio",
+          "component": "Portfolio1_Grid",
+          "theme": "both",
+          "usedIn": ["Creative Agency", "Studio Agency"]
+        },
+        {
+          "id": "portfolio2-slider",
+          "name": "Portfolio Slider",
+          "component": "Portfolio2_Slider",
+          "theme": "both",
+          "usedIn": ["Digital Agency"]
+        }
+      ]
+    },
+    "Blog": {
+      "category": "Blog",
+      "displayName": "Blog Sections",
+      "blocks": [
+        {
+          "id": "blog1-carousel",
+          "name": "Blog Carousel",
+          "component": "Blog1_Carousel",
+          "theme": "both",
+          "usedIn": ["Creative Agency", "Marketing Agency"]
+        },
+        {
+          "id": "blog2-grid",
+          "name": "Blog Grid",
+          "component": "Blog2_Grid",
+          "theme": "both",
+          "usedIn": ["Studio Agency", "Digital Agency"]
+        },
+        {
+          "id": "blog3-grid-alt",
+          "name": "Blog Grid Alternative",
+          "component": "Blog3_GridAlt",
+          "theme": "both",
+          "usedIn": ["Tech Startup"]
+        }
+      ]
+    },
+    "Testimonials": {
+      "category": "Testimonials",
+      "displayName": "Testimonial Sections",
+      "blocks": [
+        {
+          "id": "testimonials1-layered",
+          "name": "Layered Testimonials",
+          "component": "Testimonials1_Layered",
+          "theme": "both",
+          "usedIn": ["Creative Agency", "Marketing Agency"]
+        },
+        {
+          "id": "testimonials2-alternative",
+          "name": "Alternative Testimonials",
+          "component": "Testimonials2_Alternative",
+          "theme": "both",
+          "usedIn": ["Studio Agency", "Digital Agency", "Tech Startup"]
+        }
+      ]
+    },
     "CTA": {
       "category": "CTA",
       "displayName": "Call-to-Action Sections",
@@ -132,12 +199,170 @@
           "usedIn": ["Various"]
         }
       ]
+    },
+    "Features": {
+      "category": "Features",
+      "displayName": "Feature Sections",
+      "blocks": [
+        {
+          "id": "features1-iconbox",
+          "name": "Icon Box Features",
+          "component": "Features1_IconBox",
+          "theme": "both",
+          "usedIn": ["Tech Startup"]
+        },
+        {
+          "id": "features2-list-based",
+          "name": "List Based Features",
+          "component": "Features2_ListBased",
+          "theme": "both",
+          "usedIn": ["Tech Startup"]
+        }
+      ]
+    },
+    "Stats": {
+      "category": "Stats",
+      "displayName": "Statistics Sections",
+      "blocks": [
+        {
+          "id": "stats1-funfact",
+          "name": "Fun Fact Stats",
+          "component": "Stats1_FunFact",
+          "theme": "both",
+          "usedIn": ["Creative Agency", "Marketing Agency", "Digital Agency"]
+        }
+      ]
+    },
+    "Team": {
+      "category": "Team",
+      "displayName": "Team Sections",
+      "blocks": [
+        {
+          "id": "team1-slider",
+          "name": "Team Slider",
+          "component": "Team1_Slider",
+          "theme": "both",
+          "usedIn": ["Studio Agency", "About Page"]
+        }
+      ]
+    },
+    "Awards": {
+      "category": "Awards",
+      "displayName": "Award Sections",
+      "blocks": [
+        {
+          "id": "awards1-standard",
+          "name": "Standard Awards",
+          "component": "Awards1_Standard",
+          "theme": "both",
+          "usedIn": ["Creative Agency", "Marketing Agency"]
+        }
+      ]
+    },
+    "Brands": {
+      "category": "Brands",
+      "displayName": "Brand Logo Sections",
+      "blocks": [
+        {
+          "id": "brands1-standard",
+          "name": "Standard Brands Grid",
+          "component": "Brands1_Standard",
+          "theme": "both",
+          "usedIn": ["Marketing Agency", "Studio Agency", "Digital Agency"]
+        },
+        {
+          "id": "brands2-carousel",
+          "name": "Brands Carousel",
+          "component": "Brands2_Carousel",
+          "theme": "both",
+          "usedIn": ["Tech Startup"]
+        }
+      ]
+    },
+    "Pricing": {
+      "category": "Pricing",
+      "displayName": "Pricing Table Sections",
+      "blocks": [
+        {
+          "id": "pricing1-table",
+          "name": "Pricing Table Card",
+          "component": "Pricing1_Table",
+          "theme": "both",
+          "usedIn": ["Digital Agency", "Tech Startup", "Service Pages"]
+        }
+      ]
+    },
+    "FAQ": {
+      "category": "FAQ",
+      "displayName": "FAQ Sections",
+      "blocks": [
+        {
+          "id": "faq1-accordion",
+          "name": "FAQ Accordion",
+          "component": "FAQ1_Accordion",
+          "theme": "both",
+          "usedIn": ["Creative Agency", "Marketing Agency"]
+        }
+      ]
+    },
+    "Video": {
+      "category": "Video",
+      "displayName": "Video Sections",
+      "blocks": [
+        {
+          "id": "video1-modal",
+          "name": "Video Modal",
+          "component": "Video1_Modal",
+          "theme": "both",
+          "usedIn": ["Marketing Agency", "Digital Agency", "Tech Startup"]
+        }
+      ]
+    },
+    "Marquee": {
+      "category": "Marquee",
+      "displayName": "Marquee Sections",
+      "blocks": [
+        {
+          "id": "marquee1-scrolling",
+          "name": "Scrolling Marquee",
+          "component": "Marquee1_Scrolling",
+          "theme": "both",
+          "usedIn": ["Marketing Agency", "Studio Agency", "Digital Agency"]
+        }
+      ]
+    },
+    "WhyChoose": {
+      "category": "WhyChoose",
+      "displayName": "Why Choose Us Sections",
+      "blocks": [
+        {
+          "id": "whychoose1-standard",
+          "name": "Standard Why Choose",
+          "component": "WhyChoose1_Standard",
+          "theme": "both",
+          "usedIn": ["Creative Agency"]
+        }
+      ]
+    },
+    "CaseStudy": {
+      "category": "CaseStudy",
+      "displayName": "Case Study Sections",
+      "blocks": [
+        {
+          "id": "casestudy1-marketing",
+          "name": "Marketing Case Studies",
+          "component": "CaseStudy1_Marketing",
+          "theme": "both",
+          "usedIn": ["Marketing Agency"]
+        }
+      ]
     }
   },
   "metadata": {
-    "totalCategories": 8,
-    "totalBlocks": 20,
+    "totalCategories": 18,
+    "totalBlocks": 36,
     "version": "1.0.0",
-    "lastUpdated": "2025-11-11"
+    "lastUpdated": "2025-11-11",
+    "extractionComplete": true
   }
 }
