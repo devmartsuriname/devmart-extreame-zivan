@@ -254,6 +254,17 @@
 - [ ] **TASK-168** Add favicon upload [S]
 - [ ] **TASK-169** Create edge functions for settings CRUD [M]
 - [ ] **TASK-170** Update frontend to use dynamic settings [L]
+- [ ] **TASK-170a** Create settings form for SMTP configuration (Hostinger) [M]
+  - SMTP host, port, username, password fields
+  - Enable/disable toggle
+  - Password encryption handling
+- [ ] **TASK-170b** Create edge function for sending emails via Hostinger SMTP [L]
+  - Use nodemailer or similar
+  - Load SMTP credentials from site_settings
+  - Add email queue for reliability
+- [ ] **TASK-170c** Add "Test Email" functionality in settings [M]
+  - Send test email to admin
+  - Show success/error feedback
 
 ---
 
@@ -262,6 +273,8 @@
 ### 5.1 Contact Forms
 - [ ] **TASK-171** Create `contact_submissions` table with RLS [M]
 - [ ] **TASK-172** Create edge function to receive form submissions [M]
+  - Save to database
+  - Send email notification via Hostinger SMTP (if configured)
 - [ ] **TASK-173** Add rate limiting to prevent spam [M]
 - [ ] **TASK-174** Update frontend contact form to submit to API [M]
 - [ ] **TASK-175** Add success/error toast notifications [S]

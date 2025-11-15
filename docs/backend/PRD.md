@@ -711,6 +711,15 @@ CREATE TABLE public.faqs (
 - Default SEO metadata
 - Footer copyright text
 - Maintenance mode toggle
+- **SMTP Email Configuration** (for contact forms and transactional emails)
+  - SMTP Host (e.g., smtp.hostinger.com)
+  - SMTP Port (e.g., 587 for TLS, 465 for SSL)
+  - SMTP Username (email account)
+  - SMTP Password (encrypted)
+  - From Email (sender email address)
+  - From Name (sender display name)
+  - Enable/Disable SMTP
+  - Test email functionality
 
 ### 12.2 Database Schema
 ```sql
@@ -732,7 +741,15 @@ INSERT INTO public.site_settings (key, value) VALUES
 ('social_twitter', '"https://twitter.com/devmart"'),
 ('logo_light', '"/images/logo.svg"'),
 ('logo_dark', '"/images/logo_white.svg"'),
-('maintenance_mode', 'false');
+('maintenance_mode', 'false'),
+-- SMTP Email Configuration (Hostinger)
+('smtp_enabled', 'false'),
+('smtp_host', '"smtp.hostinger.com"'),
+('smtp_port', '587'),
+('smtp_username', '""'),
+('smtp_password', '""'), -- Encrypted in production
+('smtp_from_email', '"noreply@devmart.com"'),
+('smtp_from_name', '"Devmart"');
 ```
 
 ---

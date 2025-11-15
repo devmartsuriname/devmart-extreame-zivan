@@ -408,7 +408,15 @@ INSERT INTO public.site_settings (key, value) VALUES
 ('meta_title_default', '"Devmart - Creative Digital Agency"'),
 ('meta_description_default', '"We create digital experiences"'),
 ('footer_copyright', '"© 2025 Devmart. All rights reserved."'),
-('maintenance_mode', 'false');
+('maintenance_mode', 'false'),
+-- SMTP Email Configuration (Hostinger)
+('smtp_enabled', 'false'),
+('smtp_host', '"smtp.hostinger.com"'),
+('smtp_port', '587'),
+('smtp_username', '""'),
+('smtp_password', '""'), -- Must be encrypted in production
+('smtp_from_email', '"noreply@devmart.com"'),
+('smtp_from_name', '"Devmart"');
 ```
 
 ---
