@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTheme } from '../../contexts/ThemeContext';
 import Spacing from '../Spacing';
 import SectionHeadingStyle3 from '../SectionHeading/SectionHeadingStyle3';
 import AboutStyle4 from '../About/AboutStyle4';
@@ -104,8 +105,9 @@ const brandListDark = [
   },
 ];
 
-export default function AboutPage({ darkMode }) {
+export default function AboutPage() {
   pageTitle('About');
+  const { theme } = useTheme();
   return (
     <>
       <Spacing lg="70" md="70" />
@@ -197,7 +199,7 @@ export default function AboutPage({ darkMode }) {
       <Marquee text="We Create Design - Build App - Website - Branding - SEO" />
       <Spacing lg="84" md="50" />
       <div className="container">
-        <Brands data={darkMode ? brandListDark : brandList} />
+        <Brands data={theme === 'dark' ? brandListDark : brandList} />
       </div>
       <Spacing lg="135" md="80" />
     </>
