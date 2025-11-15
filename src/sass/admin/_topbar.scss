@@ -95,6 +95,13 @@
     font-size: 20px;
   }
   
+  .user-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
   .user-name {
     @media (max-width: 767px) {
       display: none;

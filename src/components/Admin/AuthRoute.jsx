@@ -1,9 +1,22 @@
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 
-// Placeholder component - redirect logic will be added in Phase 4
 export default function AuthRoute() {
-  // TODO: Phase 4 - Check if user is already authenticated
-  // TODO: Phase 4 - Redirect to /admin/dashboard if already logged in
-  
+  const { isAuthenticated, isLoading } = useAuth();
+
+  // Show loading during auth check
+  if (isLoading) {
+    return (
+      <div className="auth-loading">
+        <div className="spinner" />
+      </div>
+    );
+  }
+
+  // Redirect if already logged in
+  if (isAuthenticated) {
+    return <Navigate to="/admin/dashboard" replace />;
+  }
+
   return <Outlet />;
 }

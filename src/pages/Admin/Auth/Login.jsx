@@ -1,12 +1,17 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
+import { Icon } from '@iconify/react';
 
 export default function Login() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     rememberMe: false
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -14,12 +19,46 @@ export default function Login() {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+    setError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Phase 4 - Implement Supabase Auth login
-    console.log('Login form submitted - to be implemented in Phase 4', formData);
+    setError('');
+    
+    if (!formData.email || !formData.password) {
+      setError('Email and password are required');
+      return;
+    }
+    
+    setIsLoading(true);
+    
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      });
+      
+      if (error) {
+        if (error.message.includes('Invalid login credentials')) {
+          setError('Invalid email or password');
+        } else if (error.message.includes('Email not confirmed')) {
+          setError('Please check your email to confirm your account');
+        } else if (error.message.includes('rate limit')) {
+          setError('Too many attempts. Please try again later');
+        } else {
+          setError(error.message);
+        }
+        return;
+      }
+      
+      // Successful login - redirect to dashboard
+      navigate('/admin/dashboard');
+    } catch (err) {
+      setError('Connection error. Please check your internet');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -29,6 +68,13 @@ export default function Login() {
           <h1>Devmart</h1>
           <p>Sign in to your admin account</p>
         </div>
+        
+        {error && (
+          <div className="auth-error-message">
+            <Icon icon="mdi:alert-circle" className="icon" />
+            {error}
+          </div>
+        )}
         
         <form className="auth-form" onSubmit={handleSubmit}>
           <div className="form-group">
@@ -74,8 +120,15 @@ export default function Login() {
             </Link>
           </div>
           
-          <button type="submit" className="form-submit" disabled>
-            Sign In (Phase 4)
+          <button type="submit" className="form-submit" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <Icon icon="mdi:loading" className="icon spinning" />
+                Signing in...
+              </>
+            ) : (
+              'Sign In'
+            )}
           </button>
         </form>
         

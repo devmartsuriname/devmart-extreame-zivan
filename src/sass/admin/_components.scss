@@ -171,3 +171,509 @@
     font-size: 18px;
   }
 }
+
+// Loading States
+.admin-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba($primary, 0.2);
+    border-top-color: $primary;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  
+  p {
+    margin-top: $spacing-lg;
+    color: $secondary;
+  }
+}
+
+.admin-loading-inline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-3xl;
+  
+  .spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid rgba($primary, 0.2);
+    border-top-color: $primary;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  
+  p {
+    margin-top: $spacing-md;
+    color: $secondary;
+    font-size: 14px;
+  }
+}
+
+.auth-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba($primary, 0.2);
+    border-top-color: $primary;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinning {
+  animation: spin 0.8s linear infinite;
+}
+
+// Unauthorized State
+.admin-unauthorized {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: $spacing-xl;
+  
+  .icon {
+    font-size: 80px;
+    color: $secondary;
+    opacity: 0.3;
+    margin-bottom: $spacing-lg;
+  }
+  
+  h2 {
+    font-size: 28px;
+    color: #ef4444;
+    margin-bottom: $spacing-md;
+  }
+  
+  p {
+    font-size: 16px;
+    color: $secondary;
+    margin-bottom: $spacing-xl;
+  }
+}
+
+// User Table
+.admin-table-container {
+  overflow-x: auto;
+  margin-bottom: $spacing-lg;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  
+  thead {
+    background-color: #f9fafb;
+    border-bottom: 2px solid #e5e5e5;
+    
+    .cs_dark & {
+      background-color: #1f1f1f;
+      border-color: #3a3a3a;
+    }
+    
+    th {
+      padding: $spacing-md $spacing-lg;
+      text-align: left;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: $secondary;
+      letter-spacing: 0.5px;
+    }
+  }
+  
+  tbody {
+    tr {
+      border-bottom: 1px solid #e5e5e5;
+      transition: background-color 0.2s ease;
+      
+      .cs_dark & {
+        border-color: #3a3a3a;
+      }
+      
+      &:hover {
+        background-color: #f9fafb;
+        
+        .cs_dark & {
+          background-color: #1f1f1f;
+        }
+      }
+    }
+    
+    td {
+      padding: $spacing-lg;
+      font-size: 14px;
+      color: $primary;
+      
+      .cs_dark & {
+        color: $white;
+      }
+    }
+  }
+}
+
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  
+  .cs_dark & {
+    background-color: #3a3a3a;
+  }
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .icon {
+    font-size: 32px;
+    color: $secondary;
+  }
+  
+  &.large {
+    width: 64px;
+    height: 64px;
+    
+    .icon {
+      font-size: 48px;
+    }
+  }
+}
+
+.role-badges {
+  display: flex;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  
+  &.badge-primary {
+    background-color: rgba($primary, 0.1);
+    color: $primary;
+    
+    .cs_dark & {
+      background-color: rgba($accent, 0.2);
+      color: $accent;
+    }
+  }
+  
+  &.badge-accent {
+    background-color: rgba($accent, 0.15);
+    color: darken($accent, 10%);
+    
+    .cs_dark & {
+      background-color: rgba($accent, 0.25);
+      color: lighten($accent, 10%);
+    }
+  }
+  
+  &.badge-muted {
+    background-color: #e5e5e5;
+    color: $secondary;
+    
+    .cs_dark & {
+      background-color: #3a3a3a;
+    }
+  }
+}
+
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 13px;
+  
+  .icon {
+    font-size: 16px;
+  }
+}
+
+// Pagination
+.admin-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-lg;
+  padding-top: $spacing-lg;
+  
+  .pagination-info {
+    font-size: 14px;
+    color: $secondary;
+  }
+}
+
+// Search
+.admin-search {
+  position: relative;
+  max-width: 400px;
+  
+  .icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $secondary;
+    font-size: 20px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px 12px 10px 40px;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+    
+    .cs_dark & {
+      background-color: #2a2a2a;
+      border-color: #3a3a3a;
+      color: $white;
+    }
+    
+    &:focus {
+      outline: none;
+      border-color: $accent;
+    }
+  }
+}
+
+.admin-card-header {
+  margin-bottom: $spacing-xl;
+  padding-bottom: $spacing-lg;
+  border-bottom: 1px solid #e5e5e5;
+  
+  .cs_dark & {
+    border-color: #3a3a3a;
+  }
+}
+
+// Modal
+.admin-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.admin-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: $white;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  z-index: 1001;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease;
+  
+  .cs_dark & {
+    background-color: #2a2a2a;
+  }
+}
+
+.admin-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-xl;
+  border-bottom: 1px solid #e5e5e5;
+  
+  .cs_dark & {
+    border-color: #3a3a3a;
+  }
+  
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: $primary;
+    margin: 0;
+    
+    .cs_dark & {
+      color: $white;
+    }
+  }
+}
+
+.admin-modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: $secondary;
+  transition: color 0.2s ease;
+  
+  &:hover {
+    color: $primary;
+  }
+  
+  .icon {
+    font-size: 24px;
+  }
+}
+
+.admin-modal-body {
+  padding: $spacing-xl;
+}
+
+.admin-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-md;
+  padding: $spacing-xl;
+  border-top: 1px solid #e5e5e5;
+  
+  .cs_dark & {
+    border-color: #3a3a3a;
+  }
+}
+
+.user-info-card {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+  padding: $spacing-lg;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  margin-bottom: $spacing-xl;
+  
+  .cs_dark & {
+    background-color: #1f1f1f;
+  }
+  
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: $primary;
+    margin: 0 0 4px 0;
+    
+    .cs_dark & {
+      color: $white;
+    }
+  }
+  
+  p {
+    font-size: 14px;
+    color: $secondary;
+    margin: 0;
+  }
+}
+
+.role-checkboxes {
+  .section-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: $primary;
+    margin-bottom: $spacing-md;
+    
+    .cs_dark & {
+      color: $white;
+    }
+  }
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background-color: #f9fafb;
+    
+    .cs_dark & {
+      background-color: #1f1f1f;
+    }
+  }
+  
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+  
+  span {
+    font-size: 14px;
+    color: $primary;
+    
+    .cs_dark & {
+      color: $white;
+    }
+  }
+  
+  .role-note {
+    font-size: 12px;
+    color: $secondary;
+    font-style: italic;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
