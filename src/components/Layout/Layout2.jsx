@@ -2,13 +2,16 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from '../Header';
 import Footer from '../Footer';
+import { useTheme } from '../../contexts/ThemeContext';
 
-export default function Layout2({ darkMode }) {
+export default function Layout2() {
+  const { theme } = useTheme();
+  
   return (
-    <div className={`${darkMode ? 'cs_dark' : ''}`}>
+    <div className={theme === 'dark' ? 'cs_dark' : ''}>
       <Header
-        logoUrl="/images/logo_white.svg"
-        colorVariant="cs_color_1"
+        logoUrl={theme === 'dark' ? '/images/logo_white.svg' : '/images/logo.svg'}
+        colorVariant={theme === 'dark' ? 'cs_color_1' : ''}
         actionBtnText="Getting Started"
         actionBtnUrl="/contact"
       />

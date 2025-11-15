@@ -104,9 +104,66 @@ The application uses React Router v6 with nested routes:
 </Routes>
 ```
 
-### Styling Architecture
+### Component Organization
 
-#### SCSS Organization
+The template uses SCSS modules for styling, which are organized into:
+- `default/` - Base styles and variables
+- `common/` - Shared components (header, footer, theme toggle, etc.)
+- `shortcode/` - Reusable content blocks
+- Individual component styles
+
+## Theme System Architecture
+
+### Context-Based Theme Management
+The application uses React Context API for global theme state management:
+
+**Location:** `/src/contexts/ThemeContext.jsx`
+
+**Features:**
+- Theme state (`'dark'` | `'light'`)
+- `toggleTheme()` function
+- localStorage persistence (`devmart-theme` key)
+- System preference detection
+
+**Usage:**
+```jsx
+import { useTheme } from '@/contexts/ThemeContext';
+
+function Component() {
+  const { theme, toggleTheme } = useTheme();
+  return <button onClick={toggleTheme}>{theme}</button>;
+}
+```
+
+### CSS Implementation
+Dark theme styles are applied via `.cs_dark` class on root element:
+- **Dark mode:** `<div className="cs_dark">...</div>`
+- **Light mode:** `<div>...</div>` (no class)
+
+All dark mode styles located in `/src/sass/_dark.scss`.
+
+### Post-Consolidation Route Structure (November 2025)
+
+The application has been simplified to use a single homepage variant:
+
+**Active Homepage:**
+- Creative Agency (Home.jsx) at `/`
+
+**Removed Variants:**
+- TechStartupPage, MarketingAgencyPage, StudioAgencyPage, DigitalAgencyPage
+
+**Route Structure:**
+Single set of routes with theme applied globally:
+- `/` - Homepage
+- `/about` - About page
+- `/service` - Services
+- `/portfolio` - Portfolio
+- `/blog` - Blog
+- `/team` - Team
+- `/contact` - Contact
+- `/shop/*` - E-commerce pages
+
+No more `/light/` prefix routes. Theme handled by context.
 ```
 sass/
 ├── default/

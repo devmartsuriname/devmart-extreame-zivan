@@ -71,6 +71,26 @@ Each UI block includes:
 - **36 UI Blocks** ready for use
 - **100% Component Coverage** across all home variants
 
+## Home Variant Status (Post-Consolidation)
+
+### Active Homepage
+- **Creative Agency** (Home.jsx) - ✅ IN USE
+  - Route: `/` (theme-aware via context)
+  - Layout: Layout2
+  - Blocks used: Hero1, Stats1, About1, WhyChoose1, Services1, Portfolio1, Awards1, Testimonials1, CTA1, Blog1, FAQ1
+
+### Archived Variants (UI Blocks Preserved)
+- **Tech Startup** - ⚙️ ARCHIVED
+  - Blocks: Hero5, Features1, Pricing1, Blog2, CTA2
+- **Marketing Agency** - ⚙️ ARCHIVED
+  - Blocks: Hero2, Services3, About2/3, CaseStudy1, Video1, Marquee1, Brands2
+- **Studio Agency** - ⚙️ ARCHIVED
+  - Blocks: Hero3, About3, Services2, Team1, Portfolio1
+- **Digital Agency** - ⚙️ ARCHIVED
+  - Blocks: Hero4, About5, Portfolio2, Brands1
+
+All 36 blocks remain available in `/src/UIBlocks/`.
+
 ## Next Steps
 1. ✅ **Extraction Complete** - All UI blocks extracted
 2. 🔄 Refactor page files to use UIBlocks imports
