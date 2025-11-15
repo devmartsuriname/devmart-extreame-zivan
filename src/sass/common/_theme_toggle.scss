@@ -12,6 +12,9 @@
   transition: all 0.3s ease;
   padding: 0;
   margin-right: 15px;
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
   
   &:hover {
     background: rgba(255, 255, 255, 0.1);
@@ -50,5 +53,38 @@
   &:hover {
     background: rgba(255, 255, 255, 0.15);
     border-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 1400px) {
+  .cs_theme_toggle {
+    margin-right: 10px;
+  }
+}
+
+@media (max-width: 1199px) {
+  .cs_theme_toggle {
+    margin-right: 8px;
+    width: 36px;
+    height: 36px;
+    
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .cs_theme_toggle {
+    margin-right: 5px;
+    width: 32px;
+    height: 32px;
+    
+    svg {
+      width: 16px;
+      height: 16px;
+    }
   }
 }
