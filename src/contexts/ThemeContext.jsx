@@ -6,21 +6,30 @@ export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
     // Check localStorage first
     const stored = localStorage.getItem('devmart-theme');
+    console.log('🎨 Initial theme from localStorage:', stored);
     if (stored) return stored;
     
     // Fallback to system preference
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    console.log('🎨 System preference - prefers dark:', prefersDark);
+    if (prefersDark) {
       return 'dark';
     }
     return 'light';
   });
 
   useEffect(() => {
+    console.log('🎨 Theme changed to:', theme);
     localStorage.setItem('devmart-theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+    console.log('🎨 Toggle theme called - current theme:', theme);
+    setTheme(prev => {
+      const newTheme = prev === 'dark' ? 'light' : 'dark';
+      console.log('🎨 New theme will be:', newTheme);
+      return newTheme;
+    });
   };
 
   return (
