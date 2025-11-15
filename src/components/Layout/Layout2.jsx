@@ -6,7 +6,6 @@ import { useTheme } from '../../contexts/ThemeContext';
 
 export default function Layout2() {
   const { theme } = useTheme();
-  console.log('🏗️ Layout2 rendering with theme:', theme);
   
   return (
     <div className={theme === 'dark' ? 'cs_dark' : ''}>
