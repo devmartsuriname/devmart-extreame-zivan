@@ -174,25 +174,41 @@ devmart/
 
 ## 4. Data Flow
 
-### 4.1 Authentication Flow
+### 4.1 Authentication Flow (Phase 4 - Implemented)
 
 ```mermaid
 sequenceDiagram
     participant User
-    participant LoginPage
-    participant SupabaseAuth
-    participant Database
-    participant AdminPanel
+    participant Browser
+    participant Login
+    participant AuthContext
+    participant Supabase
+    participant PostgreSQL
     
-    User->>LoginPage: Enter credentials
-    LoginPage->>SupabaseAuth: signInWithPassword()
-    SupabaseAuth->>Database: Verify user
-    Database-->>SupabaseAuth: User data + JWT
-    SupabaseAuth-->>LoginPage: Session object
-    LoginPage->>Database: Fetch user roles
-    Database-->>LoginPage: Roles array
-    LoginPage->>AdminPanel: Redirect with session
-    AdminPanel->>User: Show dashboard
+    User->>Browser: Navigate to /admin/auth/login
+    Browser->>Login: Render login form
+    User->>Login: Submit email/password
+    Login->>Supabase: signInWithPassword()
+    Supabase->>PostgreSQL: Verify credentials (auth.users)
+    PostgreSQL-->>Supabase: User authenticated
+    Supabase-->>Login: Return {session, user} + JWT tokens
+    Login->>AuthContext: setUser() & setSession()
+    
+    Note over AuthContext: Defer DB calls with setTimeout(0)
+    
+    AuthContext->>PostgreSQL: SELECT * FROM profiles WHERE id = user.id
+    PostgreSQL-->>AuthContext: Profile data {full_name, avatar_url, email}
+    AuthContext->>PostgreSQL: SELECT role FROM user_roles WHERE user_id = user.id
+    PostgreSQL-->>AuthContext: Roles array ['admin', 'super_admin']
+    
+    AuthContext->>AuthContext: Update state {profile, roles}
+    AuthContext-->>Login: Auth state ready
+    Login->>Browser: Redirect to /admin/dashboard
+    Browser->>User: Show admin dashboard
+    
+    Note over Browser,Supabase: Session persisted in localStorage
+    Note over Supabase: Auto-refresh tokens before expiry
+    Note over AuthContext: onAuthStateChange monitors session
 ```
 
 ### 4.2 Dynamic Page Rendering Flow
@@ -243,46 +259,215 @@ sequenceDiagram
 
 ---
 
+## 4.4 Authentication Architecture (Phase 4 - Implemented)
+
+### AuthContext Provider
+
+**Location:** `/src/contexts/AuthContext.jsx`
+
+**Purpose:** Centralized authentication state management for the entire application.
+
+**State Structure:**
+```javascript
+{
+  user: User | null,              // Supabase auth.users object
+  session: Session | null,        // JWT session with access/refresh tokens
+  profile: Profile | null,        // User profile from profiles table
+  roles: string[],                // Array of user roles
+  isLoading: boolean,             // Auth initialization status
+  isAuthenticated: boolean        // Computed: !!user
+}
+```
+
+**Exposed Methods:**
+```javascript
+{
+  login: (email, password) => Promise,
+  logout: () => Promise,
+  hasRole: (role) => boolean,
+  isSuperAdmin: () => boolean,
+  isAdmin: () => boolean
+}
+```
+
+**Implementation Pattern:**
+
+```javascript
+// Step 1: Set up listener FIRST (prevents missing events)
+const { data: { subscription } } = supabase.auth.onAuthStateChange(
+  (event, session) => {
+    setSession(session);
+    setUser(session?.user ?? null);
+    
+    if (session?.user) {
+      // Defer DB calls to prevent deadlock
+      setTimeout(() => {
+        fetchUserProfile(session.user.id);
+        fetchUserRoles(session.user.id);
+      }, 0);
+    }
+  }
+);
+
+// Step 2: Check existing session AFTER listener setup
+supabase.auth.getSession().then(({ data: { session } }) => {
+  setSession(session);
+  setUser(session?.user ?? null);
+  // ... handle profile/roles
+  setIsLoading(false);
+});
+```
+
+**Critical Implementation Notes:**
+- ⚠️ Always defer profile/role fetching with `setTimeout(0)` to avoid deadlock
+- ⚠️ Set up `onAuthStateChange` listener before calling `getSession()`
+- ⚠️ Store complete session object, not just user (needed for token refresh)
+- ⚠️ Never call Supabase functions directly inside `onAuthStateChange` callback
+
+### Protected Route System
+
+**ProtectedRoute Component:** `/src/components/Admin/ProtectedRoute.jsx`
+
+```mermaid
+graph TD
+    A[User navigates to protected route] --> B{isLoading?}
+    B -->|Yes| C[Show loading spinner]
+    B -->|No| D{isAuthenticated?}
+    D -->|No| E[Redirect to /admin/auth/login]
+    D -->|Yes| F{requiredRole specified?}
+    F -->|No| G[Render <Outlet />]
+    F -->|Yes| H{isSuperAdmin?}
+    H -->|Yes| G
+    H -->|No| I{hasRole required?}
+    I -->|Yes| G
+    I -->|No| J[Show Unauthorized page]
+```
+
+**AuthRoute Component:** `/src/components/Admin/AuthRoute.jsx`
+- Prevents authenticated users from accessing login pages
+- Redirects to dashboard if already logged in
+
+**Route Configuration:**
+```jsx
+// App.jsx route structure
+<Route element={<ProtectedRoute />}>
+  <Route path="/admin/dashboard" element={<Dashboard />} />
+</Route>
+
+<Route element={<ProtectedRoute requiredRole="super_admin" />}>
+  <Route path="/admin/users" element={<UsersList />} />
+</Route>
+
+<Route element={<AuthRoute />}>
+  <Route path="/admin/auth/login" element={<Login />} />
+  <Route path="/admin/auth/reset-password" element={<ResetPassword />} />
+</Route>
+```
+
+### Session Management
+
+**Token Storage:**
+- Access token: Short-lived JWT (~1 hour)
+- Refresh token: Long-lived, stored securely
+- Storage: localStorage via Supabase client
+- Auto-refresh: Handled automatically by Supabase
+
+**Supabase Client Configuration:**
+```typescript
+// src/integrations/supabase/client.ts (auto-configured)
+export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
+  auth: {
+    storage: localStorage,
+    persistSession: true,
+    autoRefreshToken: true
+  }
+});
+```
+
+**Session Lifecycle:**
+1. User logs in → Session created
+2. Tokens stored in localStorage
+3. Page refresh → Session restored from localStorage
+4. Token expiry approaching → Auto-refresh triggered
+5. Logout → Session cleared
+
+### Role Hierarchy & Permissions
+
+```
+super_admin
+├─ Full system access
+├─ Bypasses all role checks
+├─ User management (add/remove roles)
+├─ Cannot remove own super_admin role (safety)
+└─ Access to all modules
+
+admin
+├─ Content management
+├─ Page builder access
+├─ View all user profiles
+└─ Cannot manage user roles
+
+moderator
+├─ Content approval
+├─ Basic editing rights
+└─ Limited admin access
+
+user
+└─ Standard user privileges
+```
+
+---
+
 ## 5. Database Architecture
 
 ### 5.1 Schema Overview
 
+**Current Implementation Status:**
+- ✅ **Authentication Tables** (Phase 4 - Implemented)
+  - `profiles` - User profile information
+  - `user_roles` - Role-based access control
+- 📋 **Content Tables** (Planned - Future Phases)
+  - `pages`, `page_sections`, `blog_posts`, `media_library`, `navigation_items`
+
 ```mermaid
 erDiagram
-    auth_users ||--o{ user_roles : has
-    auth_users ||--o| profiles : has
-    auth_users ||--o{ pages : creates
-    auth_users ||--o{ blog_posts : writes
+    auth_users ||--o| profiles : "has profile"
+    auth_users ||--o{ user_roles : "has roles"
+    auth_users ||--o{ pages : "creates"
+    auth_users ||--o{ blog_posts : "writes"
     
-    pages ||--o{ page_sections : contains
+    pages ||--o{ page_sections : "contains"
     pages ||--o{ pages : "parent-child"
     
-    blog_posts }o--|| blog_categories : belongs_to
+    blog_posts }o--|| blog_categories : "belongs to"
     
-    media_library }o--|| auth_users : uploaded_by
+    media_library }o--|| auth_users : "uploaded by"
     
-    navigation_items }o--o| pages : links_to
+    navigation_items }o--o| pages : "links to"
     navigation_items }o--o| navigation_items : "parent-child"
     
     auth_users {
-        uuid id PK
-        text email
-        text encrypted_password
-        timestamptz created_at
-    }
-    
-    user_roles {
-        uuid id PK
-        uuid user_id FK
-        app_role role
-        timestamptz created_at
+        uuid id PK "Managed by Supabase"
+        text email "Unique identifier"
+        text encrypted_password "Hashed password"
+        timestamptz created_at "Registration date"
     }
     
     profiles {
-        uuid id PK
-        text email
-        text full_name
-        text avatar_url
+        uuid id PK "FK to auth.users.id"
+        text email "Synced from auth.users"
+        text full_name "Display name"
+        text avatar_url "Profile picture URL"
+        timestamptz created_at "Profile creation"
+        timestamptz updated_at "Last modified"
+    }
+    
+    user_roles {
+        uuid id PK "Auto-generated UUID"
+        uuid user_id FK "FK to auth.users.id"
+        app_role role "Enum: user, moderator, admin, super_admin"
+        timestamptz created_at "Role assignment date"
+    }
         timestamptz created_at
     }
     
@@ -339,35 +524,127 @@ erDiagram
     }
 ```
 
-### 5.2 Row Level Security (RLS)
+### 5.2 Row Level Security (RLS) - Phase 4 Implementation
 
-All tables have RLS enabled. Security is enforced at the database level, not just the application level.
+All authentication tables have RLS enabled. Security is enforced at the database level, not just the application level.
 
-**Key RLS Patterns:**
+#### Implemented RLS Policies
 
-1. **User Roles Verification:**
+**profiles Table:**
+
+```sql
+-- Policy 1: Users can view their own profile
+CREATE POLICY "Users can view their own profile"
+ON profiles FOR SELECT
+USING (auth.uid() = id);
+
+-- Policy 2: Users can update their own profile
+CREATE POLICY "Users can update their own profile"
+ON profiles FOR UPDATE
+USING (auth.uid() = id);
+
+-- Policy 3: Admins can view all profiles
+CREATE POLICY "Admins can view all profiles"
+ON profiles FOR SELECT
+USING (
+  has_role(auth.uid(), 'admin'::app_role) OR 
+  has_role(auth.uid(), 'super_admin'::app_role)
+);
+
+-- Policy 4: Super admins can manage all profiles
+CREATE POLICY "Super admins can manage all profiles"
+ON profiles FOR ALL
+USING (has_role(auth.uid(), 'super_admin'::app_role));
+```
+
+**user_roles Table:**
+
+```sql
+-- Policy 1: Users can view their own roles
+CREATE POLICY "Users can view their own roles"
+ON user_roles FOR SELECT
+USING (auth.uid() = user_id);
+
+-- Policy 2: Super admins can manage all roles
+CREATE POLICY "Super admins can manage all roles"
+ON user_roles FOR ALL
+USING (has_role(auth.uid(), 'super_admin'::app_role));
+```
+
+#### Security Definer Function
+
+**Purpose:** Prevents recursive RLS policy evaluation when checking roles.
+
+```sql
+CREATE OR REPLACE FUNCTION public.has_role(_user_id UUID, _role app_role)
+RETURNS BOOLEAN
+LANGUAGE SQL
+STABLE SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT EXISTS (
+    SELECT 1
+    FROM public.user_roles
+    WHERE user_id = _user_id AND role = _role
+  )
+$$;
+```
+
+**Why SECURITY DEFINER?**
+- Executes with function owner's privileges
+- Bypasses RLS on `user_roles` table
+- Prevents infinite recursion in RLS policies
+- Allows safe role checking within policies
+
+#### Database Triggers
+
+**Auto-create Profile on User Signup:**
+
+```sql
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  INSERT INTO public.profiles (id, email, full_name, avatar_url)
+  VALUES (
+    NEW.id,
+    NEW.email,
+    NEW.raw_user_meta_data->>'full_name',
+    NEW.raw_user_meta_data->>'avatar_url'
+  );
+  RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW
+  EXECUTE FUNCTION public.handle_new_user();
+```
+
+**Key RLS Patterns Used:**
+
+1. **Self-Access Pattern:**
    ```sql
-   -- Using security definer function to avoid recursion
-   public.has_role(auth.uid(), 'admin')
+   auth.uid() = id  -- User can access their own data
    ```
 
-2. **Public Read Access:**
+2. **Role Verification Pattern:**
    ```sql
-   -- Anonymous users can view published content
-   status = 'published'
+   has_role(auth.uid(), 'admin')  -- Check if user has role
    ```
 
-3. **Admin Full Access:**
+3. **Admin Full Access Pattern:**
    ```sql
-   -- Admins can do everything
-   public.has_role(auth.uid(), 'admin') OR 
-   public.has_role(auth.uid(), 'super_admin')
+   has_role(auth.uid(), 'super_admin')  -- Super admin bypasses restrictions
    ```
 
-4. **Creator Access:**
+4. **Multiple Role Check:**
    ```sql
-   -- Users can edit their own content
-   created_by = auth.uid()
+   has_role(auth.uid(), 'admin') OR has_role(auth.uid(), 'super_admin')
    ```
 
 ---
