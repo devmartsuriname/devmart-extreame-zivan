@@ -95,6 +95,11 @@
     border-color: rgba(255, 255, 255, 0.3);
     color: #fff;
   }
+  
+  .cs_btn.cs_style_1 {
+    color: #fff;
+    border-color: $accent;
+  }
 }
 
 body:not(.cs_dark) .cs_site_header.cs_style_1.cs_color_1.cs_gescout_show {
@@ -111,6 +116,16 @@ body:not(.cs_dark) .cs_site_header.cs_style_1.cs_color_1.cs_gescout_show {
     &:hover {
       background: rgba(0, 0, 0, 0.05);
       border-color: rgba(0, 0, 0, 0.5);
+    }
+  }
+  
+  .cs_btn.cs_style_1 {
+    color: $primary;
+    border-color: $accent;
+    
+    &:hover {
+      color: #fff;
+      background-color: $accent;
     }
   }
 }
