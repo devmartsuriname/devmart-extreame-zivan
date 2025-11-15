@@ -11,7 +11,7 @@ export default function Layout2() {
     <div className={theme === 'dark' ? 'cs_dark' : ''}>
       <Header
         logoUrl={theme === 'dark' ? '/images/logo_white.svg' : '/images/logo.svg'}
-        colorVariant={theme === 'dark' ? 'cs_color_1' : ''}
+        colorVariant={theme === 'dark' ? 'cs_color_1' : undefined}
         actionBtnText="Getting Started"
         actionBtnUrl="/contact"
       />
