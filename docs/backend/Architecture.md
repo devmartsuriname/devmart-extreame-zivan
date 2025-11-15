@@ -7,7 +7,7 @@
 
 ## 1. Architecture Overview
 
-Devmart is a **full-stack Content Management System (CMS)** built on a modern React frontend with a Lovable Cloud (Supabase) backend. The architecture separates concerns between public-facing frontend pages and an authenticated admin panel.
+Devmart is a **full-stack Content Management System (CMS)** built on a modern React frontend with a Supabase backend. The architecture separates concerns between public-facing frontend pages and an authenticated admin panel. The system is designed for future deployment on Hostinger VPS.
 
 ```mermaid
 graph TB
@@ -21,7 +21,7 @@ graph TB
         D[UI Blocks Library]
     end
     
-    subgraph "Backend - Lovable Cloud"
+    subgraph "Backend - Supabase"
         E[Supabase Auth]
         F[PostgreSQL Database]
         G[Edge Functions]
@@ -67,7 +67,7 @@ graph TB
 | HTTP Client | Axios | 1.13.2 | API requests |
 | State Management | React Query | 5.x | Server state caching |
 
-### 2.2 Backend (Lovable Cloud / Supabase)
+### 2.2 Backend (Supabase)
 
 | Component | Technology | Purpose |
 |-----------|-----------|---------|
@@ -77,6 +77,7 @@ graph TB
 | Functions | Edge Functions (Deno) | Server-side logic |
 | Real-time | PostgREST | Auto-generated REST API |
 | Security | Row Level Security (RLS) | Database-level authorization |
+| Email | Hostinger SMTP | Transactional emails (configured in Settings) |
 
 ### 2.3 Development Tools
 

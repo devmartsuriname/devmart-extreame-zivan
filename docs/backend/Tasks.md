@@ -16,8 +16,8 @@
 ## Phase 1: Foundation & Authentication (Week 1-2)
 
 ### 1.1 Project Setup
-- [ ] **TASK-001** Enable Lovable Cloud for backend [S]
-- [ ] **TASK-002** Create `docs/backend/` directory structure [S]
+- [x] **TASK-001** Connect Supabase project `Devmart-Extreame-Zivan` [S]
+- [x] **TASK-002** Create `docs/backend/` directory structure [S]
 - [ ] **TASK-003** Set up environment variables and secrets [S]
 
 ### 1.2 Database Schema - Auth

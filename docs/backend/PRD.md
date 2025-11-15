@@ -34,7 +34,7 @@ Transform Devmart from a static frontend template into a full-featured Content M
 ### 2.1 Technical Stack
 - **Frontend**: React 18.3.1, React Router DOM 6, Vite
 - **Styling**: SASS (existing Zivan design system)
-- **Backend**: Lovable Cloud (Supabase)
+- **Backend**: Supabase (PostgreSQL Database)
 - **Database**: PostgreSQL with Row Level Security
 - **Storage**: Supabase Storage (CDN-backed)
 - **Authentication**: Supabase Auth with email/password
