@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Icon } from '@iconify/react';
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [mode, setMode] = useState('login'); // 'login' or 'signup'
   const [formData, setFormData] = useState({
     email: '',
@@ -15,6 +16,13 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+
+  useEffect(() => {
+    // Check for success message from password reset
+    if (location.state?.message) {
+      setSuccessMessage(location.state.message);
+    }
+  }, [location]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;

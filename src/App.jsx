@@ -29,6 +29,7 @@ import ProtectedRoute from './components/Admin/ProtectedRoute';
 import AuthRoute from './components/Admin/AuthRoute';
 import Login from './pages/Admin/Auth/Login';
 import ResetPassword from './pages/Admin/Auth/ResetPassword';
+import UpdatePassword from './pages/Admin/Auth/UpdatePassword';
 import Dashboard from './pages/Admin/Dashboard';
 import PagesList from './pages/Admin/Pages/PagesList';
 import BlogList from './pages/Admin/Blog/BlogList';
@@ -87,6 +88,9 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="reset-password" element={<ResetPassword />} />
       </Route>
+      
+      {/* Update Password Route - accessible without AuthRoute guard */}
+      <Route path="/admin/auth/update-password" element={<UpdatePassword />} />
 
       {/* Admin Protected Routes */}
       <Route path="/admin" element={<ProtectedRoute />}>
