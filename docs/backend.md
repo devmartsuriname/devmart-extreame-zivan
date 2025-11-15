@@ -2,13 +2,14 @@
 
 ## Current Backend Status
 
-**Backend Type:** Static Frontend Only  
-**API Integration:** None (Current State)  
-**Data Source:** Static JSON Files
+**Backend Type:** Full-Stack with Supabase  
+**API Integration:** Supabase PostgreSQL + Edge Functions  
+**Authentication:** Supabase Auth with JWT & Role-Based Access Control (RBAC)  
+**Data Source:** PostgreSQL Database + Row Level Security (RLS)
 
 ## Overview
 
-The Zivan Creative Agency React Template is currently implemented as a **static frontend application** with no backend server or API integration. All data is sourced from static JSON files located in the `public/data/` directory.
+The Devmart CMS is a **full-stack application** with React frontend and Supabase backend. The system includes a public-facing website and a comprehensive admin panel with authentication, role-based access control, and dynamic content management. Admin users can manage pages, content, users, and system settings through a secure dashboard.
 
 ## Data Architecture
 
@@ -47,6 +48,242 @@ useEffect(() => {
 
 All routing is handled on the client side without server-side rendering or API routes.
 
+## Authentication System (Phase 4 - Implemented)
+
+### Overview
+The application implements a comprehensive authentication system using Supabase Auth with JWT tokens, session management, and role-based access control (RBAC).
+
+### 2.1 Authentication Flow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Browser
+    participant Login
+    participant AuthContext
+    participant Supabase
+    participant Database
+
+    User->>Browser: Visit /admin/auth/login
+    Browser->>Login: Render login form
+    User->>Login: Enter email/password
+    Login->>Supabase: signInWithPassword()
+    Supabase->>Database: Verify credentials (auth.users)
+    Database-->>Supabase: User authenticated
+    Supabase-->>Login: Return session + JWT
+    Login->>AuthContext: Store session & user
+    AuthContext->>Database: Fetch profile (profiles table)
+    Database-->>AuthContext: Profile data
+    AuthContext->>Database: Fetch roles (user_roles table)
+    Database-->>AuthContext: Roles array
+    AuthContext->>Browser: Update auth state
+    Browser->>Login: Redirect to /admin/dashboard
+    
+    Note over Browser,Supabase: Session persisted in localStorage
+    Note over AuthContext,Supabase: Auto-refresh token before expiry
+```
+
+### 2.2 AuthContext Implementation
+
+The `AuthContext` provides centralized authentication state management:
+
+**Location:** `/src/contexts/AuthContext.jsx`
+
+**State Management:**
+```javascript
+{
+  user: Object,           // Supabase auth user
+  session: Object,        // JWT session with tokens
+  profile: Object,        // User profile from profiles table
+  roles: Array,           // User roles array ['admin', 'super_admin']
+  isLoading: Boolean,     // Auth initialization state
+  isAuthenticated: Boolean // Computed from user presence
+}
+```
+
+**Methods:**
+- `login(email, password)` - Authenticate user with Supabase
+- `logout()` - Sign out and clear session
+- `hasRole(role)` - Check if user has specific role
+- `isSuperAdmin()` - Check for super_admin role
+- `isAdmin()` - Check for admin or super_admin role
+
+**Key Implementation Details:**
+- Uses `supabase.auth.getSession()` on mount to restore session
+- Subscribes to `onAuthStateChange()` for real-time auth updates
+- Defers profile/role fetching with `setTimeout()` to prevent auth deadlock
+- Automatic token refresh handled by Supabase client
+- Session persisted in localStorage
+
+### 2.3 Role-Based Access Control (RBAC)
+
+**Role Hierarchy:**
+```
+super_admin  → Full system access (bypasses all role checks)
+├─ admin     → User management, content management
+├─ moderator → Content approval, basic admin tasks
+└─ user      → Standard user privileges
+```
+
+**Database Structure:**
+
+**`profiles` Table:**
+```sql
+CREATE TABLE profiles (
+  id UUID PRIMARY KEY REFERENCES auth.users(id),
+  email TEXT NOT NULL,
+  full_name TEXT,
+  avatar_url TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+**`user_roles` Table:**
+```sql
+CREATE TABLE user_roles (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL,
+  role app_role NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(user_id, role)
+);
+
+CREATE TYPE app_role AS ENUM (
+  'user', 
+  'moderator', 
+  'admin', 
+  'super_admin'
+);
+```
+
+**Security Definer Function:**
+```sql
+CREATE FUNCTION has_role(_user_id UUID, _role app_role)
+RETURNS BOOLEAN
+LANGUAGE SQL
+STABLE SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM user_roles
+    WHERE user_id = _user_id AND role = _role
+  )
+$$;
+```
+
+**Purpose:** Prevents recursive RLS policy evaluation by executing with owner privileges.
+
+### 2.4 Protected Routes
+
+**ProtectedRoute Component** (`/src/components/Admin/ProtectedRoute.jsx`):
+- Checks `isLoading` → Shows loading spinner
+- Checks `isAuthenticated` → Redirects to `/admin/auth/login`
+- Checks `requiredRole` → Verifies user has permission
+- Super admins bypass all role restrictions
+- Shows "Unauthorized" page for insufficient permissions
+
+**AuthRoute Component** (`/src/components/Admin/AuthRoute.jsx`):
+- Prevents authenticated users from accessing login pages
+- Redirects to `/admin/dashboard` if already logged in
+- Shows loading state during auth check
+
+**Route Configuration Example:**
+```jsx
+<Route element={<ProtectedRoute />}>
+  <Route path="/admin/dashboard" element={<Dashboard />} />
+</Route>
+
+<Route element={<ProtectedRoute requiredRole="super_admin" />}>
+  <Route path="/admin/users" element={<UsersList />} />
+</Route>
+
+<Route element={<AuthRoute />}>
+  <Route path="/admin/auth/login" element={<Login />} />
+</Route>
+```
+
+### 2.5 Row Level Security (RLS) Policies
+
+**profiles Table Policies:**
+```sql
+-- Users can view their own profile
+CREATE POLICY "Users can view their own profile"
+ON profiles FOR SELECT
+USING (auth.uid() = id);
+
+-- Users can update their own profile
+CREATE POLICY "Users can update their own profile"
+ON profiles FOR UPDATE
+USING (auth.uid() = id);
+
+-- Admins can view all profiles
+CREATE POLICY "Admins can view all profiles"
+ON profiles FOR SELECT
+USING (has_role(auth.uid(), 'admin') OR has_role(auth.uid(), 'super_admin'));
+
+-- Super admins can manage all profiles
+CREATE POLICY "Super admins can manage all profiles"
+ON profiles FOR ALL
+USING (has_role(auth.uid(), 'super_admin'));
+```
+
+**user_roles Table Policies:**
+```sql
+-- Users can view their own roles
+CREATE POLICY "Users can view their own roles"
+ON user_roles FOR SELECT
+USING (auth.uid() = user_id);
+
+-- Super admins can manage all roles
+CREATE POLICY "Super admins can manage all roles"
+ON user_roles FOR ALL
+USING (has_role(auth.uid(), 'super_admin'));
+```
+
+### 2.6 Session Management
+
+**Token Handling:**
+- JWT access token (short-lived, ~1 hour)
+- Refresh token (long-lived, stored securely)
+- Automatic token refresh before expiry
+- Tokens stored in localStorage via Supabase client
+
+**Session Persistence:**
+```javascript
+// Supabase client configuration (auto-configured)
+{
+  auth: {
+    storage: localStorage,
+    persistSession: true,
+    autoRefreshToken: true
+  }
+}
+```
+
+**Security Considerations:**
+- Tokens never exposed in code or console logs (production)
+- HTTPS required for production deployment
+- Supabase handles token encryption and secure storage
+- Session timeout handled automatically
+
+### 2.7 Password Reset Flow
+
+**Implementation:** `/src/pages/Admin/Auth/ResetPassword.jsx`
+
+**Process:**
+1. User enters email address
+2. Calls `supabase.auth.resetPasswordForEmail()`
+3. Supabase sends password reset email
+4. User clicks link in email
+5. Redirected to password update page
+6. New password saved securely
+
+**Email Configuration:**
+- Configured in Supabase Dashboard → Authentication → Email Templates
+- Uses project's SMTP settings (Hostinger SMTP recommended)
+- Redirect URL: `${window.location.origin}/admin/auth/reset-password`
+
 ## Integration Points
 
 ### Current Integrations
@@ -55,13 +292,14 @@ All routing is handled on the client side without server-side rendering or API r
 - ✅ **Swiper/Slick** - Carousels (client-side)
 - ✅ **React Parallax** - Scroll effects (client-side)
 
-### No Server Dependencies
-The current setup has **no backend dependencies**:
-- No database connections
-- No authentication system
-- No API endpoints
-- No server-side processing
-- No form submission handling
+### Backend Dependencies
+The system integrates with Supabase for backend capabilities:
+- ✅ PostgreSQL database with RLS
+- ✅ Authentication system with JWT
+- ✅ Edge Functions for serverless API
+- ✅ Real-time subscriptions
+- ✅ File storage and CDN
+- ✅ Row Level Security policies
 
 ## Future Backend Integration Options
 
@@ -99,17 +337,27 @@ Build a separate backend service:
 - **Laravel** - PHP framework
 - **Ruby on Rails** - Full-stack framework
 
-## Current Limitations
+## Current Capabilities & Limitations
 
-### Static Content Constraints
-- ❌ No real-time updates
-- ❌ No user authentication
-- ❌ No dynamic content
-- ❌ No form processing
-- ❌ No database queries
-- ❌ No search functionality
-- ❌ No user accounts
-- ❌ E-commerce cart is session-only (no persistence)
+### Implemented Features ✅
+- ✅ User authentication with email/password
+- ✅ Role-based access control (RBAC)
+- ✅ Protected admin routes
+- ✅ Session persistence and auto-refresh
+- ✅ User profile management
+- ✅ Super admin user management interface
+- ✅ Password reset functionality
+- ✅ Database with Row Level Security
+
+### Upcoming Features (Planned)
+- 📋 Pages Module - Dynamic page management
+- 📋 Content blocks with drag-and-drop builder
+- 📋 Media library for file uploads
+- 📋 Blog/Portfolio content management
+- 📋 Navigation menu builder
+- 📋 Site settings configuration
+- 📋 Form submissions handling
+- 📋 E-commerce integration
 
 ### Deployment Considerations
 The current static setup can be deployed to:
@@ -163,28 +411,53 @@ Contact forms are **not functional** without backend:
 2. **Markdown Files** - Git-based content
 3. **Database** - Lovable Cloud with admin UI
 
-## Authentication & User Management
+## Users Module - Management Interface
 
-### Current State
-**No authentication system implemented.**
+### Overview
+The Users Module provides super admins with complete user management capabilities including viewing all users, managing roles, and monitoring user activity.
 
-### Future Authentication Options
+**Location:** `/src/pages/Admin/Users/UsersList.jsx`  
+**Access:** Requires `super_admin` role
 
-#### Lovable Cloud Auth
+### Features
+
+**User Table Display:**
+- Fetch and display all profiles from database
+- Merge user data with roles information
+- Show avatar, name, email, and role badges
+- Search functionality by name or email
+- Pagination for large user lists
+
+**Role Management:**
+- Modal interface for assigning/removing roles
+- Multi-select checkboxes for all 4 roles
+- Safety check: Cannot remove own super_admin role
+- Real-time role updates to database
+- Automatic table refresh after changes
+
+**Role Assignment Logic:**
 ```javascript
-// Enable Lovable Cloud for built-in auth
-// Provides:
-// - Email/password authentication
-// - Session management
-// - Protected routes
-// - User profiles
+// Insert new roles
+for (role of selectedRoles) {
+  if (!currentRoles.includes(role)) {
+    await supabase.from('user_roles').insert({ user_id, role });
+  }
+}
+
+// Delete removed roles
+for (role of currentRoles) {
+  if (!selectedRoles.includes(role)) {
+    await supabase.from('user_roles').delete()
+      .eq('user_id', user_id).eq('role', role);
+  }
+}
 ```
 
-#### Third-party Auth
-- **Auth0** - Enterprise authentication
-- **Firebase Auth** - Google, social logins
-- **Clerk** - Developer-friendly auth
-- **Supabase Auth** - Open-source solution
+**Security Measures:**
+- Only super_admins can access Users module
+- Cannot remove own super_admin role (prevents lockout)
+- All database operations protected by RLS policies
+- Input validation before role updates
 
 ## Environment Variables
 
