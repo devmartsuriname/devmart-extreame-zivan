@@ -1,0 +1,98 @@
+// Theme Toggle Tooltip Wrapper
+.cs_theme_toggle_wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+}
+
+// Tooltip styles
+.cs_tooltip {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  border-radius: 6px;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+  z-index: 1000;
+  
+  // Tooltip arrow
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: rgba(0, 0, 0, 0.9);
+  }
+}
+
+// Show tooltip on hover with slight delay
+.cs_theme_toggle:hover .cs_tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-4px);
+  transition-delay: 0.3s;
+}
+
+// Dark theme tooltip styling
+.cs_dark .cs_tooltip {
+  background: rgba(255, 255, 255, 0.95);
+  color: #121212;
+  
+  &::after {
+    border-top-color: rgba(255, 255, 255, 0.95);
+  }
+}
+
+// Light theme on dark header (cs_color_1)
+.cs_site_header.cs_color_1 .cs_tooltip {
+  background: rgba(255, 255, 255, 0.95);
+  color: #121212;
+  
+  &::after {
+    border-top-color: rgba(255, 255, 255, 0.95);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 1199px) {
+  .cs_tooltip {
+    font-size: 12px;
+    padding: 6px 10px;
+    bottom: calc(100% + 10px);
+    
+    &::after {
+      border-width: 5px;
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .cs_tooltip {
+    font-size: 11px;
+    padding: 5px 8px;
+    bottom: calc(100% + 8px);
+    
+    &::after {
+      border-width: 4px;
+    }
+  }
+}
+
+// Hide tooltip on mobile devices that don't support hover
+@media (hover: none) and (pointer: coarse) {
+  .cs_tooltip {
+    display: none;
+  }
+}
