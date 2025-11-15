@@ -73,6 +73,13 @@
   }
 }
 
+// Ensure navigation links are visible in light theme with default header styling
+.cs_site_header.cs_style_1:not(.cs_color_1) {
+  .cs_nav_list > li > a {
+    color: $primary; // Dark color for light backgrounds
+  }
+}
+
 .cs_site_header_full_width .container {
   max-width: 100%;
   padding: 0 100px;
