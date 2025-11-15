@@ -24,6 +24,24 @@ import Wishlist from './components/Pages/Shop/Wishlist';
 import Layout3 from './components/Layout/Layout3';
 import ErrorPage from './components/Pages/ErrorPage';
 
+// Admin imports
+import ProtectedRoute from './components/Admin/ProtectedRoute';
+import AuthRoute from './components/Admin/AuthRoute';
+import Login from './pages/Admin/Auth/Login';
+import ResetPassword from './pages/Admin/Auth/ResetPassword';
+import Dashboard from './pages/Admin/Dashboard';
+import PagesList from './pages/Admin/Pages/PagesList';
+import BlogList from './pages/Admin/Blog/BlogList';
+import PortfolioList from './pages/Admin/Portfolio/PortfolioList';
+import ServicesList from './pages/Admin/Services/ServicesList';
+import TeamList from './pages/Admin/Team/TeamList';
+import FaqsList from './pages/Admin/Faqs/FaqsList';
+import MediaLibrary from './pages/Admin/Media/MediaLibrary';
+import NavigationManager from './pages/Admin/Navigation/NavigationManager';
+import Settings from './pages/Admin/Settings/Settings';
+import FormsInbox from './pages/Admin/Forms/FormsInbox';
+import UsersList from './pages/Admin/Users/UsersList';
+
 function App() {
   const { pathname } = useLocation();
 
@@ -61,8 +79,31 @@ function App() {
         <Route path="shop/cart" element={<Cart />} />
         <Route path="shop/checkout" element={<Checkout />} />
         <Route path="shop/success" element={<Success />} />
-        <Route path="shop/wishlist" element={<Wishlist />} />
+      <Route path="shop/wishlist" element={<Wishlist />} />
       </Route>
+
+      {/* Admin Auth Routes */}
+      <Route path="/admin/auth" element={<AuthRoute />}>
+        <Route path="login" element={<Login />} />
+        <Route path="reset-password" element={<ResetPassword />} />
+      </Route>
+
+      {/* Admin Protected Routes */}
+      <Route path="/admin" element={<ProtectedRoute />}>
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="pages" element={<PagesList />} />
+        <Route path="blog" element={<BlogList />} />
+        <Route path="portfolio" element={<PortfolioList />} />
+        <Route path="services" element={<ServicesList />} />
+        <Route path="team" element={<TeamList />} />
+        <Route path="faqs" element={<FaqsList />} />
+        <Route path="media" element={<MediaLibrary />} />
+        <Route path="navigation" element={<NavigationManager />} />
+        <Route path="settings" element={<Settings />} />
+        <Route path="forms" element={<FormsInbox />} />
+        <Route path="users" element={<UsersList />} />
+      </Route>
+
       <Route path="*" element={<ErrorPage />} />
     </Routes>
   );

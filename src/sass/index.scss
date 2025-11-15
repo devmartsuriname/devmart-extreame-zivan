@@ -27,3 +27,11 @@
 @import 'shortcode/ecommerce';
 @import 'dark';
 @import 'custom';
+
+// Admin styles
+@import 'admin/layout';
+@import 'admin/sidebar';
+@import 'admin/topbar';
+@import 'admin/auth';
+@import 'admin/components';
+@import 'admin/utilities';

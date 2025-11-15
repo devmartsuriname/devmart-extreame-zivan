@@ -1,0 +1,108 @@
+/*--------------------------------------------------------------
+  Admin Sidebar
+----------------------------------------------------------------*/
+.admin-sidebar {
+  width: 260px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: $primary;
+  color: $white;
+  overflow-y: auto;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  
+  @media (max-width: 991px) {
+    left: -260px;
+    transition: left 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+    
+    &.open {
+      left: 0;
+    }
+  }
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: rgba($white, 0.1);
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgba($white, 0.3);
+    border-radius: 3px;
+    
+    &:hover {
+      background: rgba($white, 0.5);
+    }
+  }
+}
+
+.admin-sidebar-logo {
+  padding: $spacing-xl;
+  border-bottom: 1px solid rgba($white, 0.1);
+  
+  a {
+    display: block;
+    color: $white;
+    font-size: 24px;
+    font-weight: 700;
+    text-decoration: none;
+    font-family: $heading-font;
+    
+    &:hover {
+      color: $accent;
+    }
+  }
+}
+
+.admin-nav {
+  flex: 1;
+  padding: $spacing-lg 0;
+}
+
+.admin-nav-item {
+  display: flex;
+  align-items: center;
+  padding: $spacing-md $spacing-xl;
+  color: $white;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
+  font-size: 15px;
+  
+  &:hover {
+    background-color: rgba($white, 0.1);
+    color: $white;
+  }
+  
+  &.active {
+    background-color: rgba($accent, 0.15);
+    color: $accent;
+    border-left: 3px solid $accent;
+    padding-left: calc(#{$spacing-xl} - 3px);
+    font-weight: 500;
+  }
+  
+  .icon {
+    margin-right: $spacing-md;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  
+  span {
+    flex: 1;
+  }
+}
+
+.admin-sidebar-footer {
+  padding: $spacing-xl;
+  border-top: 1px solid rgba($white, 0.1);
+  font-size: 13px;
+  color: rgba($white, 0.6);
+  text-align: center;
+}
