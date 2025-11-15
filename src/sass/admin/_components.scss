@@ -1,0 +1,173 @@
+/*--------------------------------------------------------------
+  Admin Components
+----------------------------------------------------------------*/
+
+// Breadcrumbs
+.admin-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  font-size: 14px;
+  
+  a {
+    color: $secondary;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    
+    &:hover {
+      color: $accent;
+    }
+  }
+  
+  .separator {
+    color: $secondary;
+    opacity: 0.5;
+  }
+  
+  .current {
+    color: $primary;
+    font-weight: 500;
+    
+    .cs_dark & {
+      color: $white;
+    }
+  }
+}
+
+// Stats Cards
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: $spacing-lg;
+  margin-bottom: $spacing-xl;
+}
+
+.admin-stat-card {
+  background-color: $white;
+  border-radius: 8px;
+  padding: $spacing-xl;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  
+  .cs_dark & {
+    background-color: #2a2a2a;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+  
+  .stat-label {
+    font-size: 14px;
+    color: $secondary;
+    margin-bottom: $spacing-sm;
+  }
+  
+  .stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: $primary;
+    margin-bottom: $spacing-xs;
+    
+    .cs_dark & {
+      color: $white;
+    }
+  }
+  
+  .stat-change {
+    font-size: 13px;
+    
+    &.positive {
+      color: #10b981;
+    }
+    
+    &.negative {
+      color: #ef4444;
+    }
+  }
+}
+
+// Empty State
+.admin-empty-state {
+  text-align: center;
+  padding: $spacing-3xl;
+  
+  .icon {
+    font-size: 64px;
+    color: $secondary;
+    opacity: 0.3;
+    margin-bottom: $spacing-lg;
+  }
+  
+  h3 {
+    font-size: 20px;
+    color: $primary;
+    margin-bottom: $spacing-sm;
+    
+    .cs_dark & {
+      color: $white;
+    }
+  }
+  
+  p {
+    font-size: 15px;
+    color: $secondary;
+    margin-bottom: $spacing-lg;
+  }
+}
+
+// Buttons
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  text-decoration: none;
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  &.btn-primary {
+    background-color: $accent;
+    color: $white;
+    
+    &:hover:not(:disabled) {
+      background-color: darken($accent, 5%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba($accent, 0.3);
+    }
+  }
+  
+  &.btn-secondary {
+    background-color: transparent;
+    color: $primary;
+    border: 1px solid #e5e5e5;
+    
+    .cs_dark & {
+      color: $white;
+      border-color: #3a3a3a;
+    }
+    
+    &:hover:not(:disabled) {
+      border-color: $accent;
+      color: $accent;
+    }
+  }
+  
+  &.btn-danger {
+    background-color: #ef4444;
+    color: $white;
+    
+    &:hover:not(:disabled) {
+      background-color: darken(#ef4444, 5%);
+    }
+  }
+  
+  .icon {
+    font-size: 18px;
+  }
+}
