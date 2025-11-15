@@ -1,6 +1,6 @@
 .cs_theme_toggle {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -15,7 +15,7 @@
   
   &:hover {
     background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.5);
   }
   
   svg {
@@ -28,16 +28,27 @@
 }
 
 .cs_dark .cs_theme_toggle {
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
   color: #fff;
 }
 
 *:not(.cs_dark) .cs_theme_toggle {
-  border-color: rgba(0, 0, 0, 0.2);
+  border-color: rgba(0, 0, 0, 0.3);
   color: #121212;
   
   &:hover {
     background: rgba(0, 0, 0, 0.05);
-    border-color: rgba(0, 0, 0, 0.4);
+    border-color: rgba(0, 0, 0, 0.5);
+  }
+}
+
+// Force white styling when header uses cs_color_1 (dark hero background)
+.cs_site_header.cs_color_1 .cs_theme_toggle {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
   }
 }
