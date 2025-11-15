@@ -101,6 +101,10 @@ function App() {
         <Route path="navigation" element={<NavigationManager />} />
         <Route path="settings" element={<Settings />} />
         <Route path="forms" element={<FormsInbox />} />
+      </Route>
+
+      {/* Users route requires admin or super_admin role */}
+      <Route path="/admin" element={<ProtectedRoute requiredRole="admin" />}>
         <Route path="users" element={<UsersList />} />
       </Route>
 

@@ -1,15 +1,45 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
+import { Icon } from '@iconify/react';
 
 export default function ResetPassword() {
   const [email, setEmail] = useState('');
   const [success, setSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Phase 4 - Implement Supabase Auth password reset
-    console.log('Reset password submitted - to be implemented in Phase 4', email);
-    setSuccess(true);
+    setError('');
+    
+    if (!email) {
+      setError('Please enter your email address');
+      return;
+    }
+    
+    setIsLoading(true);
+    
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/admin/auth/reset-password`,
+      });
+      
+      if (error) {
+        if (error.message.includes('rate limit')) {
+          setError('Too many requests. Please wait a few minutes');
+        } else {
+          setError(error.message);
+        }
+        return;
+      }
+      
+      setSuccess(true);
+    } catch (err) {
+      setError('Connection error. Please try again');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -22,7 +52,15 @@ export default function ResetPassword() {
         
         {success && (
           <div className="auth-success-message">
-            Password reset instructions will be sent to your email (Phase 4)
+            <Icon icon="mdi:check-circle" className="icon" />
+            Password reset link sent! Check your email inbox (and spam folder).
+          </div>
+        )}
+        
+        {error && (
+          <div className="auth-error-message">
+            <Icon icon="mdi:alert-circle" className="icon" />
+            {error}
           </div>
         )}
         
@@ -40,8 +78,17 @@ export default function ResetPassword() {
             />
           </div>
           
-          <button type="submit" className="form-submit" disabled>
-            Send Reset Link (Phase 4)
+          <button type="submit" className="form-submit" disabled={isLoading || success}>
+            {isLoading ? (
+              <>
+                <Icon icon="mdi:loading" className="icon spinning" />
+                Sending...
+              </>
+            ) : success ? (
+              'Email Sent'
+            ) : (
+              'Send Reset Link'
+            )}
           </button>
         </form>
         

@@ -1,17 +1,23 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
+import { useAuth } from '@/hooks/useAuth';
+import { useTheme } from '@/contexts/ThemeContext';
 import AdminBreadcrumbs from './AdminBreadcrumbs';
 
 export default function AdminTopBar({ breadcrumbs = [], onMenuClick }) {
+  const navigate = useNavigate();
+  const { profile, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   const toggleUserMenu = () => {
     setUserMenuOpen(!userMenuOpen);
   };
 
-  const handleLogout = () => {
-    // TODO: Implement logout in Phase 4
-    console.log('Logout clicked - to be implemented in Phase 4');
+  const handleLogout = async () => {
+    await logout();
+    navigate('/admin/auth/login');
   };
 
   return (
@@ -33,10 +39,13 @@ export default function AdminTopBar({ breadcrumbs = [], onMenuClick }) {
       <div className="admin-topbar-right">
         <button 
           className="btn btn-secondary"
-          onClick={() => document.body.classList.toggle('cs_dark')}
+          onClick={toggleTheme}
           title="Toggle theme"
         >
-          <Icon icon="mdi:theme-light-dark" className="icon" />
+          <Icon 
+            icon={theme === 'dark' ? 'mdi:white-balance-sunny' : 'mdi:weather-night'} 
+            className="icon" 
+          />
         </button>
         
         <div className="admin-user-menu">
@@ -45,8 +54,18 @@ export default function AdminTopBar({ breadcrumbs = [], onMenuClick }) {
             onClick={toggleUserMenu}
             aria-label="User menu"
           >
-            <Icon icon="mdi:account-circle" className="icon" />
-            <span className="user-name">Admin User</span>
+            {profile?.avatar_url ? (
+              <img 
+                src={profile.avatar_url} 
+                alt={profile.full_name || 'User'} 
+                className="user-avatar"
+              />
+            ) : (
+              <Icon icon="mdi:account-circle" className="icon" />
+            )}
+            <span className="user-name">
+              {profile?.full_name || profile?.email || 'User'}
+            </span>
             <Icon icon="mdi:chevron-down" />
           </button>
           

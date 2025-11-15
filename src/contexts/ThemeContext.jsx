@@ -18,6 +18,13 @@ export function ThemeProvider({ children }) {
 
   useEffect(() => {
     localStorage.setItem('devmart-theme', theme);
+    
+    // Apply theme class to body
+    if (theme === 'dark') {
+      document.body.classList.add('cs_dark');
+    } else {
+      document.body.classList.remove('cs_dark');
+    }
   }, [theme]);
 
   const toggleTheme = () => {
