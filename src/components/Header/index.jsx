@@ -46,63 +46,15 @@ export default function Header({
                     mobileToggle ? 'cs_nav_list cs_active' : 'cs_nav_list'
                   }`}
                 >
-                  <li className="menu-item-has-children cs_mega_menu">
+                  <li className="menu-item-has-children">
                     <Link to="/">Home</Link>
                     <DropDown>
-                      <ul className="cs_mega_wrapper">
-                        <li className="menu-item-has-children">
-                          <Link to="/">Dark Version</Link>
-                          <DropDown>
-                            <ul>
-                              <li>
-                                <Link to="/">Creative Agency</Link>
-                              </li>
-                              <li>
-                                <Link to="/marketing-agency">
-                                  Marketing Agency
-                                </Link>
-                              </li>
-                              <li>
-                                <Link to="/studio-agency">Studio Agency</Link>
-                              </li>
-                              <li>
-                                <Link to="/digital-agency">Digital Agency</Link>
-                              </li>
-                              <li>
-                                <Link to="/tech-startup">Tech Startup</Link>
-                              </li>
-                            </ul>
-                          </DropDown>
+                      <ul>
+                        <li>
+                          <Link to="/">Dark Mode</Link>
                         </li>
-                        <li className="menu-item-has-children">
-                          <Link to="/">Light Version</Link>
-                          <DropDown>
-                            <ul>
-                              <li>
-                                <Link to="/light">Creative Agency</Link>
-                              </li>
-                              <li>
-                                <Link to="/light/marketing-agency">
-                                  Marketing Agency
-                                </Link>
-                              </li>
-                              <li>
-                                <Link to="/light/studio-agency">
-                                  Studio Agency
-                                </Link>
-                              </li>
-                              <li>
-                                <Link to="/light/digital-agency">
-                                  Digital Agency
-                                </Link>
-                              </li>
-                              <li>
-                                <Link to="/light/tech-startup">
-                                  Tech Startup
-                                </Link>
-                              </li>
-                            </ul>
-                          </DropDown>
+                        <li>
+                          <Link to="/light/">Light Mode</Link>
                         </li>
                       </ul>
                     </DropDown>
