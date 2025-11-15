@@ -32,8 +32,18 @@
     align-items: center;
     height: 100%;
     gap: 30px;
+    
+    @media (max-width: 1400px) {
+      gap: 20px;
+    }
+    
     @media (max-width: 1199px) {
       padding-right: 50px;
+      gap: 15px;
+    }
+    
+    @media (max-width: 991px) {
+      gap: 10px;
     }
   }
   @media (max-width: 1199px) {
@@ -69,6 +79,38 @@
     }
     &.cs_gescout_show {
       background-color: $primary;
+    }
+  }
+}
+
+// Override sticky header styling based on theme
+.cs_dark .cs_site_header.cs_style_1.cs_color_1.cs_gescout_show {
+  background-color: $primary;
+  
+  .cs_nav_list > li > a {
+    color: #fff;
+  }
+  
+  .cs_theme_toggle {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+  }
+}
+
+body:not(.cs_dark) .cs_site_header.cs_style_1.cs_color_1.cs_gescout_show {
+  background-color: $white;
+  
+  .cs_nav_list > li > a {
+    color: $primary;
+  }
+  
+  .cs_theme_toggle {
+    border-color: rgba(0, 0, 0, 0.3);
+    color: #121212;
+    
+    &:hover {
+      background: rgba(0, 0, 0, 0.05);
+      border-color: rgba(0, 0, 0, 0.5);
     }
   }
 }
