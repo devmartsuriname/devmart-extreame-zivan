@@ -193,6 +193,67 @@ The template is fully responsive with breakpoints defined in SCSS:
 ### Color System
 The template uses SCSS variables for theming defined in `sass/default/_color_variable.scss`.
 
+## Development Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build locally
+
+## Theme System (November 2025)
+
+**Effective Date:** 2025-11-15  
+**Status:** Production Ready
+
+### Implementation
+- **ThemeContext:** Global theme state with localStorage persistence
+- **Theme Toggle:** Button in header for instant theme switching
+- **No Route-Based Themes:** Single set of routes, theme applied via context
+- **CSS Implementation:** `.cs_dark` class applied to root based on theme state
+- **Persistence:** User preference saved to localStorage (`devmart-theme` key)
+- **System Preference:** Falls back to OS theme preference on first visit
+
+### Removed Features
+- ❌ `/light/` route prefix
+- ❌ Duplicate light mode routes for all pages
+- ❌ `darkMode` prop drilling through layouts
+
+### Benefits
+- ✅ Instant theme switching without page reload
+- ✅ Persisted user preference
+- ✅ Single source of truth for theme state
+- ✅ Cleaner route structure
+- ✅ Better performance (no route navigation for theme change)
+
+## Main Theme Selection
+
+**Primary Homepage:** Creative Agency (Home.jsx)
+
+### Home Variant Consolidation
+The Devmart website has been consolidated to use a single homepage:
+
+- ✅ **Active:** Creative Agency
+  - Route: `/` (theme-aware via context)
+  - Layout: Layout2
+
+- ❌ **Removed:** Tech Startup, Marketing Agency, Studio Agency, Digital Agency
+
+### UI Block Preservation
+All 36 UI Blocks from all 5 home variants remain available in `/src/UIBlocks/` for:
+- Future custom pages
+- Dynamic Page Builder
+- Marketing landing pages
+
+### Rationale
+1. Simplicity: One main homepage reduces maintenance
+2. Flexibility: UI Blocks available for custom page building
+3. Performance: Smaller bundle size
+4. Clarity: Single source of truth
+5. Preparation: Clean structure before backend PRD
+
+### Next Steps
+1. Content swap: Replace Zivan demo with Devmart branding
+2. Backend PRD: Design dynamic page builder system
+
 ## Support & Documentation
 
 For detailed component documentation and usage examples, refer to the original Zivan template documentation included in the template package.
