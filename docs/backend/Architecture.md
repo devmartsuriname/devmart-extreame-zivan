@@ -634,7 +634,7 @@ graph LR
 
 ### 14.2 Future Integrations
 
-- **Email:** SendGrid / Resend for transactional emails
+- **Email:** Hostinger SMTP for transactional emails (configured in Settings)
 - **Analytics:** Google Analytics / Plausible
 - **Search:** Algolia for full-text search
 - **Payments:** Stripe for e-commerce
