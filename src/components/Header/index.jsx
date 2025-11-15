@@ -153,22 +153,27 @@ export default function Header({
               </div>
               </div>
               <div className="cs_main_header_right">
-                <button
-                  onClick={toggleTheme}
-                  className="cs_theme_toggle"
-                  aria-label="Toggle theme"
-                >
-                  {theme === 'dark' ? (
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M10 15C12.7614 15 15 12.7614 15 10C15 7.23858 12.7614 5 10 5C7.23858 5 5 7.23858 5 10C5 12.7614 7.23858 15 10 15Z" stroke="currentColor" strokeWidth="1.5"/>
-                      <path d="M10 1V3M10 17V19M19 10H17M3 10H1M16.0711 3.92893L14.6569 5.34315M5.34315 14.6569L3.92893 16.0711M16.0711 16.0711L14.6569 14.6569M5.34315 5.34315L3.92893 3.92893" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                    </svg>
-                  ) : (
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M17.2939 11.5393C16.2956 11.8085 15.249 11.9505 14.1716 11.9505C9.14569 11.9505 5.07056 7.87542 5.07056 2.84949C5.07056 1.77211 5.21258 0.725485 5.48176 -0.272827C2.31446 1.10594 0.0705566 4.27324 0.0705566 7.97977C0.0705566 13.0057 4.14569 17.0808 9.17162 17.0808C12.8781 17.0808 16.0454 14.8369 17.2939 11.5393Z" stroke="currentColor" strokeWidth="1.5"/>
-                    </svg>
-                  )}
-                </button>
+                <div className="cs_theme_toggle_wrapper">
+                  <button
+                    onClick={toggleTheme}
+                    className="cs_theme_toggle"
+                    aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                  >
+                    {theme === 'dark' ? (
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 15C12.7614 15 15 12.7614 15 10C15 7.23858 12.7614 5 10 5C7.23858 5 5 7.23858 5 10C5 12.7614 7.23858 15 10 15Z" stroke="currentColor" strokeWidth="1.5"/>
+                        <path d="M10 1V3M10 17V19M19 10H17M3 10H1M16.0711 3.92893L14.6569 5.34315M5.34315 14.6569L3.92893 16.0711M16.0711 16.0711L14.6569 14.6569M5.34315 5.34315L3.92893 3.92893" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                      </svg>
+                    ) : (
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.2939 11.5393C16.2956 11.8085 15.249 11.9505 14.1716 11.9505C9.14569 11.9505 5.07056 7.87542 5.07056 2.84949C5.07056 1.77211 5.21258 0.725485 5.48176 -0.272827C2.31446 1.10594 0.0705566 4.27324 0.0705566 7.97977C0.0705566 13.0057 4.14569 17.0808 9.17162 17.0808C12.8781 17.0808 16.0454 14.8369 17.2939 11.5393Z" stroke="currentColor" strokeWidth="1.5"/>
+                      </svg>
+                    )}
+                    <span className="cs_tooltip">
+                      {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                    </span>
+                  </button>
+                </div>
                 {cart && (
                 <a href="shop-cart" className="cs_header_cart">
                   <svg
