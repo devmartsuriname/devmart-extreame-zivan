@@ -73,10 +73,12 @@
   }
 }
 
-// Ensure navigation links are visible in light theme with default header styling
-.cs_site_header.cs_style_1:not(.cs_color_1) {
+// Override sticky header styling in light theme (not .cs_dark)
+.cs_site_header.cs_style_1.cs_color_1.cs_gescout_show:not(.cs_dark) {
+  background-color: $white; // White background in light theme
+  
   .cs_nav_list > li > a {
-    color: $primary; // Dark color for light backgrounds
+    color: $primary; // Dark navigation links on white background
   }
 }
 
