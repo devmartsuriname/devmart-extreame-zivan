@@ -194,6 +194,26 @@
       text-decoration: underline;
     }
   }
+  
+  .auth-toggle-link {
+    background: none;
+    border: none;
+    color: $accent;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 0;
+    
+    &:hover:not(:disabled) {
+      text-decoration: underline;
+    }
+    
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
 }
 
 .auth-success-message {
