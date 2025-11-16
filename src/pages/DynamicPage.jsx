@@ -4,15 +4,6 @@ import { Helmet } from 'react-helmet-async';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { loadBlock } from '@/utils/blockRegistry';
-import Layout from '@/components/Layout';
-import Layout2 from '@/components/Layout/Layout2';
-import Layout3 from '@/components/Layout/Layout3';
-
-const layoutComponents = {
-  'Layout': Layout,
-  'Layout2': Layout2,
-  'Layout3': Layout3
-};
 
 export default function DynamicPage() {
   const { slug } = useParams();
@@ -130,9 +121,6 @@ export default function DynamicPage() {
     );
   }
 
-  // Get layout component
-  const LayoutComponent = layoutComponents[page.layout] || Layout;
-
   return (
     <>
       <Helmet>
@@ -155,38 +143,36 @@ export default function DynamicPage() {
         <link rel="canonical" href={`${window.location.origin}/${slug}`} />
       </Helmet>
 
-      <LayoutComponent>
-        {sections.length > 0 ? (
-          <Suspense fallback={<div className="section-loading">Loading section...</div>}>
-            {sections.map((section) => {
-              const BlockComponent = loadedBlocks[section.id];
-              
-              if (!BlockComponent) {
-                console.warn(`Component not loaded for section ${section.id}`);
-                return null;
-              }
+      {sections.length > 0 ? (
+        <Suspense fallback={<div className="section-loading">Loading section...</div>}>
+          {sections.map((section) => {
+            const BlockComponent = loadedBlocks[section.id];
+            
+            if (!BlockComponent) {
+              console.warn(`Component not loaded for section ${section.id}`);
+              return null;
+            }
 
-              return (
-                <BlockComponent
-                  key={section.id}
-                  {...section.block_props}
-                />
-              );
-            })}
-          </Suspense>
-        ) : (
-          <div className="container" style={{ padding: '100px 0', textAlign: 'center' }}>
-            <h2>No content available</h2>
-            <p>This page doesn't have any content yet.</p>
-          </div>
-        )}
+            return (
+              <BlockComponent
+                key={section.id}
+                {...section.block_props}
+              />
+            );
+          })}
+        </Suspense>
+      ) : (
+        <div className="container" style={{ padding: '100px 0', textAlign: 'center' }}>
+          <h2>No content available</h2>
+          <p>This page doesn't have any content yet.</p>
+        </div>
+      )}
 
-        {page.status === 'draft' && (isAdmin() || isSuperAdmin()) && (
-          <div className="draft-indicator">
-            <p>⚠️ This page is in DRAFT mode (only visible to admins)</p>
-          </div>
-        )}
-      </LayoutComponent>
+      {page.status === 'draft' && (isAdmin() || isSuperAdmin()) && (
+        <div className="draft-indicator">
+          <p>⚠️ This page is in DRAFT mode (only visible to admins)</p>
+        </div>
+      )}
     </>
   );
 }
