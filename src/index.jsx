@@ -8,6 +8,7 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { Toaster } from 'sonner';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'swiper/css';
+import 'swiper/css/pagination';
 import 'slick-carousel/slick/slick.css';
 import './sass/index.scss';
 
