@@ -13,6 +13,7 @@ import Accordion from '../Accordion';
 import Cta from '../Cta';
 import TestimonialSlider from '../Slider/TestimonialSlider';
 import PostCarousel from '../Slider/PostCarousel';
+import { Services3_Slider } from '../../UIBlocks/Services';
 import { pageTitle } from '../../helpers/PageTitle';
 const funfactData = [
   { title: 'Happy Customers', number: '22k' },
@@ -37,34 +38,34 @@ const whyChoseFeatureData = [
       'Our team, specializing in strategic digital marketing, are not partners with the world is leading brands. Breaking from the norm, we push boundaries and merge.',
   },
 ];
-const serviceListData = [
+const serviceSliderData = [
   {
-    title: 'WP Development',
-    subtitle:
-      'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium lorema doloremque laudantium, totam rem aperiam, eaque ipsa quae.',
-    imgUrl: '/images/creative-agency/service_7.jpeg',
-    href: '/service/service-details',
+    iconSrc: '/images/marketing-agency/service_icon_1.svg',
+    title: 'On page optimization',
+    subTitle: "A one provide moment. Interesting an a up se you side it all the and don't listen. Confident picture she one the what I nor least.",
+    btnText: 'See More',
+    btnUrl: '/service/service-details',
   },
   {
-    title: 'UI/UX Design',
-    subtitle:
-      'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium lorema doloremque laudantium, totam rem aperiam, eaque ipsa quae.',
-    imgUrl: '/images/creative-agency/service_8.jpeg',
-    href: '/service/service-details',
+    iconSrc: '/images/marketing-agency/service_icon_2.svg',
+    title: 'Marketing Consulting',
+    subTitle: "A one provide moment. Interesting an a up se you side it all the and don't listen. Confident picture she one the what I nor least.",
+    btnText: 'See More',
+    btnUrl: '/service/service-details',
   },
   {
-    title: 'Branding',
-    subtitle:
-      'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium lorema doloremque laudantium, totam rem aperiam, eaque ipsa quae.',
-    imgUrl: '/images/creative-agency/service_9.jpeg',
-    href: '/service/service-details',
+    iconSrc: '/images/marketing-agency/service_icon_3.svg',
+    title: 'Video Campaign',
+    subTitle: "A one provide moment. Interesting an a up se you side it all the and don't listen. Confident picture she one the what I nor least.",
+    btnText: 'See More',
+    btnUrl: '/service/service-details',
   },
   {
-    title: 'Social Ad Campaign',
-    subtitle:
-      'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium lorema doloremque laudantium, totam rem aperiam, eaque ipsa quae.',
-    imgUrl: '/images/creative-agency/service_10.jpeg',
-    href: '/service/service-details',
+    iconSrc: '/images/marketing-agency/service_icon_4.svg',
+    title: 'Branding Design',
+    subTitle: "A one provide moment. Interesting an a up se you side it all the and don't listen. Confident picture she one the what I nor least.",
+    btnText: 'See More',
+    btnUrl: '/service/service-details',
   },
 ];
 const portfolioData = [
@@ -257,24 +258,17 @@ export default function Home() {
         thumbnailSrc="/images/creative-agency/why_choose_us_img_3.jpeg"
       />
       <Spacing lg="150" md="80" />
-      <section className="cs_primary_bg">
+      <section className="cs_p76_full_width">
         <Spacing lg="143" md="75" />
         <div className="container">
           <SectionHeading
-            title="Our core services"
-            subTitle="Services"
-            variantColor="cs_white_color"
+            title="Services we provide"
+            subTitle="Our Services"
           />
-          <Spacing lg="45" md="30" />
         </div>
-        <div className="container">
-          <Service
-            sectionTitle="Our core services"
-            sectionSubTitle="Services"
-            data={serviceListData}
-          />
-          <Spacing lg="135" md="65" />
-        </div>
+        <Spacing lg="85" md="45" />
+        <Services3_Slider data={serviceSliderData} />
+        <Spacing lg="150" md="80" />
       </section>
       <section>
         <Spacing lg="143" md="75" />
