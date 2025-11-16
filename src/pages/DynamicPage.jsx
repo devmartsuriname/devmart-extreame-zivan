@@ -162,17 +162,31 @@ export default function DynamicPage() {
 
             const needsSpacing = section.spacing_after_lg > 0 || section.spacing_after_md > 0;
             
+            // Special handling for CTA block - needs container wrapper
+            const isCTABlock = section.block_type === 'CTA1_ImageBackground';
+            
             // Render block with optional container
-            const blockContent = section.has_container ? (
-              <div className="container">
-                <BlockComponent {...section.block_props} />
-              </div>
-            ) : (
-              <BlockComponent {...section.block_props} />
-            );
+            let blockContent;
+            if (isCTABlock) {
+              blockContent = (
+                <section>
+                  <div className="container">
+                    <BlockComponent {...section.block_props} />
+                  </div>
+                </section>
+              );
+            } else if (section.has_container) {
+              blockContent = (
+                <div className="container">
+                  <BlockComponent {...section.block_props} />
+                </div>
+              );
+            } else {
+              blockContent = <BlockComponent {...section.block_props} />;
+            }
 
-            // Wrap in section tag if wrapper class exists
-            const wrappedContent = section.section_wrapper_class ? (
+            // Wrap in section tag if wrapper class exists (but not for CTA which already has section)
+            const wrappedContent = section.section_wrapper_class && !isCTABlock ? (
               <section className={section.section_wrapper_class}>
                 {blockContent}
               </section>
