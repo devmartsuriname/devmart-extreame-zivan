@@ -291,6 +291,136 @@ The Zivan template was originally built for Create React App (react-scripts). Th
 - ✅ Dark/Light mode functionality
 - ✅ Responsive design system
 
+## Pages Module Architecture (Sprint 2 - Implemented)
+
+### Overview
+The Pages Module introduces dynamic page management with a composable UI block system. Pages are stored in Supabase and rendered dynamically from reusable UI blocks.
+
+### Data Flow
+
+```mermaid
+sequenceDiagram
+    participant Admin
+    participant PageForm
+    participant Supabase
+    participant DynamicPage
+    participant BlockRegistry
+    participant UIBlock
+    participant User
+
+    Admin->>PageForm: Create/Edit Page
+    PageForm->>Supabase: Save page metadata
+    Supabase-->>PageForm: Confirm save
+    PageForm->>Admin: Show success message
+    
+    User->>DynamicPage: Visit /:slug
+    DynamicPage->>Supabase: Fetch page + sections
+    Supabase-->>DynamicPage: Return page data
+    DynamicPage->>DynamicPage: Check status & permissions
+    DynamicPage->>BlockRegistry: Load block components
+    BlockRegistry-->>DynamicPage: Return components
+    DynamicPage->>UIBlock: Render blocks with props
+    UIBlock-->>User: Display page content
+```
+
+### Component Structure
+
+```
+src/
+├── pages/
+│   ├── Admin/
+│   │   └── Pages/
+│   │       ├── PagesList.jsx       # Page management dashboard
+│   │       └── PageForm.jsx        # Create/Edit page form
+│   └── DynamicPage.jsx             # Public page renderer
+├── UIBlocks/                        # 36 reusable UI blocks
+│   ├── Hero/                       # 5 hero variants
+│   ├── About/                      # 4 about variants
+│   ├── Services/                   # 3 service variants
+│   ├── Blog/                       # 3 blog variants
+│   └── [14 more categories]/
+└── utils/
+    └── blockRegistry.js            # Dynamic block loader
+```
+
+### Key Features
+
+#### 1. Dynamic Routing
+- `/:slug` route matches any page slug
+- Falls through static routes first
+- 404 for non-existent pages
+
+#### 2. Block System
+- 36 UI blocks across 18 categories
+- Dynamic imports via blockRegistry
+- Component caching for performance
+- Props stored as JSONB in database
+
+#### 3. SEO Management
+- Dynamic meta tags via react-helmet-async
+- Title, description, keywords
+- Open Graph images
+- Canonical URLs
+
+#### 4. Access Control
+- Published pages: Public
+- Draft pages: Admin only
+- Archived pages: 404 error
+
+#### 5. Layout Support
+- Layout (default)
+- Layout2 (tech startup)
+- Layout3 (e-commerce)
+
+### Database Tables
+
+**pages**
+- Stores page metadata (title, slug, SEO)
+- Status: draft | published | archived
+- Layout configuration
+- Timestamps and audit trail
+
+**page_sections**
+- Links blocks to pages
+- Stores block type and props
+- Order index for sequencing
+- Active/inactive toggle
+
+### Integration Points
+
+#### With UI Blocks System
+- All 36 blocks available for composition
+- Blocks remain independent components
+- No coupling between blocks
+- Props passed from database
+
+#### With Routing System
+- Dynamic route `/:slug` at end of route list
+- Doesn't override static routes
+- Works with nested layouts
+
+#### With Theme System
+- Blocks inherit theme context
+- Dark/light mode support
+- Consistent styling
+
+### Performance Optimizations
+
+1. **Code Splitting**
+   - UI blocks loaded on demand
+   - Only imports used blocks
+   - Reduces initial bundle size
+
+2. **Component Caching**
+   - Loaded blocks cached in Map
+   - Prevents duplicate imports
+   - Faster subsequent renders
+
+3. **Suspense Boundaries**
+   - Smooth loading states
+   - No flash of unstyled content
+   - Progressive enhancement
+
 ## Future Considerations
 
 ### Potential Enhancements

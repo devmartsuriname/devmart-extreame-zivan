@@ -1,5 +1,5 @@
 import React from 'react';
-import PostGridStyle2 from '../../components/Post/PostGridStyle2';
+import PostGridStyle2 from '../../components/PostGrid/PostGridStyle2';
 
 /**
  * @component Blog3_GridAlt

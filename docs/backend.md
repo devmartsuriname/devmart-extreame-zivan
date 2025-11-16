@@ -284,6 +284,210 @@ USING (has_role(auth.uid(), 'super_admin'));
 - Uses project's SMTP settings (Hostinger SMTP recommended)
 - Redirect URL: `${window.location.origin}/admin/auth/reset-password`
 
+## Pages Module (Sprint 2 - Implemented)
+
+### Overview
+The Pages Module enables dynamic page management with a complete CRUD interface for creating, editing, and rendering pages built from composable UI blocks. Admins can create pages with custom slugs, SEO metadata, and publish/draft status control.
+
+### Architecture
+
+```mermaid
+graph TD
+    A[Admin Dashboard] --> B[/admin/pages]
+    B --> C[PagesList Component]
+    C --> D{Action?}
+    D -->|New Page| E[/admin/pages/new]
+    D -->|Edit Page| F[/admin/pages/:id/edit]
+    E --> G[PageForm Component]
+    F --> G
+    G --> H{Mode?}
+    H -->|Create| I[Insert to pages table]
+    H -->|Edit| J[Update pages table]
+    I --> K[Redirect to Edit Mode]
+    J --> L[Stay on Edit Page]
+    K --> M[/admin/pages/:id/edit]
+    L --> M
+    M --> N[Build Page with Blocks]
+    
+    O[Public Route] --> P[/:slug]
+    P --> Q[DynamicPage Component]
+    Q --> R[Fetch page data + sections]
+    R --> S{Page Status?}
+    S -->|Published| T[Render UI Blocks]
+    S -->|Draft + Admin| T
+    S -->|Draft + Public| U[404 Error]
+    S -->|Archived| U
+    T --> V[Dynamic Block Loading]
+    V --> W[blockRegistry.js]
+    W --> X[Import UI Block Component]
+    X --> Y[Render Block with Props]
+```
+
+### Database Schema
+
+#### pages Table
+```sql
+CREATE TABLE pages (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  slug TEXT UNIQUE NOT NULL,
+  title TEXT NOT NULL,
+  meta_description TEXT,
+  meta_keywords TEXT,
+  seo_image TEXT,
+  layout TEXT DEFAULT 'Layout',
+  status page_status DEFAULT 'draft',
+  published_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now(),
+  created_by UUID REFERENCES auth.users(id)
+);
+```
+
+#### page_sections Table
+```sql
+CREATE TABLE page_sections (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  page_id UUID REFERENCES pages(id) ON DELETE CASCADE,
+  block_type TEXT NOT NULL,
+  block_props JSONB DEFAULT '{}',
+  order_index INTEGER NOT NULL,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+```
+
+### Components
+
+#### 1. PagesList (`/src/pages/Admin/Pages/PagesList.jsx`)
+- Lists all pages with title, slug, status, and last updated
+- Actions: Create New, Edit, Delete
+- Route: `/admin/pages`
+
+#### 2. PageForm (`/src/pages/Admin/Pages/PageForm.jsx`)
+- Create and edit page metadata
+- Features:
+  - Auto-slug generation from title
+  - Slug validation (lowercase + hyphens)
+  - Meta description with character counter (500 chars)
+  - Meta keywords input
+  - SEO image URL
+  - Layout selector (Layout/Layout2/Layout3)
+  - Status toggle (Draft/Published)
+- Routes: 
+  - `/admin/pages/new` (create mode)
+  - `/admin/pages/:id/edit` (edit mode)
+
+#### 3. DynamicPage (`/src/pages/DynamicPage.jsx`)
+- Renders public pages based on slug
+- Loads page sections from database
+- Dynamically imports UI blocks via blockRegistry
+- Sets SEO metadata (title, description, OG tags)
+- Access control:
+  - Published pages: Public access
+  - Draft pages: Admin-only
+  - Archived pages: 404 error
+- Route: `/:slug`
+
+#### 4. Block Registry (`/src/utils/blockRegistry.js`)
+- Maps block type strings to dynamic imports
+- Caches loaded components for performance
+- Supports all 36 UI blocks across 18 categories
+- Example block types:
+  - `Hero1_CreativeAgency`
+  - `Services1_Grid`
+  - `Blog1_Carousel`
+  - `CTA1_ImageBackground`
+
+### Workflow
+
+#### Creating a Page
+1. Admin navigates to `/admin/pages`
+2. Clicks "Create New Page"
+3. Fills in page metadata:
+   - Title → Auto-generates slug
+   - Meta description, keywords
+   - SEO image URL
+   - Selects layout
+   - Sets status (Draft/Published)
+4. Clicks "Save Page"
+5. Redirects to `/admin/pages/:id/edit`
+6. Ready for block builder (Sprint 3)
+
+#### Editing a Page
+1. Admin clicks "Edit" on page in list
+2. Opens `/admin/pages/:id/edit`
+3. Loads existing page data
+4. Updates metadata
+5. Saves changes
+6. Stays on edit page
+
+#### Rendering a Page
+1. User visits `/:slug` (e.g., `/home`)
+2. DynamicPage fetches page data
+3. Checks page status:
+   - If draft + not admin → 404
+   - If archived → 404
+4. Loads page sections (ordered by `order_index`)
+5. Dynamically imports each block component
+6. Renders blocks with saved props
+7. Sets SEO metadata in `<head>`
+
+### Homepage Seeding
+The homepage (`/home`) is pre-seeded with 11 sections:
+
+| Order | Block Type | Content |
+|-------|-----------|---------|
+| 1 | Hero1_CreativeAgency | Rotating text hero |
+| 2 | Stats1_FunFact | 4 stat counters |
+| 3 | About1_Standard | About section with image |
+| 4 | WhyChoose1_Standard | Accordion features |
+| 5 | Services1_Grid | 4 services grid |
+| 6 | Portfolio1_Grid | 4 portfolio items |
+| 7 | Awards1_Standard | 3 awards list |
+| 8 | Testimonials1_Layered | 3 testimonials slider |
+| 9 | CTA1_ImageBackground | Call to action |
+| 10 | Blog1_Carousel | Blog posts slider |
+| 11 | FAQ1_Accordion | FAQ accordion |
+
+### SEO Features
+- Dynamic `<title>` tag
+- Meta description
+- Meta keywords
+- Open Graph image
+- Canonical URL
+- Implemented via `react-helmet-async`
+
+### Performance
+- Lazy loading of UI blocks
+- Component caching in blockRegistry
+- Suspense fallbacks during load
+- Code splitting by block type
+
+### Security
+- Row Level Security (RLS) on pages table
+- Draft pages require authentication
+- Only admins can create/edit pages
+- XSS protection on block props (JSONB)
+
+### Routes Summary
+| Route | Component | Access | Purpose |
+|-------|-----------|--------|---------|
+| `/admin/pages` | PagesList | Admin | List all pages |
+| `/admin/pages/new` | PageForm | Admin | Create new page |
+| `/admin/pages/:id/edit` | PageForm | Admin | Edit existing page |
+| `/:slug` | DynamicPage | Public* | Render published page |
+
+*Draft pages require admin authentication
+
+### Next Steps (Sprint 3)
+- Page Builder UI with drag-and-drop
+- Visual block selection interface
+- Live preview mode
+- Block props editing
+- Block reordering
+- Block duplication/deletion
+
 ## Integration Points
 
 ### Current Integrations
