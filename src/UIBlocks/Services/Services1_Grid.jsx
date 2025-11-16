@@ -21,6 +21,7 @@ import SectionHeading from '../../components/SectionHeading';
 export default function Services1_Grid({ sectionTitle, sectionSubTitle, data }) {
   return (
     <>
+      <Spacing lg="143" md="75" />
       <div className="cs_section_heading cs_style_1 text-center">
         <SectionHeading title={sectionTitle} subTitle={sectionSubTitle} />
       </div>
@@ -32,6 +33,7 @@ export default function Services1_Grid({ sectionTitle, sectionSubTitle, data }) 
           </div>
         ))}
       </div>
+      <Spacing lg="135" md="65" />
     </>
   );
 }

@@ -19,30 +19,42 @@ export type Database = {
           block_props: Json
           block_type: string
           created_at: string
+          has_container: boolean | null
           id: string
           is_active: boolean
           order_index: number
           page_id: string
+          section_wrapper_class: string | null
+          spacing_after_lg: number | null
+          spacing_after_md: number | null
           updated_at: string
         }
         Insert: {
           block_props?: Json
           block_type: string
           created_at?: string
+          has_container?: boolean | null
           id?: string
           is_active?: boolean
           order_index: number
           page_id: string
+          section_wrapper_class?: string | null
+          spacing_after_lg?: number | null
+          spacing_after_md?: number | null
           updated_at?: string
         }
         Update: {
           block_props?: Json
           block_type?: string
           created_at?: string
+          has_container?: boolean | null
           id?: string
           is_active?: boolean
           order_index?: number
           page_id?: string
+          section_wrapper_class?: string | null
+          spacing_after_lg?: number | null
+          spacing_after_md?: number | null
           updated_at?: string
         }
         Relationships: [

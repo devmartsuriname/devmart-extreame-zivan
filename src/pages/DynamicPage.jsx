@@ -4,6 +4,8 @@ import { Helmet } from 'react-helmet-async';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { loadBlock } from '@/utils/blockRegistry';
+import Spacing from '@/components/Spacing';
+import { seedHomepageSpacing } from '@/utils/seedSpacing';
 
 export default function DynamicPage() {
   const { slug } = useParams();
@@ -91,7 +93,12 @@ export default function DynamicPage() {
 
   useEffect(() => {
     fetchPageData();
-  }, [fetchPageData]);
+    
+    // One-time spacing seed - run once then remove this block
+    if (slug === undefined || slug === 'home') {
+      seedHomepageSpacing().catch(console.error);
+    }
+  }, [fetchPageData, slug]);
 
   // Loading state
   if (isLoading) {
@@ -145,7 +152,7 @@ export default function DynamicPage() {
 
       {sections.length > 0 ? (
         <Suspense fallback={<div className="section-loading">Loading section...</div>}>
-          {sections.map((section) => {
+          {sections.map((section, index) => {
             const BlockComponent = loadedBlocks[section.id];
             
             if (!BlockComponent) {
@@ -153,11 +160,36 @@ export default function DynamicPage() {
               return null;
             }
 
+            const needsSpacing = section.spacing_after_lg > 0 || section.spacing_after_md > 0;
+            
+            // Render block with optional container
+            const blockContent = section.has_container ? (
+              <div className="container">
+                <BlockComponent {...section.block_props} />
+              </div>
+            ) : (
+              <BlockComponent {...section.block_props} />
+            );
+
+            // Wrap in section tag if wrapper class exists
+            const wrappedContent = section.section_wrapper_class ? (
+              <section className={section.section_wrapper_class}>
+                {blockContent}
+              </section>
+            ) : (
+              blockContent
+            );
+
             return (
-              <BlockComponent
-                key={section.id}
-                {...section.block_props}
-              />
+              <div key={section.id}>
+                {wrappedContent}
+                {needsSpacing && (
+                  <Spacing 
+                    lg={section.spacing_after_lg} 
+                    md={section.spacing_after_md} 
+                  />
+                )}
+              </div>
             );
           })}
         </Suspense>

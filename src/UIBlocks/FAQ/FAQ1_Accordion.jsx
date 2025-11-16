@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
+import Spacing from '../../components/Spacing';
+import SectionHeading from '../../components/SectionHeading';
 
 /**
  * Accordion Item Component
@@ -45,11 +47,13 @@ function AccordionItem({ title, content, isOpen, onClick }) {
  * @props
  * - data: array - FAQ items with title and content
  * - variant: string - Style variant class
+ * - sectionTitle: string - Section heading
+ * - sectionSubTitle: string - Section subtitle
  * 
  * @usedIn Creative Agency, Marketing Agency
  * @scss sass/shortcode/_accordion.scss
  */
-export default function FAQ1_Accordion({ data, variant }) {
+export default function FAQ1_Accordion({ data, variant, sectionTitle, sectionSubTitle }) {
   const [openItemIndex, setOpenItemIndex] = useState(0);
   const [firstItemOpen, setFirstItemOpen] = useState(true);
 
@@ -70,6 +74,15 @@ export default function FAQ1_Accordion({ data, variant }) {
 
   return (
     <>
+      <Spacing lg="143" md="75" />
+      {sectionTitle && (
+        <>
+          <div className="cs_section_heading cs_style_1 text-center">
+            <SectionHeading title={sectionTitle} subTitle={sectionSubTitle} />
+          </div>
+          <Spacing lg="85" md="45" />
+        </>
+      )}
       <div className={`cs_accordians cs_style_1 ${variant ? variant : ''}`}>
         {data.map((item, index) => (
           <AccordionItem
@@ -81,6 +94,7 @@ export default function FAQ1_Accordion({ data, variant }) {
           />
         ))}
       </div>
+      <Spacing lg="150" md="80" />
     </>
   );
 }
