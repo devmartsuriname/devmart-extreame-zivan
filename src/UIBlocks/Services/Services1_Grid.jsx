@@ -22,18 +22,26 @@ export default function Services1_Grid({ sectionTitle, sectionSubTitle, data }) 
   return (
     <>
       <Spacing lg="143" md="75" />
-      <div className="cs_section_heading cs_style_1 text-center">
-        <SectionHeading title={sectionTitle} subTitle={sectionSubTitle} />
+      <div className="container">
+        <div className="cs_section_heading cs_style_1 text-center">
+          <SectionHeading 
+            title={sectionTitle} 
+            subTitle={sectionSubTitle}
+            variantColor="cs_white_color"
+          />
+        </div>
+        <Spacing lg="45" md="30" />
       </div>
-      <Spacing lg="90" md="45" />
-      <div className="row cs_gap_y_50">
-        {data?.map((item, index) => (
-          <div className="col-lg-4" key={index}>
-            <Service {...item} />
-          </div>
-        ))}
+      <div className="container">
+        <div className="row cs_gap_y_50">
+          {data?.map((item, index) => (
+            <div className="col-lg-4" key={index}>
+              <Service {...item} />
+            </div>
+          ))}
+        </div>
+        <Spacing lg="135" md="65" />
       </div>
-      <Spacing lg="135" md="65" />
     </>
   );
 }
