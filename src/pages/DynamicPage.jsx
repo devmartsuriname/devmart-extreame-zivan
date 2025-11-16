@@ -1,4 +1,4 @@
-import { useState, useEffect, Suspense, lazy } from 'react';
+import { useState, useEffect, useCallback, Suspense, lazy } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { supabase } from '@/integrations/supabase/client';
@@ -23,11 +23,7 @@ export default function DynamicPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetchPageData();
-  }, [slug]);
-
-  const fetchPageData = async () => {
+  const fetchPageData = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -100,7 +96,11 @@ export default function DynamicPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [slug, isAuthenticated, isAdmin, isSuperAdmin]);
+
+  useEffect(() => {
+    fetchPageData();
+  }, [fetchPageData]);
 
   // Loading state
   if (isLoading) {
