@@ -1,7 +1,7 @@
 import React from 'react';
 import { Parallax } from 'react-parallax';
 import Spacing from '../../components/Spacing';
-import FAQ1_Accordion from '../FAQ/FAQ1_Accordion';
+import Accordion from '../../components/Accordion';
 
 /**
  * @component WhyChoose1_Standard
@@ -39,7 +39,7 @@ export default function WhyChoose1_Standard({
               <h2 className="cs_section_title cs_fs_50 mb-0">{sectionTitle}</h2>
             </div>
             <Spacing lg="25" md="15" />
-            <FAQ1_Accordion data={whyChoseFeatureData} />
+            <Accordion data={whyChoseFeatureData} />
           </div>
           <div className="col-lg-6 offset-xxl-1">
             <div className="cs_img_card cs_style_2 cs_bg_filed cs_parallax overflow-hidden">
