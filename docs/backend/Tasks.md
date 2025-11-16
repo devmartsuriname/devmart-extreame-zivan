@@ -224,13 +224,63 @@
 ## Phase 4: Media Library & Settings (Week 7)
 
 ### 4.1 Media Library Backend
-- [ ] **TASK-145** Create `media_library` table with RLS [M]
-- [ ] **TASK-146** Create storage bucket for media uploads [S]
-- [ ] **TASK-147** Configure storage RLS policies [M]
-- [ ] **TASK-148** Create edge function for file upload [L]
-- [ ] **TASK-149** Create edge function for WebP conversion [L]
-- [ ] **TASK-150** Create edge function for thumbnail generation [L]
-- [ ] **TASK-151** Create edge functions for media CRUD [M]
+
+#### Phase 1A: Database Schema Updates ✅ COMPLETED
+- [x] **TASK-145** Create `media_library` table with RLS [M]
+  - ✅ Added `tags TEXT[]` for tag-based organization
+  - ✅ Added `usage_count INTEGER` to track media usage
+  - ✅ Added `caption TEXT` and `folder TEXT` fields
+  - ✅ Created GIN index on tags for efficient filtering
+  - ✅ Added comprehensive indexes for performance
+- [x] **TASK-146** Create storage bucket for media uploads [S]
+  - ✅ Bucket created with 50MB file limit
+  - ✅ Added support for application/zip MIME type
+- [x] **TASK-147** Configure storage RLS policies [M]
+  - ✅ Policies updated to include `editor` role
+  - ✅ INSERT, UPDATE, DELETE policies for admin/editor roles
+  - ✅ Public SELECT policy for media access
+- [x] **TASK-145a** Create `media_usage` table with RLS [M]
+  - ✅ Tracks where media is used (format: "table:id")
+  - ✅ Cascade delete when media is removed
+  - ✅ Indexes on media_id and used_in columns
+- [x] **TASK-145b** Create `increment_media_usage()` RPC function [S]
+  - ✅ Increments usage_count atomically
+  - ✅ Security definer for proper access control
+
+#### Phase 1B: Backend Hooks ✅ COMPLETED
+- [x] **TASK-147a** Update `useMediaUpload` hook [M]
+  - ✅ Added tag support in upload flow
+  - ✅ Added tag validation (max 10 tags, alphanumeric + hyphen)
+  - ✅ Initialize usage_count to 0 on upload
+- [x] **TASK-147b** Update `useMediaLibrary` hook [M]
+  - ✅ Added `useMediaTags()` for fetching unique tags
+  - ✅ Added `useTrackMediaUsage()` for adding usage tracking
+  - ✅ Added `useUntrackMediaUsage()` for removing usage tracking
+  - ✅ Added `useMediaUsage()` for fetching media usage details
+  - ✅ Updated delete hooks to prevent deletion of in-use media
+
+#### Phase 1C: Admin UI Enhancements (PENDING)
+- [ ] **TASK-148** Add tag input to UploadModal component [M]
+- [ ] **TASK-149** Add tag filter to MediaLibrary list view [M]
+- [ ] **TASK-150** Show usage count in MediaDetailModal [S]
+- [ ] **TASK-151** Prevent deletion of in-use media in UI [S]
+
+#### Phase 1D: Image Optimization (PENDING)
+- [ ] **TASK-152** Install browser-image-compression library [S]
+- [ ] **TASK-153** Implement client-side image compression [M]
+- [ ] **TASK-154** Generate thumbnails for list view [M]
+- [ ] **TASK-155** Add compression quality settings [S]
+
+#### Phase 1E: MediaPicker Integration (PENDING)
+- [ ] **TASK-156** Add MediaPicker to Page Builder [M]
+- [ ] **TASK-157** Track media usage when selected in blocks [M]
+- [ ] **TASK-158** Update block removal to untrack media [S]
+
+#### Future Phases (ORIGINAL TASKS)
+- [ ] **TASK-148-OLD** Create edge function for file upload [L]
+- [ ] **TASK-149-OLD** Create edge function for WebP conversion [L]
+- [ ] **TASK-150-OLD** Create edge function for thumbnail generation [L]
+- [ ] **TASK-151-OLD** Create edge functions for media CRUD [M]
 
 ### 4.2 Media Library Frontend
 - [ ] **TASK-152** Create `/admin/media` library page [XL]
