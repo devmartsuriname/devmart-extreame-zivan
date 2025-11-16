@@ -74,7 +74,7 @@ function App() {
         <Route path="contact" element={<ContactPage />} />
       </Route>
       <Route path="/" element={<Layout2 />}>
-        <Route index element={<Home />} />
+        <Route index element={<DynamicPage />} />
       </Route>
       <Route path="/" element={<Layout3 />}>
         <Route path="shop" element={<Shop />} />
