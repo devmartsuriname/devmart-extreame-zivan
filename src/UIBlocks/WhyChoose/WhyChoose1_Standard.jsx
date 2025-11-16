@@ -38,7 +38,7 @@ export default function WhyChoose1_Standard({
               <Spacing lg="10" md="5" />
               <h2 className="cs_section_title cs_fs_50 mb-0">{sectionTitle}</h2>
             </div>
-            <Spacing lg="45" md="30" />
+            <Spacing lg="30" md="20" />
             <FAQ1_Accordion data={whyChoseFeatureData} />
           </div>
           <div className="col-lg-6 offset-xxl-1">
