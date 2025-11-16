@@ -1,5 +1,5 @@
 import React from 'react';
-import PostCarousel from '../../components/Post/PostCarousel';
+import PostCarousel from '../../components/Slider/PostCarousel';
 
 /**
  * @component Blog1_Carousel

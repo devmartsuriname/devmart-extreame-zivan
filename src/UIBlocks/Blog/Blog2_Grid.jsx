@@ -1,5 +1,5 @@
 import React from 'react';
-import PostGrid from '../../components/Post/PostGrid';
+import PostGrid from '../../components/PostGrid';
 
 /**
  * @component Blog2_Grid
