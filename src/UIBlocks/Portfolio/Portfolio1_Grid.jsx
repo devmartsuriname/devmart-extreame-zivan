@@ -52,7 +52,6 @@ export default function Portfolio1_Grid({
           </>
         )}
       </div>
-      <Spacing lg="150" md="80" />
     </>
   );
 }

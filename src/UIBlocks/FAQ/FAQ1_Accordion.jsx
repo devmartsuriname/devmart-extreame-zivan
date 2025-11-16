@@ -75,24 +75,26 @@ export default function FAQ1_Accordion({ data, variant, sectionTitle, sectionSub
   return (
     <>
       <Spacing lg="143" md="75" />
-      {sectionTitle && (
-        <>
-          <div className="cs_section_heading cs_style_1 text-center">
-            <SectionHeading title={sectionTitle} subTitle={sectionSubTitle} />
-          </div>
-          <Spacing lg="85" md="45" />
-        </>
-      )}
-      <div className={`cs_accordians cs_style_1 ${variant ? variant : ''}`}>
-        {data.map((item, index) => (
-          <AccordionItem
-            key={index}
-            title={item.title}
-            content={item.content}
-            isOpen={index === openItemIndex}
-            onClick={() => handleItemClick(index)}
-          />
-        ))}
+      <div className="container">
+        {sectionTitle && (
+          <>
+            <div className="cs_section_heading cs_style_1 text-center">
+              <SectionHeading title={sectionTitle} subTitle={sectionSubTitle} />
+            </div>
+            <Spacing lg="85" md="45" />
+          </>
+        )}
+        <div className={`cs_accordians cs_style_1 ${variant ? variant : ''}`}>
+          {data.map((item, index) => (
+            <AccordionItem
+              key={index}
+              title={item.title}
+              content={item.content}
+              isOpen={index === openItemIndex}
+              onClick={() => handleItemClick(index)}
+            />
+          ))}
+        </div>
       </div>
       <Spacing lg="150" md="80" />
     </>

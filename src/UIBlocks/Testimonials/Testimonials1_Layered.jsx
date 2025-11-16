@@ -1,5 +1,6 @@
 import React from 'react';
 import TestimonialSlider from '../../components/Slider/TestimonialSlider';
+import Spacing from '../../components/Spacing';
 
 /**
  * @component Testimonials1_Layered
@@ -16,5 +17,11 @@ import TestimonialSlider from '../../components/Slider/TestimonialSlider';
  * @scss sass/shortcode/_testimonial.scss
  */
 export default function Testimonials1_Layered({ data, layeredImages }) {
-  return <TestimonialSlider data={data} layeredImages={layeredImages} />;
+  return (
+    <>
+      <Spacing lg="140" md="80" />
+      <TestimonialSlider data={data} layeredImages={layeredImages} />
+      <Spacing lg="140" md="80" />
+    </>
+  );
 }
