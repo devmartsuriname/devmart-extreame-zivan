@@ -1,0 +1,74 @@
+/*--------------------------------------------------------------
+  Dynamic Page
+----------------------------------------------------------------*/
+
+.dynamic-page-loading,
+.dynamic-page-error {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  
+  .container {
+    max-width: 600px;
+    padding: $spacing-3xl;
+  }
+  
+  .spinner-large {
+    width: 40px;
+    height: 40px;
+    border: 3px solid $accent;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 20px;
+  }
+  
+  p {
+    font-size: 16px;
+    color: $secondary;
+    margin-top: $spacing-md;
+  }
+}
+
+.dynamic-page-error {
+  h2 {
+    font-size: 28px;
+    color: $primary;
+    margin-bottom: $spacing-sm;
+    
+    .cs_dark & {
+      color: $white;
+    }
+  }
+}
+
+.section-loading {
+  padding: 40px 0;
+  text-align: center;
+  color: $secondary;
+  font-size: 15px;
+}
+
+.draft-indicator {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: $accent;
+  color: $white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  
+  p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
