@@ -15,6 +15,7 @@ export const useMediaUpload = () => {
       'image/webp',
       'image/svg+xml',
       'application/pdf',
+      'application/zip',
       'video/mp4',
       'video/webm'
     ];
@@ -28,6 +29,15 @@ export const useMediaUpload = () => {
     }
 
     return { valid: true };
+  };
+
+  const validateTags = (tags) => {
+    if (!tags || tags.length === 0) return [];
+    
+    return tags
+      .map(tag => tag.trim().toLowerCase())
+      .filter(tag => tag.length > 0)
+      .filter(tag => /^[a-z0-9-]+$/.test(tag));
   };
 
   const getImageDimensions = (file) => {
@@ -62,7 +72,8 @@ export const useMediaUpload = () => {
       .replace(/^-|-$/g, '');
   };
 
-  const uploadFiles = async (files, folder = 'uncategorized') => {
+  const uploadFiles = async (files, folder = 'uncategorized', tags = []) => {
+    const validatedTags = validateTags(tags);
     setUploading(true);
     const uploadedFiles = [];
     const errors = [];
@@ -119,6 +130,8 @@ export const useMediaUpload = () => {
             width,
             height,
             folder,
+            tags: validatedTags,
+            usage_count: 0,
             uploaded_by: (await supabase.auth.getUser()).data.user?.id
           })
           .select()
