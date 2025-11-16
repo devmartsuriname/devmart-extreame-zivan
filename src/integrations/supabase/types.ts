@@ -14,6 +14,60 @@ export type Database = {
   }
   public: {
     Tables: {
+      media_library: {
+        Row: {
+          alt_text: string | null
+          caption: string | null
+          created_at: string | null
+          file_path: string
+          file_size: number
+          file_url: string
+          filename: string
+          folder: string | null
+          height: number | null
+          id: string
+          mime_type: string
+          original_filename: string
+          updated_at: string | null
+          uploaded_by: string | null
+          width: number | null
+        }
+        Insert: {
+          alt_text?: string | null
+          caption?: string | null
+          created_at?: string | null
+          file_path: string
+          file_size: number
+          file_url: string
+          filename: string
+          folder?: string | null
+          height?: number | null
+          id?: string
+          mime_type: string
+          original_filename: string
+          updated_at?: string | null
+          uploaded_by?: string | null
+          width?: number | null
+        }
+        Update: {
+          alt_text?: string | null
+          caption?: string | null
+          created_at?: string | null
+          file_path?: string
+          file_size?: number
+          file_url?: string
+          filename?: string
+          folder?: string | null
+          height?: number | null
+          id?: string
+          mime_type?: string
+          original_filename?: string
+          updated_at?: string | null
+          uploaded_by?: string | null
+          width?: number | null
+        }
+        Relationships: []
+      }
       page_sections: {
         Row: {
           block_props: Json
