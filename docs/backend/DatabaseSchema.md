@@ -281,6 +281,8 @@ USING (is_active = TRUE);
 
 ## 5. Media Library Module
 
+**Implementation Status:** ✅ Phase 1A Complete (Database Schema)
+
 ### 5.1 Table: media_library
 
 ```sql
@@ -291,12 +293,15 @@ CREATE TABLE public.media_library (
   original_filename TEXT NOT NULL,
   file_path TEXT NOT NULL UNIQUE, -- Storage path
   file_url TEXT NOT NULL, -- Public URL
-  file_size INTEGER, -- Bytes
-  mime_type TEXT,
+  file_size INTEGER NOT NULL, -- Bytes
+  mime_type TEXT NOT NULL,
   width INTEGER, -- For images
   height INTEGER, -- For images
   alt_text TEXT,
-  tags TEXT[], -- Virtual folders
+  caption TEXT,
+  folder TEXT DEFAULT 'uncategorized',
+  tags TEXT[] DEFAULT ARRAY[]::TEXT[], -- Tag-based organization
+  usage_count INTEGER DEFAULT 0, -- Track where media is used
   uploaded_by UUID REFERENCES auth.users(id),
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
@@ -304,14 +309,17 @@ CREATE TABLE public.media_library (
 
 -- Indexes
 CREATE INDEX idx_media_tags ON public.media_library USING GIN(tags);
+CREATE INDEX idx_media_folder ON public.media_library(folder);
 CREATE INDEX idx_media_filename ON public.media_library(filename);
+CREATE INDEX idx_media_mime_type ON public.media_library(mime_type);
 CREATE INDEX idx_media_uploaded_by ON public.media_library(uploaded_by);
+CREATE INDEX idx_media_created_at ON public.media_library(created_at DESC);
 
 -- Enable RLS
 ALTER TABLE public.media_library ENABLE ROW LEVEL SECURITY;
 
 -- RLS Policies
-CREATE POLICY "Admins manage media"
+CREATE POLICY "Admins and editors can manage media"
 ON public.media_library FOR ALL
 TO authenticated
 USING (
@@ -320,21 +328,81 @@ USING (
   public.has_role(auth.uid(), 'editor')
 );
 
-CREATE POLICY "Public view media"
+CREATE POLICY "Public can view media"
 ON public.media_library FOR SELECT
 TO anon, authenticated
 USING (TRUE);
 ```
 
-### 5.2 Storage Bucket: media
+### 5.2 Table: media_usage
+
+```sql
+-- Media usage tracking table
+CREATE TABLE public.media_usage (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  media_id UUID REFERENCES public.media_library(id) ON DELETE CASCADE NOT NULL,
+  used_in TEXT NOT NULL, -- Format: "table:id" (e.g., "pages:home-page-id")
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Indexes
+CREATE INDEX idx_media_usage_media_id ON public.media_usage(media_id);
+CREATE INDEX idx_media_usage_used_in ON public.media_usage(used_in);
+
+-- Enable RLS
+ALTER TABLE public.media_usage ENABLE ROW LEVEL SECURITY;
+
+-- RLS Policies
+CREATE POLICY "Admins and editors can manage usage tracking"
+ON public.media_usage FOR ALL
+TO authenticated
+USING (
+  public.has_role(auth.uid(), 'super_admin') OR
+  public.has_role(auth.uid(), 'admin') OR
+  public.has_role(auth.uid(), 'editor')
+);
+
+CREATE POLICY "Public can view usage tracking"
+ON public.media_usage FOR SELECT
+TO anon, authenticated
+USING (TRUE);
+```
+
+### 5.3 Function: increment_media_usage()
+
+```sql
+-- Function to increment media usage count
+CREATE OR REPLACE FUNCTION public.increment_media_usage(media_id UUID)
+RETURNS VOID
+LANGUAGE PLPGSQL
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  UPDATE public.media_library
+  SET usage_count = usage_count + 1
+  WHERE id = media_id;
+END;
+$$;
+```
+
+### 5.4 Storage Bucket: media
 
 ```sql
 -- Create media bucket
 INSERT INTO storage.buckets (id, name, public)
 VALUES ('media', 'media', TRUE);
 
+-- Bucket configuration
+-- Size limit: 50MB per file
+-- Allowed MIME types:
+--   - image/jpeg, image/png, image/webp, image/gif, image/svg+xml
+--   - application/pdf
+--   - video/mp4, video/webm
+--   - application/zip
+
 -- RLS for uploads
-CREATE POLICY "Admins upload media"
+CREATE POLICY "Admins and editors can upload media"
 ON storage.objects FOR INSERT
 TO authenticated
 WITH CHECK (
@@ -346,8 +414,34 @@ WITH CHECK (
   )
 );
 
+-- RLS for updates
+CREATE POLICY "Admins and editors can update media"
+ON storage.objects FOR UPDATE
+TO authenticated
+USING (
+  bucket_id = 'media' AND
+  (
+    public.has_role(auth.uid(), 'super_admin') OR
+    public.has_role(auth.uid(), 'admin') OR
+    public.has_role(auth.uid(), 'editor')
+  )
+);
+
+-- RLS for deletes
+CREATE POLICY "Admins and editors can delete media"
+ON storage.objects FOR DELETE
+TO authenticated
+USING (
+  bucket_id = 'media' AND
+  (
+    public.has_role(auth.uid(), 'super_admin') OR
+    public.has_role(auth.uid(), 'admin') OR
+    public.has_role(auth.uid(), 'editor')
+  )
+);
+
 -- Public read access
-CREATE POLICY "Public read media"
+CREATE POLICY "Public can read media"
 ON storage.objects FOR SELECT
 TO public
 USING (bucket_id = 'media');

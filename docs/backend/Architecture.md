@@ -423,11 +423,17 @@ user
 ### 5.1 Schema Overview
 
 **Current Implementation Status:**
-- ✅ **Authentication Tables** (Phase 4 - Implemented)
+- ✅ **Authentication Tables** (Phase 1 - Implemented)
   - `profiles` - User profile information
-  - `user_roles` - Role-based access control
+  - `user_roles` - Role-based access control with super_admin, admin, editor, viewer roles
+- ✅ **Pages Module** (Phase 2 - Implemented)
+  - `pages` - Website pages with SEO metadata
+  - `page_sections` - Reusable UI blocks for page builder
+- ✅ **Media Library Module** (Phase 1A - Database Schema Complete)
+  - `media_library` - File metadata with tags and usage tracking
+  - `media_usage` - Track where media is used across the application
 - 📋 **Content Tables** (Planned - Future Phases)
-  - `pages`, `page_sections`, `blog_posts`, `media_library`, `navigation_items`
+  - `blog_posts`, `navigation_items`, `site_settings`, `services`, `team_members`, `faqs`
 
 ```mermaid
 erDiagram
