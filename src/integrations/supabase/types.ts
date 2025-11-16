@@ -28,8 +28,10 @@ export type Database = {
           id: string
           mime_type: string
           original_filename: string
+          tags: string[] | null
           updated_at: string | null
           uploaded_by: string | null
+          usage_count: number | null
           width: number | null
         }
         Insert: {
@@ -45,8 +47,10 @@ export type Database = {
           id?: string
           mime_type: string
           original_filename: string
+          tags?: string[] | null
           updated_at?: string | null
           uploaded_by?: string | null
+          usage_count?: number | null
           width?: number | null
         }
         Update: {
@@ -62,11 +66,42 @@ export type Database = {
           id?: string
           mime_type?: string
           original_filename?: string
+          tags?: string[] | null
           updated_at?: string | null
           uploaded_by?: string | null
+          usage_count?: number | null
           width?: number | null
         }
         Relationships: []
+      }
+      media_usage: {
+        Row: {
+          created_at: string | null
+          id: string
+          media_id: string
+          used_in: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          media_id: string
+          used_in: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          media_id?: string
+          used_in?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "media_usage_media_id_fkey"
+            columns: ["media_id"]
+            isOneToOne: false
+            referencedRelation: "media_library"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       page_sections: {
         Row: {
@@ -226,6 +261,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      increment_media_usage: { Args: { media_id: string }; Returns: undefined }
     }
     Enums: {
       app_role: "super_admin" | "admin" | "editor" | "viewer"
