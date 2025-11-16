@@ -33,11 +33,11 @@ export default function Hero1_CreativeAgency({ title, subtitle, videoSrc, bgUrl 
     <section className="cs_hero cs_style_1 cs_primary_bg position-relative">
       <div className="container">
         <div className="cs_hero_text text-center position-relative">
-          <p className="cs_hero_subtitle cs_accent_color cs_medium cs_fs_18 cs_dancing_animation">
+          <div className="cs_hero_subtitle cs_accent_color cs_medium cs_fs_18 cs_dancing_animation">
             <TextTransition springConfig={presets.wobbly}>
               {title[index % title.length]}
             </TextTransition>
-          </p>
+          </div>
           <h1 className="cs_hero_title cs_white_color cs_fs_68 cs_dancing_animation">
             {subtitle}
           </h1>
