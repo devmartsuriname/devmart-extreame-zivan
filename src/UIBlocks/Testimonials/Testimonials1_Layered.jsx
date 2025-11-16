@@ -15,6 +15,6 @@ import TestimonialSlider from '../../components/Slider/TestimonialSlider';
  * @dependencies react-slick
  * @scss sass/shortcode/_testimonial.scss
  */
-export default function Testimonials1_Layered({ data }) {
-  return <TestimonialSlider data={data} />;
+export default function Testimonials1_Layered({ data, layeredImages }) {
+  return <TestimonialSlider data={data} layeredImages={layeredImages} />;
 }
