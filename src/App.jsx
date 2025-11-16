@@ -42,6 +42,8 @@ import NavigationManager from './pages/Admin/Navigation/NavigationManager';
 import Settings from './pages/Admin/Settings/Settings';
 import FormsInbox from './pages/Admin/Forms/FormsInbox';
 import UsersList from './pages/Admin/Users/UsersList';
+import PageForm from './pages/Admin/Pages/PageForm';
+import DynamicPage from './pages/DynamicPage';
 
 function App() {
   const { pathname } = useLocation();
@@ -96,6 +98,8 @@ function App() {
       <Route path="/admin" element={<ProtectedRoute />}>
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="pages" element={<PagesList />} />
+        <Route path="pages/new" element={<PageForm mode="create" />} />
+        <Route path="pages/:id/edit" element={<PageForm mode="edit" />} />
         <Route path="blog" element={<BlogList />} />
         <Route path="portfolio" element={<PortfolioList />} />
         <Route path="services" element={<ServicesList />} />
@@ -111,6 +115,9 @@ function App() {
       <Route path="/admin" element={<ProtectedRoute requiredRole="admin" />}>
         <Route path="users" element={<UsersList />} />
       </Route>
+
+      {/* Dynamic Pages Route - MUST BE LAST */}
+      <Route path="/:slug" element={<DynamicPage />} />
 
       <Route path="*" element={<ErrorPage />} />
     </Routes>
