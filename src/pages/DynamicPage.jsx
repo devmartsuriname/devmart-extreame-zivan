@@ -32,11 +32,14 @@ export default function DynamicPage() {
       setIsLoading(true);
       setError(null);
 
+      // Use 'home' slug for root route
+      const pageSlug = slug || 'home';
+
       // Fetch page
       const { data: pageData, error: pageError } = await supabase
         .from('pages')
         .select('*')
-        .eq('slug', slug)
+        .eq('slug', pageSlug)
         .maybeSingle();
 
       if (pageError) throw pageError;
