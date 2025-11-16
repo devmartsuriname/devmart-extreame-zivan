@@ -14,6 +14,92 @@ export type Database = {
   }
   public: {
     Tables: {
+      page_sections: {
+        Row: {
+          block_props: Json
+          block_type: string
+          created_at: string
+          id: string
+          is_active: boolean
+          order_index: number
+          page_id: string
+          updated_at: string
+        }
+        Insert: {
+          block_props?: Json
+          block_type: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          order_index: number
+          page_id: string
+          updated_at?: string
+        }
+        Update: {
+          block_props?: Json
+          block_type?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          order_index?: number
+          page_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "page_sections_page_id_fkey"
+            columns: ["page_id"]
+            isOneToOne: false
+            referencedRelation: "pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pages: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          layout: string | null
+          meta_description: string | null
+          meta_keywords: string | null
+          published_at: string | null
+          seo_image: string | null
+          slug: string
+          status: Database["public"]["Enums"]["page_status"]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          layout?: string | null
+          meta_description?: string | null
+          meta_keywords?: string | null
+          published_at?: string | null
+          seo_image?: string | null
+          slug: string
+          status?: Database["public"]["Enums"]["page_status"]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          layout?: string | null
+          meta_description?: string | null
+          meta_keywords?: string | null
+          published_at?: string | null
+          seo_image?: string | null
+          slug?: string
+          status?: Database["public"]["Enums"]["page_status"]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -77,6 +163,7 @@ export type Database = {
     }
     Enums: {
       app_role: "super_admin" | "admin" | "editor" | "viewer"
+      page_status: "draft" | "published" | "archived"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -205,6 +292,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["super_admin", "admin", "editor", "viewer"],
+      page_status: ["draft", "published", "archived"],
     },
   },
 } as const
