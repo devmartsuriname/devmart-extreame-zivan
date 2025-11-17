@@ -1,0 +1,845 @@
+{
+  "sections": {
+    "Hero": {
+      "category": "Hero",
+      "displayName": "Hero Sections",
+      "description": "Large banner sections at the top of pages",
+      "blocks": [
+        {
+          "id": "hero1-creative-agency",
+          "name": "Creative Agency Hero",
+          "component": "Hero1_CreativeAgency",
+          "description": "Text animation hero with video modal",
+          "theme": "both",
+          "tags": ["video", "animation", "text-transition"],
+          "usedIn": ["Creative Agency"],
+          "defaultProps": {
+            "title": ["Creative", "Innovative", "Modern", "Dynamic"],
+            "subtitle": "Transform Your Vision Into Reality",
+            "videoSrc": "https://www.youtube.com/embed/VcaAVWtP48A",
+            "bgUrl": "/images/video_bg.jpeg"
+          }
+        },
+        {
+          "id": "hero2-marketing-agency",
+          "name": "Marketing Agency Hero",
+          "component": "Hero2_MarketingAgency",
+          "description": "Parallax image hero with icon",
+          "theme": "both",
+          "tags": ["parallax", "image"],
+          "usedIn": ["Marketing Agency"],
+          "defaultProps": {
+            "title": "Grow Your Business",
+            "subtitle": "With Strategic Marketing",
+            "description": "We help brands reach their full potential through data-driven marketing strategies.",
+            "imageUrl": "/images/hero_img_4.png"
+          }
+        },
+        {
+          "id": "hero3-studio-agency",
+          "name": "Studio Agency Hero",
+          "component": "Hero3_StudioAgency",
+          "description": "Full-screen background with scrolling text",
+          "theme": "both",
+          "tags": ["fullscreen", "scrolling-text"],
+          "usedIn": ["Studio Agency"],
+          "defaultProps": {
+            "title": "Creative Studio",
+            "subtitle": "Where Ideas Come to Life",
+            "scrollText": "Design • Development • Branding",
+            "bgImage": "/images/hero_bg_3.jpeg"
+          }
+        },
+        {
+          "id": "hero4-digital-agency",
+          "name": "Digital Agency Hero",
+          "component": "Hero4_DigitalAgency",
+          "description": "Video modal hero with shapes",
+          "theme": "both",
+          "tags": ["video", "shapes"],
+          "usedIn": ["Digital Agency"],
+          "defaultProps": {
+            "title": "Digital Excellence",
+            "subtitle": "Building Tomorrow's Web Today",
+            "videoSrc": "https://www.youtube.com/embed/VcaAVWtP48A",
+            "bgUrl": "/images/video_bg.jpeg"
+          }
+        },
+        {
+          "id": "hero5-tech-startup",
+          "name": "Tech Startup Hero",
+          "component": "Hero5_TechStartup",
+          "description": "Ripple effect hero with dual CTAs",
+          "theme": "both",
+          "tags": ["ripple", "animation", "cta"],
+          "usedIn": ["Tech Startup"],
+          "defaultProps": {
+            "title": "Innovation Starts Here",
+            "subtitle": "Next-Generation Technology Solutions",
+            "primaryCta": { "text": "Get Started", "url": "/contact" },
+            "secondaryCta": { "text": "Learn More", "url": "/about" },
+            "bgImage": "/images/hero_bg.jpeg"
+          }
+        }
+      ]
+    },
+    "About": {
+      "category": "About",
+      "displayName": "About Sections",
+      "blocks": [
+        {
+          "id": "about1-standard",
+          "name": "Standard About",
+          "component": "About1_Standard",
+          "theme": "both",
+          "usedIn": ["Creative Agency"],
+          "defaultProps": {
+            "sectionTitle": "About Us",
+            "sectionSubTitle": "Who We Are",
+            "description": "We are a team of passionate professionals dedicated to delivering exceptional results.",
+            "imageUrl": "/images/about_img_1.jpeg"
+          }
+        },
+        {
+          "id": "about2-dual-image",
+          "name": "Dual Image About",
+          "component": "About2_DualImage",
+          "theme": "both",
+          "usedIn": ["Marketing Agency"],
+          "defaultProps": {
+            "sectionTitle": "Our Story",
+            "sectionSubTitle": "About Our Agency",
+            "description": "Founded with a vision to transform businesses through innovative marketing solutions.",
+            "image1": "/images/about_img_1.jpeg",
+            "image2": "/images/about_img_2.jpeg"
+          }
+        },
+        {
+          "id": "about3-cta-style",
+          "name": "CTA Style About",
+          "component": "About3_CTAStyle",
+          "theme": "both",
+          "usedIn": ["Marketing Agency"],
+          "defaultProps": {
+            "title": "Ready to Transform Your Business?",
+            "description": "Let's work together to achieve your goals.",
+            "ctaText": "Get Started",
+            "ctaUrl": "/contact"
+          }
+        },
+        {
+          "id": "about5-video-progress",
+          "name": "Video Progress About",
+          "component": "About5_VideoProgress",
+          "theme": "both",
+          "usedIn": ["Digital Agency"],
+          "defaultProps": {
+            "sectionTitle": "Our Process",
+            "sectionSubTitle": "How We Work",
+            "videoSrc": "https://www.youtube.com/embed/VcaAVWtP48A",
+            "bgUrl": "/images/video_bg.jpeg",
+            "progressItems": []
+          }
+        }
+      ]
+    },
+    "Services": {
+      "category": "Services",
+      "displayName": "Service Sections",
+      "blocks": [
+        {
+          "id": "services1-grid",
+          "name": "Grid Services",
+          "component": "Services1_Grid",
+          "theme": "both",
+          "usedIn": ["Creative Agency", "Studio Agency"],
+          "defaultProps": {
+            "sectionTitle": "Our Services",
+            "sectionSubTitle": "What We Offer",
+            "data": [
+              {
+                "icon": "/images/service_icon_1.svg",
+                "title": "Web Design",
+                "subTitle": "Creating beautiful, user-friendly websites",
+                "url": "/services/web-design"
+              },
+              {
+                "icon": "/images/service_icon_2.svg",
+                "title": "Development",
+                "subTitle": "Building robust web applications",
+                "url": "/services/development"
+              },
+              {
+                "icon": "/images/service_icon_3.svg",
+                "title": "Branding",
+                "subTitle": "Crafting memorable brand identities",
+                "url": "/services/branding"
+              }
+            ]
+          }
+        },
+        {
+          "id": "services2-numbered",
+          "name": "Numbered Services",
+          "component": "Services2_Numbered",
+          "theme": "both",
+          "usedIn": ["Studio Agency"],
+          "defaultProps": {
+            "sectionTitle": "Our Process",
+            "sectionSubTitle": "How We Work",
+            "data": [
+              {
+                "number": "01",
+                "title": "Discovery",
+                "description": "Understanding your needs and goals"
+              },
+              {
+                "number": "02",
+                "title": "Strategy",
+                "description": "Planning the perfect solution"
+              },
+              {
+                "number": "03",
+                "title": "Execution",
+                "description": "Bringing your vision to life"
+              }
+            ]
+          }
+        },
+        {
+          "id": "services3-slider",
+          "name": "Service Slider",
+          "component": "Services3_Slider",
+          "theme": "both",
+          "usedIn": ["Marketing Agency"],
+          "defaultProps": {
+            "data": [
+              {
+                "iconUrl": "/images/service_icon_1.svg",
+                "title": "SEO Optimization",
+                "subTitle": "Boost your search rankings"
+              },
+              {
+                "iconUrl": "/images/service_icon_2.svg",
+                "title": "Content Marketing",
+                "subTitle": "Engage your audience"
+              },
+              {
+                "iconUrl": "/images/service_icon_3.svg",
+                "title": "Social Media",
+                "subTitle": "Grow your presence"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "Portfolio": {
+      "category": "Portfolio",
+      "displayName": "Portfolio Sections",
+      "blocks": [
+        {
+          "id": "portfolio1-grid",
+          "name": "Grid Portfolio",
+          "component": "Portfolio1_Grid",
+          "theme": "both",
+          "usedIn": ["Creative Agency", "Studio Agency"],
+          "defaultProps": {
+            "data": [
+              {
+                "thumbnailSrc": "/images/portfolio_1.jpeg",
+                "title": "Brand Identity",
+                "subTitle": "Design Project",
+                "url": "/portfolio/brand-identity",
+                "category": "Branding"
+              },
+              {
+                "thumbnailSrc": "/images/portfolio_2.jpeg",
+                "title": "Website Redesign",
+                "subTitle": "Development",
+                "url": "/portfolio/website-redesign",
+                "category": "Web Design"
+              },
+              {
+                "thumbnailSrc": "/images/portfolio_3.jpeg",
+                "title": "Mobile App",
+                "subTitle": "UI/UX Design",
+                "url": "/portfolio/mobile-app",
+                "category": "App Design"
+              }
+            ]
+          }
+        },
+        {
+          "id": "portfolio2-slider",
+          "name": "Portfolio Slider",
+          "component": "Portfolio2_Slider",
+          "theme": "both",
+          "usedIn": ["Digital Agency"],
+          "defaultProps": {
+            "data": [
+              {
+                "thumbnailSrc": "/images/portfolio_1.jpeg",
+                "title": "E-commerce Platform",
+                "subTitle": "Web Development",
+                "url": "/portfolio/ecommerce"
+              },
+              {
+                "thumbnailSrc": "/images/portfolio_2.jpeg",
+                "title": "Corporate Website",
+                "subTitle": "Design & Development",
+                "url": "/portfolio/corporate"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "Blog": {
+      "category": "Blog",
+      "displayName": "Blog Sections",
+      "blocks": [
+        {
+          "id": "blog1-carousel",
+          "name": "Blog Carousel",
+          "component": "Blog1_Carousel",
+          "theme": "both",
+          "usedIn": ["Creative Agency", "Marketing Agency"],
+          "defaultProps": {
+            "data": [
+              {
+                "thumbnailUrl": "/images/blog_1.jpeg",
+                "title": "10 Web Design Trends for 2024",
+                "category": "Design",
+                "date": "January 15, 2024",
+                "url": "/blog/web-design-trends"
+              },
+              {
+                "thumbnailUrl": "/images/blog_2.jpeg",
+                "title": "The Future of Digital Marketing",
+                "category": "Marketing",
+                "date": "January 20, 2024",
+                "url": "/blog/digital-marketing-future"
+              }
+            ]
+          }
+        },
+        {
+          "id": "blog2-grid",
+          "name": "Blog Grid",
+          "component": "Blog2_Grid",
+          "theme": "both",
+          "usedIn": ["Studio Agency", "Digital Agency"],
+          "defaultProps": {
+            "data": [
+              {
+                "thumbnailUrl": "/images/blog_1.jpeg",
+                "title": "Creating Effective Landing Pages",
+                "category": "Development",
+                "date": "February 1, 2024",
+                "url": "/blog/landing-pages"
+              },
+              {
+                "thumbnailUrl": "/images/blog_2.jpeg",
+                "title": "User Experience Best Practices",
+                "category": "UX Design",
+                "date": "February 5, 2024",
+                "url": "/blog/ux-best-practices"
+              }
+            ]
+          }
+        },
+        {
+          "id": "blog3-grid-alt",
+          "name": "Blog Grid Alternative",
+          "component": "Blog3_GridAlt",
+          "theme": "both",
+          "usedIn": ["Tech Startup"],
+          "defaultProps": {
+            "data": [
+              {
+                "thumbnailUrl": "/images/blog_1.jpeg",
+                "title": "Building Scalable Web Applications",
+                "category": "Technology",
+                "date": "February 10, 2024",
+                "url": "/blog/scalable-apps"
+              },
+              {
+                "thumbnailUrl": "/images/blog_2.jpeg",
+                "title": "The Power of Cloud Computing",
+                "category": "Infrastructure",
+                "date": "February 15, 2024",
+                "url": "/blog/cloud-computing"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "Testimonials": {
+      "category": "Testimonials",
+      "displayName": "Testimonial Sections",
+      "blocks": [
+        {
+          "id": "testimonials1-layered",
+          "name": "Layered Testimonials",
+          "component": "Testimonials1_Layered",
+          "theme": "both",
+          "usedIn": ["Creative Agency", "Marketing Agency"],
+          "defaultProps": {
+            "sectionTitle": "What Our Clients Say",
+            "sectionSubTitle": "Testimonials",
+            "data": [
+              {
+                "text": "Outstanding service and exceptional results. Highly recommended!",
+                "author": "John Doe",
+                "position": "CEO, Tech Corp",
+                "rating": 5
+              },
+              {
+                "text": "Professional team that delivered beyond our expectations.",
+                "author": "Jane Smith",
+                "position": "Marketing Director",
+                "rating": 5
+              }
+            ]
+          }
+        },
+        {
+          "id": "testimonials2-alternative",
+          "name": "Alternative Testimonials",
+          "component": "Testimonials2_Alternative",
+          "theme": "both",
+          "usedIn": ["Studio Agency", "Digital Agency", "Tech Startup"],
+          "defaultProps": {
+            "data": [
+              {
+                "text": "Transformed our digital presence completely.",
+                "author": "Mike Johnson",
+                "position": "Founder, Startup Inc",
+                "avatarUrl": "/images/avatar_1.jpeg"
+              },
+              {
+                "text": "Best investment we've made for our business.",
+                "author": "Sarah Wilson",
+                "position": "CMO, Enterprise Co",
+                "avatarUrl": "/images/avatar_2.jpeg"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "CTA": {
+      "category": "CTA",
+      "displayName": "Call-to-Action Sections",
+      "blocks": [
+        {
+          "id": "cta1-image-background",
+          "name": "Image Background CTA",
+          "component": "CTA1_ImageBackground",
+          "theme": "both",
+          "usedIn": ["All variants"],
+          "defaultProps": {
+            "title": "Ready to Get Started?",
+            "subtitle": "Let's create something amazing together",
+            "ctaText": "Contact Us",
+            "ctaUrl": "/contact",
+            "bgImage": "/images/cta_bg.jpeg"
+          }
+        },
+        {
+          "id": "cta2-centered",
+          "name": "Centered CTA",
+          "component": "CTA2_Centered",
+          "theme": "both",
+          "usedIn": ["Various"],
+          "defaultProps": {
+            "title": "Start Your Project Today",
+            "description": "Transform your ideas into reality with our expert team",
+            "ctaText": "Get in Touch",
+            "ctaUrl": "/contact"
+          }
+        }
+      ]
+    },
+    "Features": {
+      "category": "Features",
+      "displayName": "Feature Sections",
+      "blocks": [
+        {
+          "id": "features1-iconbox",
+          "name": "Icon Box Features",
+          "component": "Features1_IconBox",
+          "theme": "both",
+          "usedIn": ["Tech Startup"],
+          "defaultProps": {
+            "sectionTitle": "Key Features",
+            "sectionSubTitle": "Why Choose Us",
+            "data": [
+              {
+                "icon": "/images/feature_icon_1.svg",
+                "title": "Fast Performance",
+                "description": "Lightning-fast load times"
+              },
+              {
+                "icon": "/images/feature_icon_2.svg",
+                "title": "Secure & Reliable",
+                "description": "Enterprise-grade security"
+              },
+              {
+                "icon": "/images/feature_icon_3.svg",
+                "title": "Scalable Solutions",
+                "description": "Grows with your business"
+              }
+            ]
+          }
+        },
+        {
+          "id": "features2-list-based",
+          "name": "List Based Features",
+          "component": "Features2_ListBased",
+          "theme": "both",
+          "usedIn": ["Tech Startup"],
+          "defaultProps": {
+            "title": "Everything You Need",
+            "features": [
+              "24/7 Customer Support",
+              "Regular Updates",
+              "Advanced Analytics",
+              "Custom Integrations"
+            ]
+          }
+        }
+      ]
+    },
+    "Stats": {
+      "category": "Stats",
+      "displayName": "Statistics Sections",
+      "blocks": [
+        {
+          "id": "stats1-funfact",
+          "name": "Fun Fact Stats",
+          "component": "Stats1_FunFact",
+          "theme": "both",
+          "usedIn": ["Creative Agency", "Marketing Agency", "Digital Agency"],
+          "defaultProps": {
+            "data": [
+              {
+                "number": "150+",
+                "title": "Projects Completed"
+              },
+              {
+                "number": "50+",
+                "title": "Happy Clients"
+              },
+              {
+                "number": "10+",
+                "title": "Years Experience"
+              },
+              {
+                "number": "25+",
+                "title": "Team Members"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "Team": {
+      "category": "Team",
+      "displayName": "Team Sections",
+      "blocks": [
+        {
+          "id": "team1-slider",
+          "name": "Team Slider",
+          "component": "Team1_Slider",
+          "theme": "both",
+          "usedIn": ["Studio Agency", "About Page"],
+          "defaultProps": {
+            "sectionTitle": "Meet Our Team",
+            "sectionSubTitle": "The People Behind Our Success",
+            "data": [
+              {
+                "imageUrl": "/images/team_1.jpeg",
+                "name": "John Anderson",
+                "role": "Creative Director",
+                "socialLinks": []
+              },
+              {
+                "imageUrl": "/images/team_2.jpeg",
+                "name": "Sarah Miller",
+                "role": "Lead Designer",
+                "socialLinks": []
+              },
+              {
+                "imageUrl": "/images/team_3.jpeg",
+                "name": "Michael Brown",
+                "role": "Senior Developer",
+                "socialLinks": []
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "Awards": {
+      "category": "Awards",
+      "displayName": "Award Sections",
+      "blocks": [
+        {
+          "id": "awards1-standard",
+          "name": "Standard Awards",
+          "component": "Awards1_Standard",
+          "theme": "both",
+          "usedIn": ["Creative Agency", "Marketing Agency"],
+          "defaultProps": {
+            "sectionTitle": "Awards & Recognition",
+            "sectionSubTitle": "Our Achievements",
+            "data": [
+              {
+                "imageUrl": "/images/award_1.svg",
+                "title": "Best Design Award 2023",
+                "organization": "Design Excellence"
+              },
+              {
+                "imageUrl": "/images/award_2.svg",
+                "title": "Innovation Leader",
+                "organization": "Tech Industry"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "Brands": {
+      "category": "Brands",
+      "displayName": "Brand Logo Sections",
+      "blocks": [
+        {
+          "id": "brands1-standard",
+          "name": "Standard Brands Grid",
+          "component": "Brands1_Standard",
+          "theme": "both",
+          "usedIn": ["Marketing Agency", "Studio Agency", "Digital Agency"],
+          "defaultProps": {
+            "sectionTitle": "Trusted By Leading Brands",
+            "data": [
+              { "logoUrl": "/images/brand_1.svg", "name": "Brand 1" },
+              { "logoUrl": "/images/brand_2.svg", "name": "Brand 2" },
+              { "logoUrl": "/images/brand_3.svg", "name": "Brand 3" },
+              { "logoUrl": "/images/brand_4.svg", "name": "Brand 4" }
+            ]
+          }
+        },
+        {
+          "id": "brands2-carousel",
+          "name": "Brands Carousel",
+          "component": "Brands2_Carousel",
+          "theme": "both",
+          "usedIn": ["Tech Startup"],
+          "defaultProps": {
+            "data": [
+              { "logoUrl": "/images/brand_1.svg", "name": "Partner 1" },
+              { "logoUrl": "/images/brand_2.svg", "name": "Partner 2" },
+              { "logoUrl": "/images/brand_3.svg", "name": "Partner 3" }
+            ]
+          }
+        }
+      ]
+    },
+    "Pricing": {
+      "category": "Pricing",
+      "displayName": "Pricing Table Sections",
+      "blocks": [
+        {
+          "id": "pricing1-table",
+          "name": "Pricing Table Card",
+          "component": "Pricing1_Table",
+          "theme": "both",
+          "usedIn": ["Digital Agency", "Tech Startup", "Service Pages"],
+          "defaultProps": {
+            "sectionTitle": "Pricing Plans",
+            "sectionSubTitle": "Choose Your Plan",
+            "data": [
+              {
+                "name": "Basic",
+                "price": "$99",
+                "period": "month",
+                "features": ["Feature 1", "Feature 2", "Feature 3"],
+                "ctaText": "Get Started",
+                "ctaUrl": "/contact"
+              },
+              {
+                "name": "Pro",
+                "price": "$199",
+                "period": "month",
+                "features": ["All Basic Features", "Feature 4", "Feature 5"],
+                "ctaText": "Get Started",
+                "ctaUrl": "/contact",
+                "featured": true
+              },
+              {
+                "name": "Enterprise",
+                "price": "Custom",
+                "features": ["All Pro Features", "Dedicated Support", "Custom Solutions"],
+                "ctaText": "Contact Us",
+                "ctaUrl": "/contact"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "FAQ": {
+      "category": "FAQ",
+      "displayName": "FAQ Sections",
+      "blocks": [
+        {
+          "id": "faq1-accordion",
+          "name": "FAQ Accordion",
+          "component": "FAQ1_Accordion",
+          "theme": "both",
+          "usedIn": ["Creative Agency", "Marketing Agency"],
+          "defaultProps": {
+            "sectionTitle": "Frequently Asked Questions",
+            "sectionSubTitle": "Got Questions? We Have Answers",
+            "data": [
+              {
+                "question": "What services do you offer?",
+                "answer": "We offer a comprehensive range of web design, development, and digital marketing services."
+              },
+              {
+                "question": "How long does a typical project take?",
+                "answer": "Project timelines vary based on scope, but typically range from 4-12 weeks."
+              },
+              {
+                "question": "Do you provide ongoing support?",
+                "answer": "Yes, we offer maintenance and support packages for all our clients."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "Video": {
+      "category": "Video",
+      "displayName": "Video Sections",
+      "blocks": [
+        {
+          "id": "video1-modal",
+          "name": "Video Modal",
+          "component": "Video1_Modal",
+          "theme": "both",
+          "usedIn": ["Marketing Agency", "Digital Agency", "Tech Startup"],
+          "defaultProps": {
+            "title": "Watch Our Story",
+            "description": "See how we've helped businesses grow",
+            "videoSrc": "https://www.youtube.com/embed/VcaAVWtP48A",
+            "bgUrl": "/images/video_bg.jpeg"
+          }
+        }
+      ]
+    },
+    "Marquee": {
+      "category": "Marquee",
+      "displayName": "Marquee Sections",
+      "blocks": [
+        {
+          "id": "marquee1-scrolling",
+          "name": "Scrolling Marquee",
+          "component": "Marquee1_Scrolling",
+          "theme": "both",
+          "usedIn": ["Marketing Agency", "Studio Agency", "Digital Agency"],
+          "defaultProps": {
+            "items": [
+              "Web Design",
+              "Development",
+              "Branding",
+              "Marketing",
+              "Strategy",
+              "Innovation"
+            ]
+          }
+        }
+      ]
+    },
+    "WhyChoose": {
+      "category": "WhyChoose",
+      "displayName": "Why Choose Us Sections",
+      "blocks": [
+        {
+          "id": "whychoose1-standard",
+          "name": "Standard Why Choose",
+          "component": "WhyChoose1_Standard",
+          "theme": "both",
+          "usedIn": ["Creative Agency"],
+          "defaultProps": {
+            "sectionTitle": "Why Choose Us",
+            "sectionSubTitle": "What Sets Us Apart",
+            "data": [
+              {
+                "icon": "/images/icon_1.svg",
+                "title": "Expert Team",
+                "description": "Experienced professionals dedicated to your success"
+              },
+              {
+                "icon": "/images/icon_2.svg",
+                "title": "Proven Results",
+                "description": "Track record of delivering exceptional outcomes"
+              },
+              {
+                "icon": "/images/icon_3.svg",
+                "title": "Customer Focus",
+                "description": "Your satisfaction is our top priority"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "CaseStudy": {
+      "category": "CaseStudy",
+      "displayName": "Case Study Sections",
+      "blocks": [
+        {
+          "id": "casestudy1-marketing",
+          "name": "Marketing Case Studies",
+          "component": "CaseStudy1_Marketing",
+          "theme": "both",
+          "usedIn": ["Marketing Agency"],
+          "defaultProps": {
+            "sectionTitle": "Success Stories",
+            "sectionSubTitle": "Our Case Studies",
+            "data": [
+              {
+                "imageUrl": "/images/case_study_1.jpeg",
+                "title": "E-commerce Growth Strategy",
+                "client": "Retail Co.",
+                "result": "300% increase in sales",
+                "category": "Marketing",
+                "url": "/case-studies/ecommerce-growth"
+              },
+              {
+                "imageUrl": "/images/case_study_2.jpeg",
+                "title": "Brand Repositioning",
+                "client": "Tech Startup",
+                "result": "Market leader in 6 months",
+                "category": "Branding",
+                "url": "/case-studies/brand-repositioning"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "totalCategories": 18,
+    "totalBlocks": 36,
+    "version": "1.1.0",
+    "lastUpdated": "2025-11-16",
+    "extractionComplete": true,
+    "defaultPropsAdded": true
+  }
+}

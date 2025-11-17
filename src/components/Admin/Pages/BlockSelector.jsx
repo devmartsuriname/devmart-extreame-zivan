@@ -19,7 +19,7 @@ export default function BlockSelector({ pageId, onBlockAdded, onClose }) {
 
   const loadRegistry = async () => {
     try {
-      const response = await fetch('/src/UIBlocks/ui-blocks-registry.json');
+      const response = await fetch('/data/ui-blocks-registry.json');
       const data = await response.json();
       setRegistry(data.sections);
       // Set first category as default
