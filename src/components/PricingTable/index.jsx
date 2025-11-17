@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import CheckIcon from '../icons/CheckIcon';
 
 export default function PricingTable({
   title,
@@ -33,7 +34,7 @@ export default function PricingTable({
         {features?.map((item, index) => (
           <li key={index}>
             <span className="cs_feature_icon cs_accent_color">
-              <img src="/images/icons/check.svg" alt="Icon" />
+              <CheckIcon size={30} />
             </span>
             <span>{item}</span>
           </li>
