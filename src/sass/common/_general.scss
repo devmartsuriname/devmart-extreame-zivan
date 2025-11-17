@@ -343,9 +343,9 @@ hr {
       color: inherit;
     }
   }
-  &.cs_btn_accent {
+.cs_btn_accent {
     color: #fff;
-    background-color: $accent;
+    background-color: hsl(var(--accent));
     i {
       color: inherit;
     }

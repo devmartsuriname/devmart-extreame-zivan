@@ -43,13 +43,13 @@
   a {
     font-size: 14px;
     line-height: 1.6em;
-    border: 1px solid $ternary;
+    border: 1px solid hsl(var(--border));
     padding: 3px 12px;
     display: inline-block;
     margin: 5px;
     border-radius: 2px;
     &:hover {
-      color: $white;
+      color: #fff;
       background-color: hsl(var(--accent));
       border-color: hsl(var(--accent));
     }
@@ -58,7 +58,7 @@
 .cs_shop_search {
   position: relative;
   .cs_shop_search_input {
-    border: 1px solid $ternary;
+    border: 1px solid hsl(var(--border));
     transition: all 0.3s ease;
     color: hsl(var(--primary));
     background-color: transparent;
@@ -81,7 +81,7 @@
     }
 
     &::-ms-input-placeholder {
-      color: $secondary;
+      color: hsl(var(--secondary));
     }
   }
   .cs_shop_search_btn {
@@ -141,7 +141,7 @@
       align-items: center;
       justify-content: center;
       margin: 6px;
-      background-color: $accent;
+      background-color: hsl(var(--accent));
       color: #fff;
       border-radius: 50%;
       transform: scale(0);
@@ -151,7 +151,7 @@
       transition: all 0.5s ease;
       &:hover {
         background-color: #fff;
-        color: $accent;
+        color: hsl(var(--accent));
       }
     }
   }
@@ -250,7 +250,7 @@
     bottom: 7px;
   }
   &:hover {
-    color: $accent;
+    color: hsl(var(--accent));
   }
 }
 .cs_quantity_buttons {
@@ -264,7 +264,7 @@
   justify-content: center;
   height: calc(100% - 2px);
   width: 34px;
-  background-color: $gray;
+  background-color: hsl(var(--muted) / 0.1);
   border-radius: 15px;
 }
 .cs_quantity_and_btn {
@@ -342,7 +342,7 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  color: $primary;
+  color: hsl(var(--primary));
   gap: 10px 52px;
   @media (max-width: 575px) {
     gap: 10px 30px;
@@ -378,7 +378,7 @@
   }
 }
 .cs_product_meta_info {
-  border-top: 1px solid $gray2;
+  border-top: 1px solid hsl(var(--muted));
   padding-top: 40px;
 }
 .cs_input_rating_wrap {
