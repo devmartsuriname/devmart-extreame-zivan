@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Icon } from '@iconify/react';
 import { useUpdateMedia, useDeleteMedia, useMediaFolders, useMediaUsage } from '@/hooks/useMediaLibrary';
 import { format } from 'date-fns';
@@ -10,6 +10,8 @@ export default function MediaDetailModal({ media, isOpen, onClose, onDelete }) {
   const [folder, setFolder] = useState('');
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState('');
+  const modalRef = useRef(null);
+  const closeButtonRef = useRef(null);
 
   const updateMedia = useUpdateMedia();
   const deleteMedia = useDeleteMedia();
@@ -25,7 +27,52 @@ export default function MediaDetailModal({ media, isOpen, onClose, onDelete }) {
     }
   }, [media]);
 
+  // ESC key handler
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [isOpen, onClose]);
+
+  // Focus trap
+  useEffect(() => {
+    if (isOpen && modalRef.current) {
+      const focusableElements = modalRef.current.querySelectorAll(
+        'button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
+      );
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      const handleTab = (e) => {
+        if (e.key === 'Tab') {
+          if (e.shiftKey && document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          } else if (!e.shiftKey && document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
+      };
+
+      modalRef.current.addEventListener('keydown', handleTab);
+      closeButtonRef.current?.focus();
+
+      return () => {
+        modalRef.current?.removeEventListener('keydown', handleTab);
+      };
+    }
+  }, [isOpen]);
+
   if (!isOpen || !media) return null;
+
+  const validateTag = (tag) => {
+    return /^[a-z0-9-]+$/.test(tag);
+  };
 
   const isImage = media.mime_type.startsWith('image/');
   const isVideo = media.mime_type.startsWith('video/');
@@ -69,12 +116,31 @@ export default function MediaDetailModal({ media, isOpen, onClose, onDelete }) {
     return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
   };
 
+  const handleAddTag = () => {
+    const trimmedTag = tagInput.trim().toLowerCase();
+    if (!trimmedTag) return;
+    
+    if (!validateTag(trimmedTag)) {
+      toast.error('Tags can only contain lowercase letters, numbers, and hyphens');
+      return;
+    }
+    
+    if (!tags.includes(trimmedTag)) {
+      setTags([...tags, trimmedTag]);
+    }
+    setTagInput('');
+  };
+
+  const handleRemoveTag = (tagToRemove) => {
+    setTags(tags.filter(t => t !== tagToRemove));
+  };
+
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content modal-lg" onClick={(e) => e.stopPropagation()}>
+      <div ref={modalRef} className="modal-content modal-lg" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2>Media Details</h2>
-          <button className="btn-icon" onClick={onClose}>
+          <button ref={closeButtonRef} className="btn-icon" onClick={onClose}>
             <Icon icon="mdi:close" />
           </button>
         </div>

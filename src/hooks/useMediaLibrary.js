@@ -8,7 +8,7 @@ export const useMediaList = (filters = {}) => {
     queryFn: async () => {
       let query = supabase
         .from('media_library')
-        .select('*')
+        .select('*', { count: 'exact' })
         .order('created_at', { ascending: false });
 
       if (filters.folder && filters.folder !== 'all') {
@@ -27,10 +27,16 @@ export const useMediaList = (filters = {}) => {
         query = query.contains('tags', filters.tags);
       }
 
-      const { data, error } = await query;
+      // Backend pagination
+      if (filters.page && filters.limit) {
+        const offset = (filters.page - 1) * filters.limit;
+        query = query.range(offset, offset + filters.limit - 1);
+      }
+
+      const { data, error, count } = await query;
 
       if (error) throw error;
-      return data;
+      return { data, count };
     }
   });
 };
@@ -235,6 +241,78 @@ export const useMediaUsage = (mediaId) => {
       return data;
     },
     enabled: !!mediaId
+  });
+};
+
+export const useMediaUsage = (mediaId) => {
+  return useQuery({
+    queryKey: ['media-usage', mediaId],
+    queryFn: async () => {
+      if (!mediaId) return [];
+      
+      const { data, error } = await supabase
+        .from('media_usage')
+        .select('*')
+        .eq('media_id', mediaId);
+      
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!mediaId
+  });
+};
+
+// Folder management mutations
+export const useRenameFolder = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ oldName, newName }) => {
+      if (!oldName || !newName) throw new Error('Folder names required');
+      
+      const { error } = await supabase
+        .from('media_library')
+        .update({ folder: newName })
+        .eq('folder', oldName);
+
+      if (error) throw error;
+      return { oldName, newName };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['media'] });
+      queryClient.invalidateQueries({ queryKey: ['media-folders'] });
+      toast.success('Folder renamed successfully');
+    },
+    onError: (error) => {
+      toast.error(`Failed to rename folder: ${error.message}`);
+    }
+  });
+};
+
+export const useDeleteFolder = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (folderName) => {
+      if (!folderName) throw new Error('Folder name required');
+      
+      // Move all media to 'uncategorized'
+      const { error } = await supabase
+        .from('media_library')
+        .update({ folder: 'uncategorized' })
+        .eq('folder', folderName);
+
+      if (error) throw error;
+      return folderName;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['media'] });
+      queryClient.invalidateQueries({ queryKey: ['media-folders'] });
+      toast.success('Folder deleted, media moved to uncategorized');
+    },
+    onError: (error) => {
+      toast.error(`Failed to delete folder: ${error.message}`);
+    }
   });
 };
 

@@ -259,11 +259,53 @@
   - ✅ Added `useMediaUsage()` for fetching media usage details
   - ✅ Updated delete hooks to prevent deletion of in-use media
 
-#### Phase 1C: Admin UI Enhancements (PENDING)
-- [ ] **TASK-148** Add tag input to UploadModal component [M]
-- [ ] **TASK-149** Add tag filter to MediaLibrary list view [M]
-- [ ] **TASK-150** Show usage count in MediaDetailModal [S]
-- [ ] **TASK-151** Prevent deletion of in-use media in UI [S]
+#### Phase 1C: Admin UI Enhancements ✅ COMPLETED
+- [x] **TASK-148** Add tag input to UploadModal component [M]
+  - ✅ Tags input with comma-separated values
+  - ✅ Auto-converts to lowercase
+  - ✅ Tags passed to upload function
+- [x] **TASK-149** Add tag filter to MediaLibrary list view [M]
+  - ✅ Multi-select tag pills
+  - ✅ Active/inactive states
+  - ✅ Combined filtering (search + folder + tags + type)
+- [x] **TASK-150** Show usage count in MediaDetailModal [S]
+  - ✅ Usage badge in MediaCard
+  - ✅ "Used In" panel in MediaDetailModal
+  - ✅ Lists all usage locations
+- [x] **TASK-151** Prevent deletion of in-use media in UI [S]
+  - ✅ Delete button disabled when usage_count > 0
+  - ✅ Delete warning message displayed
+  - ✅ Bulk delete prevents in-use media
+- [x] **TASK-151a** Folder CRUD operations [M]
+  - ✅ Create folder modal
+  - ✅ Rename folder functionality
+  - ✅ Delete folder (moves media to uncategorized)
+  - ✅ useRenameFolder and useDeleteFolder hooks
+- [x] **TASK-151b** Bulk actions implementation [M]
+  - ✅ Bulk selection state
+  - ✅ Move to folder bulk action
+  - ✅ Delete selected bulk action
+  - ✅ Prevention checks for in-use media
+- [x] **TASK-151c** Pagination implementation [M]
+  - ✅ Backend pagination with limit/offset
+  - ✅ 20 items per page
+  - ✅ Page navigation controls
+  - ✅ Filter persistence across pages
+- [x] **TASK-151d** Accessibility enhancements [M]
+  - ✅ Keyboard navigation (Tab, Enter, Space)
+  - ✅ Modal ESC key handling
+  - ✅ Focus trap in modals
+  - ✅ ARIA attributes
+- [x] **TASK-151e** List/Grid view toggle [S]
+  - ✅ Toggle button
+  - ✅ Responsive layouts for both modes
+- [x] **TASK-151f** UI Polish [M]
+  - ✅ Complete SCSS styling
+  - ✅ Toast notifications
+  - ✅ Dark mode support
+  - ✅ Skeleton loaders
+
+**See docs/backend/Phase1C-Complete.md for comprehensive details**
 
 #### Phase 1D: Image Optimization (PENDING)
 - [ ] **TASK-152** Install browser-image-compression library [S]
