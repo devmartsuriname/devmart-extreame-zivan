@@ -49,23 +49,30 @@ import DynamicPage from './pages/DynamicPage';
 import { useSettings } from './hooks/useSettings';
 import { loadBrandingFromSettings } from './utils/brandingInjection';
 
-// Main App component
-function App() {
-  const { pathname } = useLocation();
+// Runs after providers are mounted
+function BrandingInitializer() {
   const { data: settings } = useSettings();
-  
-  // Apply global branding (admin + frontend) on load
+
   useEffect(() => {
     if (settings) {
       loadBrandingFromSettings(settings);
     }
   }, [settings]);
 
+  return null;
+}
+
+// Main App component
+function App() {
+  const { pathname } = useLocation();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
   return (
-    <Routes>
+    <>
+      <BrandingInitializer />
+      <Routes>
       <Route path="/" element={<Layout />}>
         <Route path="about" element={<AboutPage />} />
         <Route path="service" element={<ServicePage />} />
@@ -133,7 +140,8 @@ function App() {
       <Route path="/:slug" element={<DynamicPage />} />
 
       <Route path="*" element={<ErrorPage />} />
-    </Routes>
+      </Routes>
+    </>
   );
 }
 
