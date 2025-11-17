@@ -91,7 +91,7 @@
     top: -55px;
     height: 135px;
     width: 135px;
-    background: #fd6219;
+    background: hsl(var(--accent));
     filter: blur(125px);
     transition: all 0.4s ease;
     opacity: 0;
@@ -260,7 +260,7 @@
       width: 100%;
       right: -60px;
       bottom: -60px;
-      background-color: $accent;
+      background-color: hsl(var(--accent));
       border-radius: inherit;
     }
   }
@@ -316,8 +316,8 @@
     }
     .cs_iconbox_icon {
       color: #fff;
-      background-color: $accent;
-      border-color: $accent;
+      background-color: hsl(var(--accent));
+      border-color: hsl(var(--accent));
       svg {
         &:last-child {
           position: absolute;
@@ -342,7 +342,7 @@
   justify-content: space-between;
   padding-bottom: 25px;
   padding-top: 25px;
-  color: $secondary;
+  color: hsl(var(--secondary));
   @media (max-width: 1400px) {
     padding-bottom: 20px;
     padding-top: 20px;
