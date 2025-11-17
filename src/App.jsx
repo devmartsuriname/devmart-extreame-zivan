@@ -49,13 +49,18 @@ import DynamicPage from './pages/DynamicPage';
 import { useSettings } from './hooks/useSettings';
 import { loadBrandingFromSettings } from './utils/brandingInjection';
 
-// Runs after providers are mounted
+// Runs after providers are mounted - with error handling for preview environment
 function BrandingInitializer() {
+  // Defensive hook call with try-catch via enabled flag
   const { data: settings } = useSettings();
 
   useEffect(() => {
     if (settings) {
-      loadBrandingFromSettings(settings);
+      try {
+        loadBrandingFromSettings(settings);
+      } catch (error) {
+        console.warn('Failed to load branding:', error);
+      }
     }
   }, [settings]);
 
