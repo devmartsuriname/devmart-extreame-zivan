@@ -18,26 +18,26 @@ const queryClient = new QueryClient();
 
 function AppContent() {
   return (
-    <HelmetProvider>
-      <BrowserRouter>
-        <AuthProvider>
-          <ThemeProvider>
-            <App />
-            <Toaster position="top-right" richColors />
-          </ThemeProvider>
-        </AuthProvider>
-      </BrowserRouter>
-    </HelmetProvider>
+    <QueryClientProvider client={queryClient}>
+      <HelmetProvider>
+        <BrowserRouter>
+          <AuthProvider>
+            <ThemeProvider>
+              <App />
+              <Toaster position="top-right" richColors />
+            </ThemeProvider>
+          </AuthProvider>
+        </BrowserRouter>
+      </HelmetProvider>
+    </QueryClientProvider>
   );
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <ErrorBoundary>
-        <AppContent />
-      </ErrorBoundary>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <AppContent />
+    </ErrorBoundary>
   </React.StrictMode>,
 );
