@@ -19,11 +19,12 @@ export default function MediaCard({ media, onSelect, onEdit, onDelete, isSelecte
 
   const copyUrl = () => {
     navigator.clipboard.writeText(media.file_url);
-    // Could add toast notification here
+    const toast = (await import('sonner')).toast;
+    toast.success('URL copied to clipboard');
   };
 
   return (
-    <div className={`media-card ${isSelected ? 'selected' : ''}`}>
+    <div className={`media-card ${isSelected ? 'selected' : ''}`} tabIndex={0}>
       {/* Selection Checkbox */}
       {onSelect && (
         <div className="media-card-checkbox">
@@ -32,6 +33,14 @@ export default function MediaCard({ media, onSelect, onEdit, onDelete, isSelecte
             checked={isSelected}
             onChange={() => onSelect(media.id)}
           />
+        </div>
+      )}
+
+      {/* Usage Count Badge */}
+      {media.usage_count > 0 && (
+        <div className="usage-badge">
+          <Icon icon="mdi:link-variant" />
+          {media.usage_count}
         </div>
       )}
 

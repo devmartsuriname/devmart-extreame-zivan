@@ -7,6 +7,7 @@ export default function UploadModal({ isOpen, onClose, onUploadComplete }) {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [selectedFolder, setSelectedFolder] = useState('uncategorized');
   const [newFolderName, setNewFolderName] = useState('');
+  const [tags, setTags] = useState('');
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -44,7 +45,8 @@ export default function UploadModal({ isOpen, onClose, onUploadComplete }) {
     if (selectedFiles.length === 0) return;
 
     const folderToUse = newFolderName.trim() || selectedFolder;
-    const result = await uploadFiles(selectedFiles, folderToUse);
+    const tagsArray = tags.split(',').map(t => t.trim()).filter(Boolean);
+    const result = await uploadFiles(selectedFiles, folderToUse, tagsArray);
 
     if (result.uploadedFiles.length > 0) {
       onUploadComplete?.();
@@ -56,6 +58,7 @@ export default function UploadModal({ isOpen, onClose, onUploadComplete }) {
     setSelectedFiles([]);
     setSelectedFolder('uncategorized');
     setNewFolderName('');
+    setTags('');
     onClose();
   };
 
@@ -128,6 +131,19 @@ export default function UploadModal({ isOpen, onClose, onUploadComplete }) {
                 disabled={uploading}
               />
             </div>
+          </div>
+
+          {/* Tags Input */}
+          <div className="form-group">
+            <label>Tags (comma-separated)</label>
+            <input
+              type="text"
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
+              placeholder="e.g. hero, homepage, banner"
+              disabled={uploading}
+            />
+            <small className="form-hint">Separate multiple tags with commas</small>
           </div>
 
           {/* Selected Files List */}

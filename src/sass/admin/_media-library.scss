@@ -119,6 +119,22 @@
     display: flex;
     gap: 0.5rem;
     align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .filter-select {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: 6px;
+    background: hsl(var(--card));
+    color: hsl(var(--foreground));
+    font-size: 0.875rem;
+    cursor: pointer;
+
+    &:focus {
+      outline: 2px solid hsl(var(--primary));
+      outline-offset: 1px;
+    }
   }
 
   .view-toggle {
@@ -131,6 +147,155 @@
     .btn-icon.active {
       background: hsl(var(--primary));
       color: hsl(var(--primary-foreground));
+    }
+  }
+}
+
+// Tag Filters
+.filter-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 1rem 0;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+.tag-pill {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.85rem;
+  font-weight: 500;
+
+  &:hover {
+    background: hsl(var(--muted));
+    border-color: hsl(var(--primary));
+  }
+
+  &.active {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    border-color: hsl(var(--primary));
+  }
+
+  &:focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+  }
+}
+
+// Skeleton Loaders
+.media-card-skeleton {
+  background: hsl(var(--card));
+  border: 2px solid hsl(var(--border));
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 0.75rem;
+
+  .skeleton-thumbnail {
+    aspect-ratio: 1;
+    background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted) / 0.5) 50%, hsl(var(--muted)) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 6px;
+    margin-bottom: 0.75rem;
+  }
+
+  .skeleton-text {
+    height: 0.875rem;
+    background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted) / 0.5) 50%, hsl(var(--muted)) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+
+    &.short {
+      width: 60%;
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+// Pagination
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.5rem 0;
+  margin-top: 1rem;
+
+  .pagination-info {
+    font-size: 0.875rem;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+// List View
+.media-grid.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .media-card {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.75rem;
+
+    &:hover {
+      transform: none;
+    }
+
+    .media-card-checkbox {
+      position: static;
+    }
+
+    .media-card-thumbnail {
+      width: 80px;
+      height: 80px;
+      aspect-ratio: 1;
+    }
+
+    .media-card-info {
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex: 1;
+      gap: 1rem;
+    }
+
+    .media-card-actions {
+      position: static;
+      opacity: 1;
+      background: transparent;
+      padding: 0;
+    }
+
+    .usage-badge {
+      position: static;
     }
   }
 }
@@ -156,11 +321,12 @@
   border: 2px solid hsl(var(--border));
   border-radius: 8px;
   overflow: hidden;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
 
   &:hover {
     border-color: hsl(var(--primary));
-    box-shadow: 0 4px 12px hsl(var(--primary) / 0.15);
+    box-shadow: 0 8px 16px hsl(var(--primary) / 0.15);
+    transform: translateY(-4px);
 
     .media-card-actions {
       opacity: 1;
@@ -175,6 +341,33 @@
       background: hsl(var(--primary));
       border-color: hsl(var(--primary));
     }
+  }
+
+  &:focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+  }
+}
+
+// Usage Badge
+.usage-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 3;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  svg {
+    font-size: 0.9rem;
   }
 }
 
