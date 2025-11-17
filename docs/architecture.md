@@ -551,6 +551,39 @@ The Media Library uses a comprehensive design system for consistency and theming
 - Touch targets meet 44px minimum
 - High contrast ratios for text
 
+## Media Picker Architecture (Phase 1E)
+
+### Component Hierarchy
+
+```
+MediaPicker (form field component)
+├── Preview/Placeholder
+├── Select/Change/Remove buttons
+└── MediaPickerModal
+    ├── Sidebar (FolderManager)
+    ├── Main Content Area
+    │   ├── Toolbar (Search + Upload)
+    │   ├── File Type Tabs
+    │   ├── View Toggle (Grid/List)
+    │   ├── MediaGrid
+    │   │   └── MediaCard (selectable)
+    │   └── Pagination
+    └── UploadModal (with defaultFolder)
+```
+
+### State Management
+
+**MediaPicker:** Stores `{selectedMedia, isModalOpen, isTracking}`  
+**MediaPickerModal:** Manages `{selectedIds, searchTerm, selectedFolder, fileTypeFilter, viewMode, page, showUpload}`
+
+### Usage Tracking
+
+Uses existing hooks (`useTrackMediaUsage`, `useUntrackMediaUsage`) with `usageKey` pattern: `{module}:{itemKey}` (e.g., "pages:home", "settings:logo_light")
+
+### Design Tokens
+
+All components use HSL tokens: `hsl(var(--card))`, `hsl(var(--border))`, `hsl(var(--primary))`, etc. for full dark mode support.
+
 ---
 
 **Architecture Version:** 1.0  

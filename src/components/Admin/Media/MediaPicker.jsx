@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import MediaPickerModal from './MediaPickerModal';
+import { useTrackMediaUsage, useUntrackMediaUsage } from '@/hooks/useMediaLibrary';
 
 export default function MediaPicker({
   value,
@@ -8,21 +9,107 @@ export default function MediaPicker({
   allowedTypes = ['image'],
   maxFiles = 1,
   label = 'Select Media',
-  required = false
+  required = false,
+  folderFilter = null,
+  usageKey = null,
+  description = null
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedMedia, setSelectedMedia] = useState(null);
+  const [isTracking, setIsTracking] = useState(false);
 
-  const handleSelect = (selectedMedia) => {
-    if (maxFiles === 1) {
-      onChange(selectedMedia[0]?.file_url || '');
-    } else {
-      onChange(selectedMedia.map(m => m.file_url));
+  const trackUsage = useTrackMediaUsage();
+  const untrackUsage = useUntrackMediaUsage();
+
+  const handleSelect = async (newMedia) => {
+    if (!newMedia || newMedia.length === 0) return;
+
+    try {
+      setIsTracking(true);
+
+      // Handle single select
+      if (maxFiles === 1) {
+        const media = newMedia[0];
+        
+        // Untrack previous media if it exists and usageKey is provided
+        if (usageKey && selectedMedia?.id && selectedMedia.id !== media.id) {
+          await untrackUsage.mutateAsync({
+            mediaId: selectedMedia.id,
+            usedIn: usageKey
+          });
+        }
+
+        // Track new media if usageKey is provided
+        if (usageKey && media.id) {
+          await trackUsage.mutateAsync({
+            mediaId: media.id,
+            usedIn: usageKey
+          });
+        }
+
+        setSelectedMedia({ id: media.id, url: media.file_url, filename: media.filename });
+        onChange(media.file_url);
+      } 
+      // Handle multi-select
+      else {
+        const currentIds = selectedMedia ? (Array.isArray(selectedMedia) ? selectedMedia.map(m => m.id) : []) : [];
+        const newIds = newMedia.map(m => m.id);
+
+        // Untrack removed media
+        if (usageKey) {
+          const removedIds = currentIds.filter(id => !newIds.includes(id));
+          for (const id of removedIds) {
+            await untrackUsage.mutateAsync({ mediaId: id, usedIn: usageKey });
+          }
+
+          // Track newly added media
+          const addedIds = newIds.filter(id => !currentIds.includes(id));
+          for (const id of addedIds) {
+            await trackUsage.mutateAsync({ mediaId: id, usedIn: usageKey });
+          }
+        }
+
+        const mediaObjects = newMedia.map(m => ({ id: m.id, url: m.file_url, filename: m.filename }));
+        setSelectedMedia(mediaObjects);
+        onChange(newMedia.map(m => m.file_url));
+      }
+
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error('Error tracking media usage:', error);
+    } finally {
+      setIsTracking(false);
     }
-    setIsModalOpen(false);
   };
 
-  const handleRemove = () => {
-    onChange(maxFiles === 1 ? '' : []);
+  const handleRemove = async () => {
+    try {
+      setIsTracking(true);
+
+      // Untrack media if usageKey is provided
+      if (usageKey) {
+        if (maxFiles === 1 && selectedMedia?.id) {
+          await untrackUsage.mutateAsync({
+            mediaId: selectedMedia.id,
+            usedIn: usageKey
+          });
+        } else if (Array.isArray(selectedMedia)) {
+          for (const media of selectedMedia) {
+            await untrackUsage.mutateAsync({
+              mediaId: media.id,
+              usedIn: usageKey
+            });
+          }
+        }
+      }
+
+      setSelectedMedia(null);
+      onChange(maxFiles === 1 ? '' : []);
+    } catch (error) {
+      console.error('Error untracking media:', error);
+    } finally {
+      setIsTracking(false);
+    }
   };
 
   const isImage = (url) => {
@@ -102,8 +189,19 @@ export default function MediaPicker({
           {required && <span className="required">*</span>}
         </label>
       )}
+      
+      {description && (
+        <p className="form-description">{description}</p>
+      )}
 
-      {renderPreview()}
+      {isTracking ? (
+        <div className="media-picker-loading">
+          <Icon icon="mdi:loading" className="spin" />
+          <span>Updating...</span>
+        </div>
+      ) : (
+        renderPreview()
+      )}
 
       <MediaPickerModal
         isOpen={isModalOpen}
@@ -111,6 +209,7 @@ export default function MediaPicker({
         onSelect={handleSelect}
         allowedTypes={allowedTypes}
         maxFiles={maxFiles}
+        folderFilter={folderFilter}
       />
     </div>
   );

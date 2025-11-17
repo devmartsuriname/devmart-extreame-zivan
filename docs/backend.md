@@ -458,6 +458,384 @@ The homepage (`/home`) is pre-seeded with 11 sections:
 - Canonical URL
 - Implemented via `react-helmet-async`
 
+## Phase 1E: Media Picker Integration (Completed)
+
+### Overview
+
+Phase 1E finalized the MediaPicker component as a fully reusable form field for integrating media selection throughout the application. The implementation focuses on **usage tracking**, **folder filtering**, and seamless integration with existing Media Library hooks—without introducing new database structures or modules.
+
+### MediaPicker Component API
+
+**Location:** `/src/components/Admin/Media/MediaPicker.jsx`
+
+The MediaPicker is a drop-in replacement for file URL inputs, providing a rich media selection interface.
+
+**Props:**
+
+```javascript
+<MediaPicker
+  value={string | string[]}           // Current selected URL(s)
+  onChange={(value) => void}          // Returns updated URL(s)
+  allowedTypes={['image']}            // File type restrictions
+  maxFiles={1}                        // 1 for single, >1 for multi-select
+  label="Select Media"                // Form field label
+  required={false}                    // HTML validation
+  folderFilter="heroes"               // Optional folder restriction
+  usageKey="pages:home"               // Optional usage tracking identifier
+  description="Select hero image"    // Optional helper text
+/>
+```
+
+**Key Features:**
+
+- **Single and multi-select support** - `maxFiles` controls selection mode
+- **Preview thumbnails** - Shows selected media with remove button
+- **Folder filtering** - Restricts browsing and uploads to specific folders
+- **Automatic usage tracking** - Tracks/untracks media when `usageKey` is provided
+- **Loading states** - Shows feedback during tracking operations
+- **Backward compatible** - All new props are optional
+
+**Internal State:**
+
+- Stores full media objects `{id, url, filename}` for tracking
+- Maintains `isTracking` state during usage operations
+- Resolves URLs to media objects when needed
+
+### MediaPickerModal Enhancements
+
+**Location:** `/src/components/Admin/Media/MediaPickerModal.jsx`
+
+The modal provides a rich browsing and selection interface with comprehensive filtering.
+
+**New Features:**
+
+1. **Folder Sidebar**
+   - Lists all available folders from `useMediaFolders()`
+   - "All Media" option to view everything
+   - Respects `folderFilter` prop if provided
+   - Click to filter by folder
+
+2. **File Type Tabs**
+   - All | Images | Videos | Documents
+   - Filters by MIME type
+   - Updates query dynamically
+
+3. **View Mode Toggle**
+   - Grid view (default) - 4-6 columns on desktop
+   - List view - compact single-column layout
+   - Persists selection during view changes
+
+4. **Pagination**
+   - 20 items per page (configurable)
+   - Previous/Next buttons
+   - Page number buttons with ellipsis
+   - Respects all active filters
+
+5. **Keyboard Accessibility**
+   - ESC closes modal
+   - Tab/Shift+Tab focus trap
+   - Enter/Space to select media cards
+   - Focus search input on open
+
+6. **Upload Integration**
+   - Opens `UploadModal` with `defaultFolder` prop
+   - New uploads respect `folderFilter`
+   - Refetches media list after upload
+
+**Query Integration:**
+
+```javascript
+const queryFilters = {
+  search: searchTerm,
+  mimeType: fileTypeFilter === 'image' ? 'image' : 
+            fileTypeFilter === 'video' ? 'video' :
+            fileTypeFilter === 'document' ? 'application' : null,
+  folder: selectedFolder !== 'all' ? selectedFolder : null,
+  page,
+  limit: 20
+};
+
+const { data: mediaData } = useMediaList(queryFilters);
+```
+
+**State Reset:**
+
+- All filters, search, and selection clear on modal close
+- Returns focus to trigger button
+- Prevents stale state between sessions
+
+### Usage Tracking System
+
+**Hooks Used:**
+
+- `useTrackMediaUsage()` - Tracks media selection
+- `useUntrackMediaUsage()` - Untracks media removal
+- Uses existing `increment_media_usage` RPC
+- Manual decrement of `usage_count` (no new RPC)
+
+**Usage Key Format:**
+
+```
+{module}:{itemKey}
+```
+
+**Examples:**
+
+- `"pages:home"` - Home page content
+- `"pages:about"` - About page content
+- `"settings:logo_light"` - Light logo in settings
+- `"settings:favicon"` - Favicon in settings
+
+**Tracking Logic:**
+
+**On Selection:**
+
+```javascript
+// Single-select
+if (usageKey && media.id) {
+  // Untrack previous media if changed
+  if (previousMedia?.id !== media.id) {
+    await untrackUsage({ mediaId: previousMedia.id, usedIn: usageKey });
+  }
+  // Track new media
+  await trackUsage({ mediaId: media.id, usedIn: usageKey });
+}
+
+// Multi-select
+const removedIds = previousIds.filter(id => !newIds.includes(id));
+const addedIds = newIds.filter(id => !previousIds.includes(id));
+
+for (const id of removedIds) {
+  await untrackUsage({ mediaId: id, usedIn: usageKey });
+}
+for (const id of addedIds) {
+  await trackUsage({ mediaId: id, usedIn: usageKey });
+}
+```
+
+**On Removal:**
+
+```javascript
+// Untrack all currently selected media
+if (usageKey && selectedMedia) {
+  if (Array.isArray(selectedMedia)) {
+    for (const media of selectedMedia) {
+      await untrackUsage({ mediaId: media.id, usedIn: usageKey });
+    }
+  } else {
+    await untrackUsage({ mediaId: selectedMedia.id, usedIn: usageKey });
+  }
+}
+```
+
+**Error Handling:**
+
+- Try/catch blocks prevent tracking failures from blocking UI
+- Console errors logged for debugging
+- Form remains functional even if tracking fails
+
+### UploadModal Integration
+
+**Location:** `/src/components/Admin/Media/UploadModal.jsx`
+
+**New Prop:** `defaultFolder`
+
+```javascript
+<UploadModal
+  isOpen={showUpload}
+  onClose={handleClose}
+  onUploadComplete={handleRefetch}
+  defaultFolder="heroes"  // Restricts uploads to this folder
+/>
+```
+
+**Behavior:**
+
+- Initializes `selectedFolder` with `defaultFolder` or 'uncategorized'
+- Disables folder selector when `defaultFolder` is provided
+- Ensures new uploads respect MediaPicker's folder constraints
+
+### File Organization
+
+**Folder Structure:**
+
+```
+media/
+├── heroes/         # Hero section images
+├── logos/          # Site logos, favicon, OG images
+├── blog/           # Blog featured images
+├── portfolio/      # Portfolio project images
+├── team/           # Team member photos
+├── services/       # Service icons/images
+├── documents/      # PDF files, documents
+└── uncategorized/  # Default folder
+```
+
+**Automatic Assignment:**
+
+MediaPicker passes `folderFilter` to modal, which passes `defaultFolder` to upload modal. All new uploads automatically go to the correct folder.
+
+### Deletion Protection
+
+**Rule:** Media with `usage_count > 0` cannot be deleted.
+
+**Implementation:**
+
+- `useDeleteMedia()` hook checks `usage_count` before deletion
+- Throws error: "Cannot delete media that is currently in use"
+- `MediaDetailModal` shows usage locations via `useMediaUsage(mediaId)`
+- Delete button disabled when media is in use
+
+**User Feedback:**
+
+```jsx
+{media.usage_count > 0 && (
+  <div className="delete-warning">
+    This media cannot be deleted because it is currently in use.
+  </div>
+)}
+```
+
+### Design System Integration
+
+**SCSS Additions:**
+
+File: `/src/sass/admin/_media-library.scss`
+
+**New Classes:**
+
+- `.media-picker-modal` - Modal container with 2-column layout
+- `.media-picker-modal-body` - Grid layout (220px sidebar + 1fr content)
+- `.media-picker-sidebar` - Folder navigation
+- `.media-picker-main` - Main content area
+- `.file-type-tabs` - Tab navigation for file types
+- `.picker-pagination` - Pagination controls
+- `.media-picker-loading` - Loading state with spinner
+
+**Design Tokens Used:**
+
+All components use HSL tokens for dark mode compatibility:
+
+- `hsl(var(--card))` - Card backgrounds
+- `hsl(var(--border))` - Borders
+- `hsl(var(--foreground))` - Text
+- `hsl(var(--muted-foreground))` - Secondary text
+- `hsl(var(--primary))` - Active states
+- `hsl(var(--muted))` - Muted backgrounds
+
+**Responsive Design:**
+
+- Desktop (1200px+): 2-column layout with sidebar
+- Tablet/Mobile (<1200px): Single column, sidebar hidden
+- Maintains usability across all screen sizes
+
+### Integration Points
+
+**Current Scope:**
+
+Phase 1E focused exclusively on finalizing the MediaPicker system. Integration into specific forms and modules is planned for future phases.
+
+**Future Integration Examples:**
+
+```javascript
+// Page Builder - Hero Images
+<MediaPicker
+  label="Hero Image"
+  value={blockProps.heroImage}
+  onChange={(url) => updateBlockProp('heroImage', url)}
+  allowedTypes={['image']}
+  maxFiles={1}
+  folderFilter="heroes"
+  usageKey={`pages:${pageId}:section:${sectionId}`}
+  required
+/>
+
+// Settings - Logo
+<MediaPicker
+  label="Light Logo"
+  value={settings.logo_light}
+  onChange={(url) => updateSetting('logo_light', url)}
+  allowedTypes={['image']}
+  maxFiles={1}
+  folderFilter="logos"
+  usageKey="settings:logo_light"
+  required
+/>
+
+// Blog - Featured Image
+<MediaPicker
+  label="Featured Image"
+  value={formData.featured_image}
+  onChange={(url) => setFormData({...formData, featured_image: url})}
+  allowedTypes={['image']}
+  maxFiles={1}
+  folderFilter="blog"
+  usageKey={`blog:${postId}`}
+/>
+```
+
+### Testing Checklist
+
+**MediaPicker Component:**
+- ✅ Opens and closes modal correctly
+- ✅ Shows placeholder when no value
+- ✅ Shows preview when value is set
+- ✅ Single-select works (maxFiles=1)
+- ✅ Multi-select works (maxFiles>1)
+- ✅ folderFilter restricts browsing
+- ✅ usageKey tracks/untracks correctly
+- ✅ Loading states during tracking
+- ✅ Remove button clears value and untracks
+
+**MediaPickerModal:**
+- ✅ Folder sidebar filters correctly
+- ✅ File type tabs filter correctly
+- ✅ View mode toggle works
+- ✅ Pagination works
+- ✅ Search filters media
+- ✅ Upload respects folderFilter
+- ✅ ESC closes modal
+- ✅ Focus trap works
+- ✅ State resets on close
+
+**Usage Tracking:**
+- ✅ Selection increments usage_count
+- ✅ Removal decrements usage_count
+- ✅ Changing selection updates correctly
+- ✅ Media with usage_count > 0 cannot be deleted
+- ✅ MediaDetailModal shows usage locations
+
+**UI/UX:**
+- ✅ Dark mode works correctly
+- ✅ Responsive on all screen sizes
+- ✅ Keyboard navigation works
+- ✅ No console errors
+
+### Constraints Respected
+
+**No New Database Structures:**
+- ❌ No new tables
+- ❌ No new RPC functions
+- ❌ No new RLS policies
+- ❌ No schema migrations
+
+**Uses Existing Infrastructure:**
+- ✅ `media_library` table
+- ✅ `media_usage` table
+- ✅ `increment_media_usage` RPC (existing)
+- ✅ All existing hooks from `useMediaLibrary.js`
+
+**No New Modules:**
+- ❌ No Settings module created
+- ❌ No Blog/Portfolio/Services CRUD
+- ❌ No BlockEditor or Page Builder
+- ❌ No new admin pages
+
+**Frontend Only:**
+- All enhancements are UI/UX improvements
+- Usage tracking uses existing backend hooks
+- No backend code changes
+
 ### Performance
 - Lazy loading of UI blocks
 - Component caching in blockRegistry
