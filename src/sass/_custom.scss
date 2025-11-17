@@ -599,7 +599,7 @@
     border-color: #fff;
   }
   .cs_round_progress_in::after {
-    border-color: $accent;
+    border-color: hsl(var(--accent));
   }
 }
 .cs_error {
