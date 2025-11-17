@@ -6,6 +6,11 @@ import { useAuth } from '@/hooks/useAuth';
 import BackendLayout from '@/components/Admin/BackendLayout';
 import { Icon } from '@iconify/react';
 import { toast } from 'sonner';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import BlockSelector from '@/components/Admin/Pages/BlockSelector';
+import PageCanvas from '@/components/Admin/Pages/PageCanvas';
+import PropsEditor from '@/components/Admin/Pages/PropsEditor';
 
 const pageSchema = z.object({
   title: z.string()
@@ -41,6 +46,13 @@ export default function PageForm({ mode = 'create' }) {
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(mode === 'edit');
   const [slugTouched, setSlugTouched] = useState(false);
+  
+  // Page Builder states
+  const [activeTab, setActiveTab] = useState('basic');
+  const [showBlockSelector, setShowBlockSelector] = useState(false);
+  const [showPropsEditor, setShowPropsEditor] = useState(false);
+  const [selectedSection, setSelectedSection] = useState(null);
+  const [canvasKey, setCanvasKey] = useState(0);
 
   const breadcrumbs = [
     { label: 'Dashboard', path: '/admin/dashboard' },
