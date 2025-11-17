@@ -1,4 +1,6 @@
 import React from 'react';
+import parse from 'html-react-parser';
+import Spacing from '../Spacing';
 import BlogIcon from '../icons/BlogIcon';
 import MailIcon from '../icons/MailIcon';
 
@@ -10,23 +12,20 @@ export default function SectionHeadingStyle3({
   shape,
 }) {
   return (
-    <div className={`cs_section_heading cs_style_3 ${variant ? variant : ''}`}>
-      <div className="cs_section_heading_in">
-        <div className="cs_section_heading_left">
-          <h2
-            className="cs_section_title cs_fs_50 mb-0"
-            dangerouslySetInnerHTML={{ __html: title }}
-          />
-        </div>
-        <div className="cs_section_heading_right">
-        {children ? (
-          children
-        ) : (
-          <div className="cs_section_subtitle cs_fs_18 cs_fs_20 cs_medium">
+    <div
+      className={`cs_section_heading cs_style_1 cs_type_3 ${
+        variant ? variant : ''
+      }`}
+    >
+      <div className="container">
+        {subTitle && (
+          <p className="cs_section_subtitle cs_accent_color cs_fs_21 mb-0">
             {subTitle}
-          </div>
+          </p>
         )}
-        </div>
+        {children && children}
+        <Spacing lg="20" md="10" />
+        <h2 className="cs_section_title cs_fs_68 mb-0">{parse(title)}</h2>
       </div>
       {shape === 'shape_1' && <div className="cs_shape_1" />}
       {shape === 'shape_2' && <div className="cs_shape_2" />}
