@@ -1911,3 +1911,26 @@ hr {
     flex-direction: column-reverse;
   }
 }
+
+/*--------------------------------------------------------------
+  SVG Fill Utilities for Dynamic Branding
+----------------------------------------------------------------*/
+.cs_accent_fill {
+  fill: hsl(var(--accent)) !important;
+}
+
+.cs_accent_stroke {
+  stroke: hsl(var(--accent)) !important;
+}
+
+.cs_primary_fill {
+  fill: hsl(var(--primary)) !important;
+}
+
+.cs_secondary_fill {
+  fill: hsl(var(--secondary)) !important;
+}
+
+.cs_white_fill {
+  fill: hsl(var(--background)) !important;
+}
