@@ -11,6 +11,9 @@ import TeamSlider from '../Slider/TeamSlider';
 import Marquee from '../Marquee';
 import Brands from '../Brands';
 import { pageTitle } from '../../helpers/PageTitle';
+import SearchIcon from '../icons/SearchIcon';
+import IdeaIcon from '../icons/IdeaIcon';
+import GearIcon from '../icons/GearIcon';
 const funfactData = [
   { title: 'Happy Customers', number: '22k' },
   { title: 'Work’s Completed', number: '15k' },
@@ -156,7 +159,7 @@ export default function AboutPage({ darkMode }) {
               <div className="cs_working_process_col">
                 <IconBoxStyle6
                   bgSrc="/images/others/process_1.png"
-                  iconSrc="/images/icons/search.svg"
+                  Icon={SearchIcon}
                   title="Research"
                   subTitle="Sed ut perspiciatis unde omnis iste natus error sit voluptatem own disilope accusantium doloremque laudantium, totam remen."
                 />
@@ -164,7 +167,7 @@ export default function AboutPage({ darkMode }) {
               <div className="cs_working_process_col">
                 <IconBoxStyle6
                   bgSrc="/images/others/process_2.png"
-                  iconSrc="/images/icons/idea.svg"
+                  Icon={IdeaIcon}
                   title="Idea Generate"
                   subTitle="Sed ut perspiciatis unde omnis iste natus error sit voluptatem own disilope accusantium doloremque laudantium, totam remen."
                 />
@@ -172,7 +175,7 @@ export default function AboutPage({ darkMode }) {
               <div className="cs_working_process_col">
                 <IconBoxStyle6
                   bgSrc="/images/others/process_3.png"
-                  iconSrc="/images/icons/gear.svg"
+                  Icon={GearIcon}
                   title="Implement"
                   subTitle="Sed ut perspiciatis unde omnis iste natus error sit voluptatem own disilope accusantium doloremque laudantium, totam remen."
                 />
