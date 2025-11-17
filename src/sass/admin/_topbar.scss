@@ -7,8 +7,8 @@
   top: 0;
   left: 260px;
   right: 0;
-  background-color: $white;
-  border-bottom: 1px solid #e5e5e5;
+  background-color: hsl(var(--card));
+  border-bottom: 1px solid hsl(var(--border));
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -16,8 +16,7 @@
   z-index: 100;
   
   .cs_dark & {
-    background-color: #2a2a2a;
-    border-bottom-color: #3a3a3a;
+    border-bottom-color: hsl(var(--border));
   }
   
   @media (max-width: 991px) {
@@ -45,18 +44,18 @@
   display: none;
   background: none;
   border: none;
-  color: $primary;
+  color: hsl(var(--primary));
   font-size: 24px;
   cursor: pointer;
   padding: 0;
   line-height: 1;
   
   .cs_dark & {
-    color: $white;
+    color: hsl(var(--primary-foreground));
   }
   
   &:hover {
-    color: $accent;
+    color: hsl(var(--accent));
   }
   
   @media (max-width: 991px) {
@@ -73,22 +72,21 @@
   align-items: center;
   gap: $spacing-sm;
   background: none;
-  border: 1px solid #e5e5e5;
+  border: 1px solid hsl(var(--border));
   border-radius: 8px;
   padding: 8px 12px;
   cursor: pointer;
-  color: $primary;
+  color: hsl(var(--primary));
   font-size: 14px;
   transition: all 0.2s ease;
   
   .cs_dark & {
-    border-color: #3a3a3a;
-    color: $white;
+    color: hsl(var(--foreground));
   }
   
   &:hover {
-    border-color: $accent;
-    color: $accent;
+    border-color: hsl(var(--accent));
+    color: hsl(var(--accent));
   }
   
   .icon {
@@ -113,16 +111,14 @@
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  background-color: $white;
-  border: 1px solid #e5e5e5;
+  background-color: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   min-width: 200px;
   z-index: 1000;
   
   .cs_dark & {
-    background-color: #2a2a2a;
-    border-color: #3a3a3a;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
   
@@ -134,23 +130,15 @@
     padding: $spacing-md $spacing-lg;
     border: none;
     background: none;
-    color: $primary;
+    color: hsl(var(--foreground));
     text-decoration: none;
     font-size: 14px;
     cursor: pointer;
     transition: background-color 0.2s ease;
     text-align: left;
     
-    .cs_dark & {
-      color: $white;
-    }
-    
     &:hover {
-      background-color: #f5f5f5;
-      
-      .cs_dark & {
-        background-color: #3a3a3a;
-      }
+      background-color: hsl(var(--muted));
     }
     
     .icon {

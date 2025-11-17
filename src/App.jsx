@@ -45,8 +45,20 @@ import UsersList from './pages/Admin/Users/UsersList';
 import PageForm from './pages/Admin/Pages/PageForm';
 import DynamicPage from './pages/DynamicPage';
 
+// Branding system
+import { useSettings } from './hooks/useSettings';
+import { loadBrandingFromSettings } from './utils/brandingInjection';
+
 function App() {
   const { pathname } = useLocation();
+  const { data: settings } = useSettings();
+  
+  // Apply global branding (admin + frontend) on load
+  useEffect(() => {
+    if (settings) {
+      loadBrandingFromSettings(settings);
+    }
+  }, [settings]);
 
   useEffect(() => {
     window.scrollTo(0, 0);

@@ -201,10 +201,10 @@ hr {
 }
 
 .cs_primary_color {
-  color: $primary;
+  color: hsl(var(--primary));
 }
 .cs_secondary_color {
-  color: $secondary;
+  color: hsl(var(--secondary));
 }
 
 .cs_ternary_color {
@@ -212,7 +212,7 @@ hr {
 }
 
 .cs_accent_color {
-  color: $accent;
+  color: hsl(var(--accent));
 }
 .cs_gray_color {
   color: $gray;
@@ -226,7 +226,7 @@ hr {
 }
 
 .cs_accent_bg {
-  background-color: $accent;
+  background-color: hsl(var(--accent));
 }
 .cs_gray_bg {
   background-color: $gray;
@@ -240,7 +240,7 @@ hr {
 
 .cs_primary_bg,
 .cs_primary_bg_hover:hover {
-  background-color: $primary;
+  background-color: hsl(var(--primary));
 }
 
 .cs_primary_bg_2 {
@@ -280,7 +280,7 @@ hr {
 .cs_cursor_sm {
   width: 8px;
   height: 8px;
-  background-color: $accent;
+  background-color: hsl(var(--accent));
   left: 0;
   top: 0;
   pointer-events: none;
@@ -288,8 +288,8 @@ hr {
   opacity: 0;
 }
 .cs_btn.cs_style_1 {
-  color: $primary;
-  border: 2px solid $accent;
+  color: hsl(var(--primary));
+  border: 2px solid hsl(var(--accent));
   border-radius: 15px;
   font-weight: 500;
   padding: 10px 20px;
@@ -321,10 +321,10 @@ hr {
   i {
     transform: rotate(-45deg);
     transition: all 0.5s;
-    color: $primary;
+    color: hsl(var(--primary));
   }
   &:hover {
-    background-color: $accent;
+    background-color: hsl(var(--accent));
     color: #fff;
     i {
       transform: translate(20px, -20px) rotate(-45deg);
@@ -611,7 +611,7 @@ hr {
   cursor: pointer;
   &:hover {
     .cs_accordian_title {
-      color: $accent;
+      color: hsl(var(--accent));
     }
   }
 }
@@ -632,7 +632,7 @@ hr {
   height: 30px;
   width: 30px;
   border-radius: 50%;
-  border: 2px solid $primary;
+  border: 2px solid hsl(var(--primary));
   &::before,
   &::after {
     content: '';
@@ -643,7 +643,7 @@ hr {
     top: 50%;
     margin-left: -30%;
     margin-top: -1px;
-    background-color: $primary;
+    background-color: hsl(var(--primary));
     transition: all 0.4s ease;
   }
   &::after {

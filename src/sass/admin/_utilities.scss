@@ -23,19 +23,19 @@
 .text-right { text-align: right; }
 
 .text-muted {
-  color: $secondary;
+  color: hsl(var(--muted-foreground));
 }
 
 .text-primary {
-  color: $primary;
+  color: hsl(var(--primary));
   
   .cs_dark & {
-    color: $white;
+    color: hsl(var(--primary-foreground));
   }
 }
 
 .text-accent {
-  color: $accent;
+  color: hsl(var(--accent));
 }
 
 // Display utilities

@@ -7,8 +7,8 @@
   position: fixed;
   top: 0;
   left: 0;
-  background-color: $primary;
-  color: $white;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
   overflow-y: auto;
   z-index: 1001;
   display: flex;
@@ -48,14 +48,14 @@
   
   a {
     display: block;
-    color: $white;
+    color: hsl(var(--primary-foreground));
     font-size: 24px;
     font-weight: 700;
     text-decoration: none;
     font-family: $heading-font;
     
     &:hover {
-      color: $accent;
+      color: hsl(var(--accent));
     }
   }
 }
@@ -69,21 +69,21 @@
   display: flex;
   align-items: center;
   padding: $spacing-md $spacing-xl;
-  color: $white;
+  color: hsl(var(--primary-foreground));
   text-decoration: none;
   transition: all 0.2s ease;
   position: relative;
   font-size: 15px;
   
   &:hover {
-    background-color: rgba($white, 0.1);
-    color: $white;
+    background-color: hsl(var(--primary-foreground) / 0.1);
+    color: hsl(var(--primary-foreground));
   }
   
   &.active {
-    background-color: rgba($accent, 0.15);
-    color: $accent;
-    border-left: 3px solid $accent;
+    background-color: hsl(var(--accent) / 0.15);
+    color: hsl(var(--accent));
+    border-left: 3px solid hsl(var(--accent));
     padding-left: calc(#{$spacing-xl} - 3px);
     font-weight: 500;
   }
