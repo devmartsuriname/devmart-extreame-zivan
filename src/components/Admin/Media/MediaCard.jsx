@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Icon } from '@iconify/react';
 import { format } from 'date-fns';
+import { toast } from 'sonner';
 
 export default function MediaCard({ media, onSelect, onEdit, onDelete, isSelected }) {
   const [imageError, setImageError] = useState(false);
@@ -19,7 +20,6 @@ export default function MediaCard({ media, onSelect, onEdit, onDelete, isSelecte
 
   const copyUrl = () => {
     navigator.clipboard.writeText(media.file_url);
-    const toast = (await import('sonner')).toast;
     toast.success('URL copied to clipboard');
   };
 
