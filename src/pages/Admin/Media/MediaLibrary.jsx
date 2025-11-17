@@ -239,7 +239,7 @@ export default function MediaLibrary() {
           <div className="admin-card">
             {isLoading ? (
               <div className="media-grid">
-                {[...Array(6)].map((_, i) => (
+                {[...Array(12)].map((_, i) => (
                   <div key={i} className="media-card-skeleton">
                     <div className="skeleton-thumbnail" />
                     <div className="skeleton-text" />
@@ -251,22 +251,36 @@ export default function MediaLibrary() {
               <div className="admin-empty-state">
                 <Icon icon="mdi:image-multiple-outline" className="icon" />
                 <h3>
-                  {searchTerm || selectedFolder !== 'all' || selectedTags.length > 0
-                    ? 'No media found'
+                  {searchTerm || selectedFolder !== 'all' || selectedTags.length > 0 || fileTypeFilter
+                    ? 'No media matches your filters'
                     : 'No media files yet'}
                 </h3>
                 <p>
-                  {searchTerm || selectedFolder !== 'all' || selectedTags.length > 0
-                    ? 'Try adjusting your filters'
-                    : 'Upload files to get started'}
+                  {searchTerm || selectedFolder !== 'all' || selectedTags.length > 0 || fileTypeFilter
+                    ? 'Try adjusting your search or filter criteria'
+                    : 'Upload your first file to build your media library'}
                 </p>
-                {!searchTerm && selectedFolder === 'all' && selectedTags.length === 0 && (
+                {(searchTerm || selectedFolder !== 'all' || selectedTags.length > 0 || fileTypeFilter) ? (
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => {
+                      setSearchTerm('');
+                      setSelectedTags([]);
+                      setFileTypeFilter('');
+                      setSelectedFolder('all');
+                      setCurrentPage(1);
+                    }}
+                  >
+                    <Icon icon="mdi:filter-off" className="icon" />
+                    Clear All Filters
+                  </button>
+                ) : (
                   <button
                     className="btn btn-primary"
                     onClick={() => setUploadModalOpen(true)}
                   >
                     <Icon icon="mdi:upload" className="icon" />
-                    Upload Files
+                    Upload Your First File
                   </button>
                 )}
               </div>
