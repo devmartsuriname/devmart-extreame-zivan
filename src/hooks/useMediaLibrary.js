@@ -231,29 +231,13 @@ export const useMediaUsage = (mediaId) => {
   return useQuery({
     queryKey: ['media-usage', mediaId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('media_usage')
-        .select('*')
-        .eq('media_id', mediaId)
-        .order('created_at', { ascending: false });
-      
-      if (error) throw error;
-      return data;
-    },
-    enabled: !!mediaId
-  });
-};
-
-export const useMediaUsage = (mediaId) => {
-  return useQuery({
-    queryKey: ['media-usage', mediaId],
-    queryFn: async () => {
       if (!mediaId) return [];
       
       const { data, error } = await supabase
         .from('media_usage')
         .select('*')
-        .eq('media_id', mediaId);
+        .eq('media_id', mediaId)
+        .order('created_at', { ascending: false });
       
       if (error) throw error;
       return data;
