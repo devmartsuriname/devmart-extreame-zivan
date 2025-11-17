@@ -1,0 +1,52 @@
+/*--------------------------------------------------------------
+  Design Tokens - Global CSS Custom Properties
+  Managed by Settings Module - Controls admin + frontend colors
+----------------------------------------------------------------*/
+
+// Keep SCSS variables as build-time defaults
+$primary-default: #121212;
+$secondary-default: #4f4747;
+$accent-default: #fd6219;
+
+// Convert defaults to HSL (space-separated for hsl() function)
+// These will be overridden by Settings at runtime
+:root {
+  // Brand colors (dynamic - controlled by Settings)
+  --primary: 220 13% 7%;     // HSL of #121212
+  --secondary: 20 6% 31%;    // HSL of #4f4747
+  --accent: 17 97% 55%;      // HSL of #fd6219
+  
+  // Derived colors for light mode
+  --primary-foreground: 0 0% 100%;
+  --secondary-foreground: 0 0% 100%;
+  --accent-foreground: 0 0% 100%;
+  
+  // System colors (static)
+  --background: 0 0% 100%;
+  --foreground: 0 0% 9%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 9%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 45%;
+  --border: 0 0% 87%;
+  --input: 0 0% 87%;
+  --ring: 220 13% 91%;
+}
+
+// Dark mode system colors
+.cs_dark {
+  --background: 0 0% 9%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 11%;
+  --card-foreground: 0 0% 98%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 64%;
+  --border: 0 0% 20%;
+  --input: 0 0% 20%;
+  --ring: 0 0% 20%;
+}
+
+// IMPORTANT: All SCSS files must now use:
+// color: hsl(var(--primary));
+// background: hsl(var(--accent));
+// NOT: color: $primary;

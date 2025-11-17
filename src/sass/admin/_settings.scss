@@ -1,0 +1,165 @@
+/*--------------------------------------------------------------
+  Admin Settings Module
+----------------------------------------------------------------*/
+
+.settings-tabs {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: hsl(var(--muted) / 0.3);
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid hsl(var(--border));
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.settings-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: hsl(var(--foreground));
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease-out;
+  
+  svg {
+    font-size: 1.25rem;
+  }
+  
+  &:hover {
+    background: hsl(var(--muted) / 0.5);
+  }
+  
+  &.active {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+}
+
+.settings-content {
+  padding: 2rem;
+  
+  @media (max-width: 768px) {
+    padding: 1.5rem 1rem;
+  }
+}
+
+.settings-form {
+  max-width: 600px;
+  
+  .form-group {
+    margin-bottom: 1.75rem;
+  }
+  
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: hsl(var(--foreground));
+    
+    .required {
+      color: #ef4444;
+      margin-left: 0.25rem;
+    }
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: 6px;
+    background: hsl(var(--card));
+    color: hsl(var(--foreground));
+    font-size: 0.9375rem;
+    transition: all 0.15s ease-out;
+    
+    &:focus {
+      outline: none;
+      border-color: hsl(var(--primary));
+      box-shadow: 0 0 0 3px hsl(var(--primary) / 0.1);
+    }
+  }
+  
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .form-help {
+    margin-top: 0.375rem;
+    font-size: 0.8125rem;
+    color: hsl(var(--muted-foreground));
+  }
+}
+
+.color-input-group {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  
+  input[type="color"] {
+    width: 60px;
+    height: 44px;
+    border: 1px solid hsl(var(--border));
+    border-radius: 6px;
+    cursor: pointer;
+    
+    &::-webkit-color-swatch-wrapper {
+      padding: 4px;
+    }
+    
+    &::-webkit-color-swatch {
+      border: none;
+      border-radius: 4px;
+    }
+  }
+  
+  input[type="text"] {
+    flex: 1;
+  }
+}
+
+.branding-notice {
+  padding: 0.875rem 1rem;
+  background: hsl(var(--muted) / 0.5);
+  border-left: 3px solid hsl(var(--primary));
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  
+  p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: hsl(var(--foreground));
+  }
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid hsl(var(--border));
+  
+  @media (max-width: 480px) {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
+}
+
+.settings-loading {
+  padding: 3rem;
+  text-align: center;
+  color: hsl(var(--muted-foreground));
+}

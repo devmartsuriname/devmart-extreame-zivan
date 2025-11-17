@@ -62,10 +62,10 @@
     font-size: 32px;
     font-weight: 600;
     margin: 0;
-    color: $primary;
+    color: hsl(var(--primary));
     
     .cs_dark & {
-      color: $white;
+      color: hsl(var(--primary-foreground));
     }
   }
   
@@ -81,13 +81,12 @@
 }
 
 .admin-card {
-  background-color: $white;
+  background-color: hsl(var(--card));
   border-radius: 8px;
   padding: $spacing-xl;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   
   .cs_dark & {
-    background-color: #2a2a2a;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   }
   
