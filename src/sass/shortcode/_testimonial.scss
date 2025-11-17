@@ -7,7 +7,7 @@
   }
   .cs_testimonial_icon {
     margin-bottom: 70px;
-    color: $accent;
+    color: hsl(var(--accent));
     @media (max-width: 991px) {
       margin-bottom: 30px;
     }
@@ -124,7 +124,7 @@
       color: #aeacb8;
       border-color: #aeacb8;
       &:hover {
-        color: $accent;
+        color: hsl(var(--accent));
       }
     }
   }

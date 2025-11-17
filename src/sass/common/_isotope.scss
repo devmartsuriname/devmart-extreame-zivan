@@ -164,7 +164,7 @@
       left: 50%;
       margin-left: -5px;
       border-radius: 50%;
-      background-color: $accent;
+      background-color: hsl(var(--accent));
       bottom: -5px;
       transition: all 0.4s ease;
       transform: scale(0);
@@ -180,7 +180,7 @@
 
   .active {
     a {
-      color: $accent;
+      color: hsl(var(--accent));
       &::before {
         transform: scale(1);
       }

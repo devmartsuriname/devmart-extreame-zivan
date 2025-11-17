@@ -8,7 +8,7 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 23px;
-  color: $secondary;
+  color: hsl(var(--secondary));
   background-color: #fff;
   text-transform: capitalize;
   display: flex;
@@ -27,7 +27,6 @@
   .cs_portfolio_thumb {
     display: block;
     margin-bottom: 27px;
-    // cursor: url(../img/drag.png), auto;
     @media (max-width: 991px) {
       margin-bottom: 10px;
     }
@@ -107,7 +106,7 @@
     margin-bottom: 16px;
     transition: all 0.4s ease;
     &:hover {
-      color: $accent;
+      color: hsl(var(--accent));
     }
     a {
       background-image: linear-gradient(currentColor, currentColor);
