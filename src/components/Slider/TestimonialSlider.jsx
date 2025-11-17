@@ -2,6 +2,9 @@ import React from 'react';
 import Testimonial from '../Testimonial';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
+import TriangleShape from '../icons/shapes/TriangleShape';
+import CirclesShape from '../icons/shapes/CirclesShape';
+import RectangleShape from '../icons/shapes/RectangleShape';
 
 export default function TestimonialSlider({ layeredImages, data }) {
   return (
