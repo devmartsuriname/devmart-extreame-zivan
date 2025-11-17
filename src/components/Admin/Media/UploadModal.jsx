@@ -151,14 +151,6 @@ export default function UploadModal({ isOpen, onClose, onUploadComplete, default
               />
             </div>
           </div>
-                type="text"
-                placeholder="New folder name"
-                value={newFolderName}
-                onChange={(e) => setNewFolderName(e.target.value)}
-                disabled={uploading}
-              />
-            </div>
-          </div>
 
           {/* Tags Input */}
           <div className="form-group">
