@@ -102,6 +102,29 @@
       }
     }
   }
+  
+  // Footer text and links should be white in dark mode
+  .cs_fooer {
+    color: #fff;
+    
+    .cs_menu_widget a {
+      color: #fff;
+      transition: color 0.3s ease;
+      
+      &:hover {
+        color: hsl(var(--accent));
+      }
+    }
+    
+    .cs_text_widget {
+      color: #fff;
+    }
+    
+    .cs_newsletter.cs_style_1 .cs_newsletter_text {
+      color: #fff;
+    }
+  }
+  
   .cs_portfolio.cs_style_2 .cs_portfolio_thumb::before {
     background: linear-gradient(
       90deg,
