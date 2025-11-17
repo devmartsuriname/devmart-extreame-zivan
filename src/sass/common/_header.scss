@@ -55,8 +55,8 @@
 
 .cs_site_header.cs_style_1 {
   &.cs_sticky_active {
-    background-color: $white;
-    box-shadow: 0 10px 10px -10px rgba(33, 43, 53, 0.1);
+    background-color: hsl(var(--background));
+    box-shadow: 0 10px 10px -10px hsl(0 0% 20% / 0.1);
   }
 
   .cs_action_box {
@@ -103,19 +103,19 @@
 }
 
 body:not(.cs_dark) .cs_site_header.cs_style_1.cs_color_1.cs_gescout_show {
-  background-color: $white;
+  background-color: hsl(var(--background));
   
   .cs_nav_list > li > a {
     color: hsl(var(--primary));
   }
   
   .cs_theme_toggle {
-    border-color: rgba(0, 0, 0, 0.3);
-    color: #121212;
+    border-color: hsl(var(--border));
+    color: hsl(var(--primary));
     
     &:hover {
-      background: rgba(0, 0, 0, 0.05);
-      border-color: rgba(0, 0, 0, 0.5);
+      background: hsl(var(--muted) / 0.5);
+      border-color: hsl(var(--border));
     }
   }
   
@@ -149,7 +149,7 @@ body:not(.cs_dark) .cs_site_header.cs_style_1.cs_color_1.cs_gescout_show {
 
   .cs_nav .cs_nav_list > li.current-menu-item > a:before {
     bottom: -4px;
-    background-color: $white;
+    background-color: hsl(var(--accent-foreground));
   }
 }
 

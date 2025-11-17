@@ -98,7 +98,7 @@
   .swiper-pagination-bullet {
     height: 10px;
     width: 10px;
-    background-color: $secondary;
+    background-color: hsl(var(--secondary));
     opacity: 1;
     border-radius: 1.6em;
     transition: all 0.4s ease;

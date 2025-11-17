@@ -2,7 +2,7 @@
   8. Footer
 ----------------------------------------------------------------*/
 .cs_fooer {
-  color: $border;
+  color: hsl(var(--border));
   background-attachment: fixed;
 }
 .cs_fooer_main {
@@ -64,7 +64,7 @@
     height: 35px;
     width: 35px;
     border-radius: 50%;
-    border: 1px solid $white;
+    border: 1px solid hsl(var(--accent-foreground));
     &:hover {
       border-color: hsl(var(--accent));
       transform: scale(1.08);
