@@ -1,23 +1,27 @@
 import { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
-import { useUpdateMedia, useDeleteMedia } from '@/hooks/useMediaLibrary';
-import { useMediaFolders } from '@/hooks/useMediaLibrary';
+import { useUpdateMedia, useDeleteMedia, useMediaFolders, useMediaUsage } from '@/hooks/useMediaLibrary';
 import { format } from 'date-fns';
+import { toast } from 'sonner';
 
 export default function MediaDetailModal({ media, isOpen, onClose, onDelete }) {
   const [altText, setAltText] = useState('');
   const [caption, setCaption] = useState('');
   const [folder, setFolder] = useState('');
+  const [tags, setTags] = useState([]);
+  const [tagInput, setTagInput] = useState('');
 
   const updateMedia = useUpdateMedia();
   const deleteMedia = useDeleteMedia();
   const { data: folders = [] } = useMediaFolders();
+  const { data: usageData = [] } = useMediaUsage(media?.id);
 
   useEffect(() => {
     if (media) {
       setAltText(media.alt_text || '');
       setCaption(media.caption || '');
       setFolder(media.folder || 'uncategorized');
+      setTags(media.tags || []);
     }
   }, [media]);
 
@@ -25,6 +29,7 @@ export default function MediaDetailModal({ media, isOpen, onClose, onDelete }) {
 
   const isImage = media.mime_type.startsWith('image/');
   const isVideo = media.mime_type.startsWith('video/');
+  const canDelete = !media.usage_count || media.usage_count === 0;
 
   const handleSave = async () => {
     await updateMedia.mutateAsync({
@@ -32,13 +37,18 @@ export default function MediaDetailModal({ media, isOpen, onClose, onDelete }) {
       updates: {
         alt_text: altText,
         caption: caption,
-        folder: folder
+        folder: folder,
+        tags: tags
       }
     });
     onClose();
   };
 
   const handleDelete = async () => {
+    if (!canDelete) {
+      toast.error('Cannot delete media that is currently in use');
+      return;
+    }
     if (confirm('Are you sure you want to delete this media file? This action cannot be undone.')) {
       await deleteMedia.mutateAsync(media.id);
       onClose();
@@ -48,6 +58,7 @@ export default function MediaDetailModal({ media, isOpen, onClose, onDelete }) {
 
   const copyUrl = () => {
     navigator.clipboard.writeText(media.file_url);
+    toast.success('URL copied to clipboard');
   };
 
   const formatFileSize = (bytes) => {
@@ -120,6 +131,53 @@ export default function MediaDetailModal({ media, isOpen, onClose, onDelete }) {
               </select>
             </div>
 
+            <div className="form-group">
+              <label>Tags</label>
+              <div className="tags-input-wrapper">
+                <div className="tags-list">
+                  {tags.map(tag => (
+                    <span key={tag} className="tag-chip">
+                      {tag}
+                      <button type="button" onClick={() => setTags(tags.filter(t => t !== tag))}>
+                        <Icon icon="mdi:close" />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+                <div className="tag-input-row">
+                  <input
+                    type="text"
+                    value={tagInput}
+                    onChange={(e) => setTagInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const newTag = tagInput.trim();
+                        if (newTag && !tags.includes(newTag)) {
+                          setTags([...tags, newTag]);
+                          setTagInput('');
+                        }
+                      }
+                    }}
+                    placeholder="Add a tag and press Enter"
+                  />
+                  <button 
+                    type="button" 
+                    className="btn btn-sm" 
+                    onClick={() => {
+                      const newTag = tagInput.trim();
+                      if (newTag && !tags.includes(newTag)) {
+                        setTags([...tags, newTag]);
+                        setTagInput('');
+                      }
+                    }}
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <div className="media-info-grid">
               <div className="info-item">
                 <label>File Size</label>
@@ -153,11 +211,42 @@ export default function MediaDetailModal({ media, isOpen, onClose, onDelete }) {
                 </div>
               </div>
             </div>
+
+            {/* Usage Panel */}
+            {usageData.length > 0 && (
+              <div className="usage-panel">
+                <h4>
+                  <Icon icon="mdi:link-variant" />
+                  Used In ({usageData.length})
+                </h4>
+                <div className="usage-list">
+                  {usageData.map(usage => (
+                    <div key={usage.id} className="usage-item">
+                      <Icon icon="mdi:link" />
+                      <span>{usage.used_in}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Delete Warning */}
+            {!canDelete && (
+              <div className="delete-warning">
+                <Icon icon="mdi:alert" />
+                <span>This media is currently in use and cannot be deleted.</span>
+              </div>
+            )}
           </div>
         </div>
 
         <div className="modal-footer">
-          <button className="btn btn-danger" onClick={handleDelete}>
+          <button 
+            className="btn btn-danger" 
+            onClick={handleDelete}
+            disabled={!canDelete}
+            title={!canDelete ? 'Cannot delete media in use' : 'Delete media'}
+          >
             <Icon icon="mdi:delete" className="icon" />
             Delete
           </button>

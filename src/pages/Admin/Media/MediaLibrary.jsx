@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import BackendLayout from '@/components/Admin/BackendLayout';
 import { Icon } from '@iconify/react';
-import { useMediaList, useBulkDeleteMedia } from '@/hooks/useMediaLibrary';
+import { useMediaList, useMediaTags, useBulkDeleteMedia, useUpdateMedia } from '@/hooks/useMediaLibrary';
 import MediaCard from '@/components/Admin/Media/MediaCard';
 import MediaDetailModal from '@/components/Admin/Media/MediaDetailModal';
 import UploadModal from '@/components/Admin/Media/UploadModal';
 import FolderManager from '@/components/Admin/Media/FolderManager';
+import { toast } from 'sonner';
 
 export default function MediaLibrary() {
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
@@ -14,19 +15,36 @@ export default function MediaLibrary() {
   const [selectedIds, setSelectedIds] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFolder, setSelectedFolder] = useState('all');
-  const [viewMode, setViewMode] = useState('grid'); // grid or list
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [fileTypeFilter, setFileTypeFilter] = useState('');
+  const [viewMode, setViewMode] = useState('grid');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [bulkMoveFolder, setBulkMoveFolder] = useState('');
+
+  const itemsPerPage = 20;
 
   const { data: mediaList = [], isLoading, refetch } = useMediaList({
     search: searchTerm,
-    folder: selectedFolder
+    folder: selectedFolder,
+    tags: selectedTags,
+    mimeType: fileTypeFilter
   });
 
+  const { data: availableTags = [] } = useMediaTags();
   const bulkDelete = useBulkDeleteMedia();
+  const updateMedia = useUpdateMedia();
 
   const breadcrumbs = [
     { label: 'Dashboard', path: '/admin/dashboard' },
     { label: 'Media', path: null }
   ];
+
+  // Pagination
+  const totalPages = Math.ceil(mediaList.length / itemsPerPage);
+  const paginatedMedia = mediaList.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const handleToggleSelect = (id) => {
     setSelectedIds(prev =>
@@ -44,9 +62,36 @@ export default function MediaLibrary() {
 
   const handleBulkDelete = async () => {
     if (selectedIds.length === 0) return;
+    
+    const hasUsedMedia = mediaList
+      .filter(m => selectedIds.includes(m.id))
+      .some(m => m.usage_count > 0);
+
+    if (hasUsedMedia) {
+      toast.error('Cannot delete: Some selected media is currently in use');
+      return;
+    }
+
     if (confirm(`Delete ${selectedIds.length} selected files?`)) {
       await bulkDelete.mutateAsync(selectedIds);
       setSelectedIds([]);
+    }
+  };
+
+  const handleBulkMove = async () => {
+    if (selectedIds.length === 0 || !bulkMoveFolder) return;
+
+    try {
+      const updates = selectedIds.map(id =>
+        updateMedia.mutateAsync({ id, updates: { folder: bulkMoveFolder } })
+      );
+      await Promise.all(updates);
+      setSelectedIds([]);
+      setBulkMoveFolder('');
+      toast.success(`Moved ${selectedIds.length} files to ${bulkMoveFolder}`);
+      refetch();
+    } catch (error) {
+      toast.error('Failed to move files');
     }
   };
 
@@ -58,6 +103,15 @@ export default function MediaLibrary() {
   const handleUploadComplete = () => {
     refetch();
     setUploadModalOpen(false);
+  };
+
+  const toggleTag = (tagName) => {
+    setSelectedTags(prev =>
+      prev.includes(tagName) 
+        ? prev.filter(t => t !== tagName)
+        : [...prev, tagName]
+    );
+    setCurrentPage(1);
   };
 
   return (
@@ -75,7 +129,10 @@ export default function MediaLibrary() {
         <aside className="media-sidebar">
           <FolderManager
             selectedFolder={selectedFolder}
-            onSelectFolder={setSelectedFolder}
+            onSelectFolder={(folder) => {
+              setSelectedFolder(folder);
+              setCurrentPage(1);
+            }}
           />
         </aside>
 
@@ -89,22 +146,54 @@ export default function MediaLibrary() {
                 type="text"
                 placeholder="Search media..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setCurrentPage(1);
+                }}
               />
             </div>
+
+            <select
+              className="filter-select"
+              value={fileTypeFilter}
+              onChange={(e) => {
+                setFileTypeFilter(e.target.value);
+                setCurrentPage(1);
+              }}
+            >
+              <option value="">All Types</option>
+              <option value="image">Images</option>
+              <option value="video">Videos</option>
+              <option value="application/pdf">PDFs</option>
+              <option value="application/zip">Archives</option>
+            </select>
 
             <div className="toolbar-actions">
               {selectedIds.length > 0 && (
                 <>
                   <button className="btn btn-sm" onClick={handleSelectAll}>
-                    Deselect All ({selectedIds.length})
+                    {selectedIds.length === mediaList.length ? 'Deselect All' : `Selected (${selectedIds.length})`}
                   </button>
+                  <select
+                    className="filter-select"
+                    value={bulkMoveFolder}
+                    onChange={(e) => setBulkMoveFolder(e.target.value)}
+                  >
+                    <option value="">Move to folder...</option>
+                    <option value="uncategorized">Uncategorized</option>
+                  </select>
+                  {bulkMoveFolder && (
+                    <button className="btn btn-sm btn-primary" onClick={handleBulkMove}>
+                      <Icon icon="mdi:folder-move" className="icon" />
+                      Move
+                    </button>
+                  )}
                   <button
                     className="btn btn-sm btn-danger"
                     onClick={handleBulkDelete}
                   >
                     <Icon icon="mdi:delete" className="icon" />
-                    Delete Selected
+                    Delete
                   </button>
                 </>
               )}
@@ -128,27 +217,47 @@ export default function MediaLibrary() {
             </div>
           </div>
 
+          {/* Tag Filters */}
+          {availableTags.length > 0 && (
+            <div className="filter-tags">
+              {availableTags.map(tag => (
+                <button
+                  key={tag.name}
+                  className={`tag-pill ${selectedTags.includes(tag.name) ? 'active' : ''}`}
+                  onClick={() => toggleTag(tag.name)}
+                >
+                  {tag.name} ({tag.count})
+                </button>
+              ))}
+            </div>
+          )}
+
           {/* Media Grid */}
           <div className="admin-card">
             {isLoading ? (
-              <div className="admin-loading">
-                <Icon icon="mdi:loading" className="spinning" />
-                <p>Loading media...</p>
+              <div className="media-grid">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className="media-card-skeleton">
+                    <div className="skeleton-thumbnail" />
+                    <div className="skeleton-text" />
+                    <div className="skeleton-text short" />
+                  </div>
+                ))}
               </div>
             ) : mediaList.length === 0 ? (
               <div className="admin-empty-state">
                 <Icon icon="mdi:image-multiple-outline" className="icon" />
                 <h3>
-                  {searchTerm || selectedFolder !== 'all'
+                  {searchTerm || selectedFolder !== 'all' || selectedTags.length > 0
                     ? 'No media found'
                     : 'No media files yet'}
                 </h3>
                 <p>
-                  {searchTerm || selectedFolder !== 'all'
+                  {searchTerm || selectedFolder !== 'all' || selectedTags.length > 0
                     ? 'Try adjusting your filters'
                     : 'Upload files to get started'}
                 </p>
-                {!searchTerm && selectedFolder === 'all' && (
+                {!searchTerm && selectedFolder === 'all' && selectedTags.length === 0 && (
                   <button
                     className="btn btn-primary"
                     onClick={() => setUploadModalOpen(true)}
@@ -159,22 +268,49 @@ export default function MediaLibrary() {
                 )}
               </div>
             ) : (
-              <div className={`media-grid ${viewMode}`}>
-                {mediaList.map(media => (
-                  <MediaCard
-                    key={media.id}
-                    media={media}
-                    onSelect={handleToggleSelect}
-                    onEdit={handleEdit}
-                    onDelete={(id) => {
-                      if (confirm('Delete this file?')) {
-                        bulkDelete.mutate([id]);
-                      }
-                    }}
-                    isSelected={selectedIds.includes(media.id)}
-                  />
-                ))}
-              </div>
+              <>
+                <div className={`media-grid ${viewMode}`}>
+                  {paginatedMedia.map(media => (
+                    <MediaCard
+                      key={media.id}
+                      media={media}
+                      onSelect={handleToggleSelect}
+                      onEdit={handleEdit}
+                      onDelete={(id) => {
+                        if (confirm('Delete this file?')) {
+                          bulkDelete.mutate([id]);
+                        }
+                      }}
+                      isSelected={selectedIds.includes(media.id)}
+                    />
+                  ))}
+                </div>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="pagination">
+                    <button
+                      className="btn btn-sm"
+                      onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                      disabled={currentPage === 1}
+                    >
+                      <Icon icon="mdi:chevron-left" />
+                      Previous
+                    </button>
+                    <span className="pagination-info">
+                      Page {currentPage} of {totalPages}
+                    </span>
+                    <button
+                      className="btn btn-sm"
+                      onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                      disabled={currentPage === totalPages}
+                    >
+                      Next
+                      <Icon icon="mdi:chevron-right" />
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
