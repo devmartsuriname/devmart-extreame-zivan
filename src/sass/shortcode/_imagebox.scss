@@ -16,7 +16,7 @@
     }
     .cs_image_box_subtitle,
     .cs_image_box_btn {
-      color: $gray2;
+      color: hsl(var(--muted-foreground));
     }
     li {
       &:not(:last-child) {
