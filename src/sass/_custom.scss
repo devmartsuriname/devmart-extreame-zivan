@@ -307,7 +307,7 @@
     span {
       transition: all 0.3s ease;
       &:hover {
-        color: $accent;
+        color: hsl(var(--accent));
       }
     }
   }
@@ -339,7 +339,7 @@
 }
 .cs_iconbox.cs_style_4 {
   .cs_btn.cs_style_1 span i:last-child {
-    color: $accent;
+    color: hsl(var(--accent));
   }
 }
 .widget_archive ul li::before,
@@ -423,7 +423,7 @@
   box-shadow: initial;
 }
 .multi-range-slider .thumb .caption * {
-  background-color: $accent;
+  background-color: hsl(var(--accent));
   box-shadow: initial;
 }
 .cs_multirange_price {
@@ -474,8 +474,8 @@
     &:checked {
       + label {
         &::before {
-          background-color: $accent;
-          border-color: $accent;
+          background-color: hsl(var(--accent));
+          border-color: hsl(var(--accent));
         }
         &::after {
           opacity: 1;
@@ -554,7 +554,7 @@
   }
 }
 .cs_round_progress_in::after {
-  border-color: $accent;
+  border-color: hsl(var(--accent));
 }
 @media (max-width: 575px) {
   .cs_hero.cs_style_2 .cs_hero_img {
