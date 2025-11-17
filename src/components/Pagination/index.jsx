@@ -1,5 +1,6 @@
 import React from 'react';
 import Spacing from '../Spacing';
+import ChevronRight from '../icons/ChevronRight';
 
 export default function Pagination() {
   return (
@@ -23,18 +24,7 @@ export default function Pagination() {
         </li>
         <li>
           <button type="button" className="cs_pagination_item cs_center">
-            <svg
-              width={7}
-              height={12}
-              viewBox="0 0 7 12"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0 1.272L4.55116 6L0 10.728L1.22442 12L7 6L1.22442 0L0 1.272Z"
-                fill="currentColor"
-              />
-            </svg>
+            <ChevronRight />
           </button>
         </li>
       </ul>
