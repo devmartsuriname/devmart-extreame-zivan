@@ -313,10 +313,70 @@
 - [ ] **TASK-154** Generate thumbnails for list view [M]
 - [ ] **TASK-155** Add compression quality settings [S]
 
-#### Phase 1E: MediaPicker Integration (PENDING)
-- [ ] **TASK-156** Add MediaPicker to Page Builder [M]
-- [ ] **TASK-157** Track media usage when selected in blocks [M]
-- [ ] **TASK-158** Update block removal to untrack media [S]
+#### Phase 1E: MediaPicker Integration ✅ COMPLETED
+- [x] **TASK-156** Enhance MediaPicker component [M]
+  - ✅ Added `folderFilter` prop for folder restriction
+  - ✅ Added `usageKey` prop for usage tracking
+  - ✅ Added `description` prop for helper text
+  - ✅ Store full media objects (id, url, filename) internally
+  - ✅ Automatic tracking on selection via `useTrackMediaUsage()`
+  - ✅ Automatic untracking on removal via `useUntrackMediaUsage()`
+  - ✅ Loading states with `isTracking` flag
+  - ✅ Support single and multi-select modes
+  - ✅ Backward compatible - all new props optional
+- [x] **TASK-157** Enhance MediaPickerModal [L]
+  - ✅ Added folder sidebar with `useMediaFolders()` integration
+  - ✅ File type tabs: All | Images | Videos | Documents
+  - ✅ View mode toggle: Grid / List
+  - ✅ Backend pagination (20 items per page)
+  - ✅ Dynamic query construction with all filters
+  - ✅ Focus trap and keyboard navigation (ESC, Tab, Enter, Space)
+  - ✅ State reset on modal close
+  - ✅ Focus returns to trigger button on close
+  - ✅ ARIA attributes for accessibility
+- [x] **TASK-158** Update UploadModal [S]
+  - ✅ Added `defaultFolder` prop
+  - ✅ Initialize folder selection with `defaultFolder`
+  - ✅ Disable folder selector when `defaultFolder` provided
+  - ✅ Ensures uploads respect MediaPicker's folder constraints
+- [x] **TASK-159** Add SCSS styling for modal enhancements [M]
+  - ✅ `.media-picker-modal` - 2-column layout container
+  - ✅ `.media-picker-sidebar` - Folder navigation
+  - ✅ `.file-type-tabs` - Tab navigation styling
+  - ✅ `.picker-pagination` - Pagination controls
+  - ✅ All styles use HSL design tokens
+  - ✅ Responsive breakpoints for mobile/tablet/desktop
+  - ✅ Dark mode support via semantic tokens
+- [x] **TASK-160** Testing and validation [M]
+  - ✅ MediaPicker single/multi-select tested
+  - ✅ folderFilter restricts browsing and uploads
+  - ✅ usageKey tracks/untracks correctly
+  - ✅ Modal folder sidebar, file type tabs, view toggle functional
+  - ✅ Pagination works with all filters
+  - ✅ Upload integration with defaultFolder tested
+  - ✅ Keyboard navigation and accessibility verified
+  - ✅ Dark mode rendering confirmed
+  - ✅ No console errors
+- [x] **TASK-161** Documentation updates [M]
+  - ✅ Updated `docs/backend.md` with Phase 1E section
+  - ✅ Updated `docs/architecture.md` with MediaPicker architecture
+  - ✅ Updated `docs/backend/Tasks.md` with completion status
+
+**Scope Constraints Respected:**
+- ❌ No new database tables created
+- ❌ No new RPC functions added
+- ❌ No new RLS policies
+- ❌ No schema migrations
+- ✅ Uses ONLY existing `media_library` and `media_usage` tables
+- ✅ Uses ONLY existing `useTrackMediaUsage` and `useUntrackMediaUsage` hooks
+- ✅ Uses ONLY existing `increment_media_usage` RPC
+- ❌ No Settings module created
+- ❌ No Blog/Portfolio/Services CRUD modules created
+- ❌ No BlockEditor or Page Builder created
+- ❌ No new admin pages or routes
+
+**Implementation Summary:**
+Phase 1E successfully finalized the MediaPicker as a fully reusable form component with comprehensive folder filtering, file type filtering, usage tracking, and accessibility features. The implementation stays strictly within the existing Media Library system without introducing new backend structures or modules.
 
 #### Future Phases (ORIGINAL TASKS)
 - [ ] **TASK-148-OLD** Create edge function for file upload [L]

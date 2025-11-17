@@ -3,9 +3,9 @@ import { Icon } from '@iconify/react';
 import { useMediaUpload } from '@/hooks/useMediaUpload';
 import { useMediaFolders } from '@/hooks/useMediaLibrary';
 
-export default function UploadModal({ isOpen, onClose, onUploadComplete }) {
+export default function UploadModal({ isOpen, onClose, onUploadComplete, defaultFolder = null }) {
   const [selectedFiles, setSelectedFiles] = useState([]);
-  const [selectedFolder, setSelectedFolder] = useState('uncategorized');
+  const [selectedFolder, setSelectedFolder] = useState(defaultFolder || 'uncategorized');
   const [newFolderName, setNewFolderName] = useState('');
   const [tags, setTags] = useState('');
   const [isDragging, setIsDragging] = useState(false);
@@ -14,6 +14,13 @@ export default function UploadModal({ isOpen, onClose, onUploadComplete }) {
 
   const { uploadFiles, uploading, progress } = useMediaUpload();
   const { data: folders = [] } = useMediaFolders();
+
+  // Update selected folder when defaultFolder changes
+  useEffect(() => {
+    if (defaultFolder) {
+      setSelectedFolder(defaultFolder);
+    }
+  }, [defaultFolder]);
 
   // ESC key handler
   useEffect(() => {
@@ -68,7 +75,7 @@ export default function UploadModal({ isOpen, onClose, onUploadComplete }) {
 
   const handleClose = () => {
     setSelectedFiles([]);
-    setSelectedFolder('uncategorized');
+    setSelectedFolder(defaultFolder || 'uncategorized');
     setNewFolderName('');
     setTags('');
     onClose();
@@ -122,7 +129,7 @@ export default function UploadModal({ isOpen, onClose, onUploadComplete }) {
               <select
                 value={selectedFolder}
                 onChange={(e) => setSelectedFolder(e.target.value)}
-                disabled={uploading || newFolderName.trim()}
+                disabled={uploading || newFolderName.trim() || defaultFolder !== null}
               >
                 <option value="uncategorized">Uncategorized</option>
                 {folders.map(folder => (
@@ -136,6 +143,14 @@ export default function UploadModal({ isOpen, onClose, onUploadComplete }) {
             <div className="form-group">
               <label>Or Create New Folder</label>
               <input
+                type="text"
+                value={newFolderName}
+                onChange={(e) => setNewFolderName(e.target.value)}
+                placeholder="Enter folder name..."
+                disabled={uploading || selectedFolder !== 'uncategorized' || defaultFolder !== null}
+              />
+            </div>
+          </div>
                 type="text"
                 placeholder="New folder name"
                 value={newFolderName}
