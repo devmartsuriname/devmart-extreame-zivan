@@ -430,7 +430,7 @@
     &:not(:last-child) {
       margin-bottom: 30px;
       padding-bottom: 30px;
-      border-bottom: 1px solid $border;
+      border-bottom: 1px solid hsl(var(--border));
     }
   }
 }
@@ -485,7 +485,7 @@
   }
   td {
     border-top: none;
-    border-bottom: 1px solid $border;
+    border-bottom: 1px solid hsl(var(--border));
     padding: 20px;
     @media (max-width: 991px) {
       padding: 10px;
@@ -561,11 +561,11 @@
   }
 }
 .cs_shop-card {
-  border: 5px solid $border;
+  border: 5px solid hsl(var(--border));
   border-radius: 2px;
   padding: 23px 30px 30px;
   table {
-    border-bottom: 1px solid $border;
+    border-bottom: 1px solid hsl(var(--border));
     margin: 0;
   }
   h2 {
@@ -641,7 +641,7 @@
     font-size: 14px;
     line-height: 1.6em;
     margin-bottom: 5px;
-    color: $gray2;
+    color: hsl(var(--muted-foreground));
   }
   h3 {
     margin: 0;
@@ -663,7 +663,7 @@
     @media (max-width: 991px) {
       width: 100%;
       &:not(:last-child) {
-        border-bottom: 1px solid $border;
+        border-bottom: 1px solid hsl(var(--border));
         padding-bottom: 15px;
         margin-bottom: 15px;
       }
