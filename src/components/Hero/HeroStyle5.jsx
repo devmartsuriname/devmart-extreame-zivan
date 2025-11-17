@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import Button from '../Button';
 import parse from 'html-react-parser';
+import FlowerIcon from '../icons/FlowerIcon';
+import PlayIcon from '../icons/PlayIcon';
 
 export default function HeroStyle5({
   highlightTitle,
@@ -29,7 +31,7 @@ export default function HeroStyle5({
       <div className="container">
         <div className="cs_hero_text position-relative">
           <p className="cs_hero_top_title">
-            <img src="/images/icons/flower.svg" alt="Icon" />
+            <FlowerIcon />
             {highlightTitle}
           </p>
           <h1 className="cs_hero_title cs_fs_68 cs_white_color">
@@ -43,7 +45,7 @@ export default function HeroStyle5({
               variantColor="cs_btn_accent"
             />
             <span className="cs_play_btn cs_style_1" onClick={handelClick}>
-              <img src="/images/icons/play.svg" alt="Icon" />
+              <PlayIcon />
               {videoBtnText}
             </span>
           </div>
