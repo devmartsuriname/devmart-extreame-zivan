@@ -1,74 +1,129 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import WaterWave from 'react-water-wave';
 import Spacing from '../Spacing';
 import parse from 'html-react-parser';
+import PlayButton from '../icons/PlayButton';
 
 export default function VideoModal({ videoSrc, bgUrl, title, titleVariant }) {
+  const [isOpen, setIsOpen] = useState(false);
   const [iframeSrc, setIframeSrc] = useState('about:blank');
-  const [toggle, setToggle] = useState(false);
-  const handelClick = () => {
-    setIframeSrc(`${videoSrc}`);
-    setToggle(!toggle);
-  };
-  const handelClose = () => {
+  const modalRef = useRef(null);
+  const closeButtonRef = useRef(null);
+
+  // Determine if video is YouTube to add autoplay parameter
+  const getVideoSrcWithAutoplay = useCallback((src) => {
+    if (!src) return 'about:blank';
+    const isYouTube = src.includes('youtube.com') || src.includes('youtu.be');
+    if (isYouTube) {
+      const separator = src.includes('?') ? '&' : '?';
+      return `${src}${separator}autoplay=1&mute=1`;
+    }
+    return src;
+  }, []);
+
+  const handleOpen = useCallback(() => {
+    setIframeSrc(getVideoSrcWithAutoplay(videoSrc));
+    setIsOpen(true);
+    document.body.style.overflow = 'hidden';
+  }, [videoSrc, getVideoSrcWithAutoplay]);
+
+  const handleClose = useCallback(() => {
     setIframeSrc('about:blank');
-    setToggle(!toggle);
-  };
+    setIsOpen(false);
+    document.body.style.overflow = '';
+  }, []);
+
+  // Close on Escape key
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        handleClose();
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isOpen, handleClose]);
+
+  // Focus trap
+  useEffect(() => {
+    if (isOpen && closeButtonRef.current) {
+      closeButtonRef.current.focus();
+    }
+  }, [isOpen]);
+
+  // Cleanup body overflow on unmount
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
   return (
     <>
-      {title ? (
+      {title && (
         <>
           <h2
             className={`cs_video_block_1_title cs_fs_68 text-center mb-0 ${
-              titleVariant ? titleVariant : 'text-uppercase'
+              titleVariant || 'text-uppercase'
             }`}
           >
             {parse(title)}
           </h2>
           <Spacing lg="80" md="45" />
         </>
-      ) : (
-        ''
       )}
+      
       <WaterWave
         className="cs_video_block cs_style_1 cs_bg_filed cs_radius_15 position-relative d-flex justify-content-center align-items-center cs_ripple_activate overflow-hidden"
         imageUrl={bgUrl}
       >
         {() => (
-          <span className="cs_hero_video_icon" onClick={handelClick}>
-            <svg
-              width={80}
-              height={80}
-              viewBox="0 0 80 80"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle cx={40} cy={40} r={40} fill="#FD6219" />
-              <path
-                d="M60.079 39.9998L30.148 57.4394L30.0104 22.7986L60.079 39.9998Z"
-                fill="white"
-              />
-            </svg>
-          </span>
+          <button
+            className="cs_hero_video_icon"
+            onClick={handleOpen}
+            aria-label="Play video"
+            type="button"
+          >
+            <PlayButton />
+          </button>
         )}
       </WaterWave>
 
-      <div className={toggle ? 'cs_video_popup active' : 'cs_video_popup'}>
-        <div className="cs_video_popup_overlay" />
+      <div
+        className={isOpen ? 'cs_video_popup active' : 'cs_video_popup'}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Video player"
+        ref={modalRef}
+      >
+        <div
+          className="cs_video_popup_overlay"
+          onClick={handleClose}
+          aria-hidden="true"
+        />
         <div className="cs_video_popup_content">
           <div className="cs_video_popup_layer" />
           <div className="cs_video_popup_container">
             <div className="cs_video_popup_align">
               <div className="embed-responsive embed-responsive-16by9">
-                <iframe
-                  className="embed-responsive-item"
-                  src={iframeSrc}
-                  title="video modal"
-                />
+                {isOpen && (
+                  <iframe
+                    className="embed-responsive-item"
+                    src={iframeSrc}
+                    title="Video player"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                )}
               </div>
             </div>
-            <div className="cs_video_popup_close" onClick={handelClose} />
+            <button
+              ref={closeButtonRef}
+              className="cs_video_popup_close"
+              onClick={handleClose}
+              aria-label="Close video"
+              type="button"
+            />
           </div>
         </div>
       </div>
