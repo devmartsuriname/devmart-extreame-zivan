@@ -10,22 +10,22 @@
   font-size: 14px;
   
   a {
-    color: $secondary;
+    color: hsl(var(--secondary));
     text-decoration: none;
     transition: color 0.2s ease;
     
     &:hover {
-      color: $accent;
+      color: hsl(var(--accent));
     }
   }
   
   .separator {
-    color: $secondary;
+    color: hsl(var(--secondary));
     opacity: 0.5;
   }
   
   .current {
-    color: $primary;
+    color: hsl(var(--primary));
     font-weight: 500;
     
     .cs_dark & {
@@ -55,14 +55,14 @@
   
   .stat-label {
     font-size: 14px;
-    color: $secondary;
+    color: hsl(var(--secondary));
     margin-bottom: $spacing-sm;
   }
   
   .stat-value {
     font-size: 32px;
     font-weight: 700;
-    color: $primary;
+    color: hsl(var(--primary));
     margin-bottom: $spacing-xs;
     
     .cs_dark & {
@@ -90,14 +90,14 @@
   
   .icon {
     font-size: 64px;
-    color: $secondary;
+    color: hsl(var(--secondary));
     opacity: 0.3;
     margin-bottom: $spacing-lg;
   }
   
   h3 {
     font-size: 20px;
-    color: $primary;
+    color: hsl(var(--primary));
     margin-bottom: $spacing-sm;
     
     .cs_dark & {
@@ -107,7 +107,7 @@
   
   p {
     font-size: 15px;
-    color: $secondary;
+    color: hsl(var(--secondary));
     margin-bottom: $spacing-lg;
   }
 }
@@ -132,19 +132,19 @@
   }
   
   &.btn-primary {
-    background-color: $accent;
+    background-color: hsl(var(--accent));
     color: $white;
     
     &:hover:not(:disabled) {
-      background-color: darken($accent, 5%);
+      filter: brightness(0.9);
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba($accent, 0.3);
+      box-shadow: 0 4px 12px hsl(var(--accent) / 0.3);
     }
   }
   
   &.btn-secondary {
     background-color: transparent;
-    color: $primary;
+    color: hsl(var(--primary));
     border: 1px solid #e5e5e5;
     
     .cs_dark & {
@@ -153,8 +153,8 @@
     }
     
     &:hover:not(:disabled) {
-      border-color: $accent;
-      color: $accent;
+      border-color: hsl(var(--accent));
+      color: hsl(var(--accent));
     }
   }
   
@@ -185,7 +185,7 @@
   margin-bottom: 8px;
   font-family: 'Monaco', 'Courier New', monospace;
   font-size: 14px;
-  color: $accent;
+  color: hsl(var(--accent));
   
   .cs_dark & {
     background-color: #1f1f1f;
