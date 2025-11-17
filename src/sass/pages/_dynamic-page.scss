@@ -18,7 +18,7 @@
   .spinner-large {
     width: 40px;
     height: 40px;
-    border: 3px solid $accent;
+    border: 3px solid hsl(var(--accent));
     border-right-color: transparent;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
@@ -27,7 +27,7 @@
   
   p {
     font-size: 16px;
-    color: $secondary;
+    color: hsl(var(--secondary));
     margin-top: $spacing-md;
   }
 }
@@ -35,7 +35,7 @@
 .dynamic-page-error {
   h2 {
     font-size: 28px;
-    color: $primary;
+    color: hsl(var(--primary));
     margin-bottom: $spacing-sm;
     
     .cs_dark & {
@@ -47,7 +47,7 @@
 .section-loading {
   padding: 40px 0;
   text-align: center;
-  color: $secondary;
+  color: hsl(var(--secondary));
   font-size: 15px;
 }
 
@@ -55,7 +55,7 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: $accent;
+  background-color: hsl(var(--accent));
   color: $white;
   padding: 12px 20px;
   border-radius: 8px;

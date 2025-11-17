@@ -27,8 +27,8 @@
   border-radius: 3px;
   &:hover {
     color: $white;
-    background-color: $accent;
-    border-color: $accent;
+    background-color: hsl(var(--accent));
+    border-color: hsl(var(--accent));
   }
 }
 .widget_archive,
@@ -127,7 +127,7 @@
   transition: all 0.3s ease;
   opacity: 0.5;
   &:hover {
-    color: $primary;
+    color: hsl(var(--primary));
     opacity: 1;
   }
 }

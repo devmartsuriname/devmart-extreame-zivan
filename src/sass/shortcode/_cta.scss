@@ -100,7 +100,7 @@
     z-index: 2;
   }
   .cs_btn.cs_style_1 {
-    background-color: $accent;
+    background-color: hsl(var(--accent));
   }
   .cs_cta_shape_1 {
     top: 21%;

@@ -362,10 +362,10 @@
   cursor: pointer;
 }
 .cs_category:hover {
-  background-color: $accent;
+  background-color: hsl(var(--accent));
 }
 .cs_round_progress_in::after {
-  border-color: $accent;
+  border-color: hsl(var(--accent));
 }
 .cs_rating.cs_size_sm i {
   display: flex;
@@ -396,14 +396,14 @@
   }
   &.active {
     img {
-      border-color: $accent;
+      border-color: hsl(var(--accent));
     }
   }
 }
 .multi-range-slider .thumb::before {
   margin: -6px -10px;
   box-shadow: initial;
-  border-color: $accent;
+  border-color: hsl(var(--accent));
   border-width: 2px;
 }
 .multi-range-slider {
@@ -413,7 +413,7 @@
   box-shadow: initial;
 }
 .multi-range-slider .bar-inner {
-  background-color: $accent;
+  background-color: hsl(var(--accent));
   box-shadow: initial;
   border: initial;
 }
@@ -494,8 +494,8 @@
   margin: 5px;
   border-radius: 2px;
   &.active {
-    background-color: $accent;
-    border-color: $accent;
+    background-color: hsl(var(--accent));
+    border-color: hsl(var(--accent));
     color: #fff;
   }
 }
@@ -503,7 +503,7 @@
   border: none;
   transition: all 0.3s ease;
   &:hover {
-    color: $accent;
+    color: hsl(var(--accent));
   }
 }
 .cs_section_heading.cs_style_1.cs_type_3 .cs_section_subtitle {
@@ -528,7 +528,7 @@
           height: 8px;
           width: 8px;
           border-radius: 50%;
-          background-color: $accent;
+          background-color: hsl(var(--accent));
           top: 50%;
           margin-top: -4px;
         }

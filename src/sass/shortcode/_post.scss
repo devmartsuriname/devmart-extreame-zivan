@@ -17,7 +17,7 @@
   }
 }
 .cs_post.cs_style_1 {
-  background-color: $primary;
+  background-color: hsl(var(--primary));
   .cs_post_info {
     bottom: 0;
     padding: 0px 24px 35px;
@@ -131,7 +131,7 @@
     }
     &:hover {
       margin-left: 0;
-      color: $accent;
+      color: hsl(var(--accent));
       span {
         width: 82px;
       }
