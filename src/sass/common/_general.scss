@@ -197,7 +197,7 @@ hr {
 }
 
 .cs_white_color {
-  color: $white;
+  color: #fff;
 }
 
 .cs_primary_color {
@@ -208,17 +208,17 @@ hr {
 }
 
 .cs_ternary_color {
-  color: $ternary;
+  color: hsl(var(--muted-foreground));
 }
 
 .cs_accent_color {
   color: hsl(var(--accent));
 }
 .cs_gray_color {
-  color: $gray;
+  color: hsl(var(--muted));
 }
 .cs_gray_color_2 {
-  color: $gray2;
+  color: hsl(var(--muted-foreground));
 }
 
 .cs_white_bg {
@@ -229,13 +229,13 @@ hr {
   background-color: hsl(var(--accent));
 }
 .cs_gray_bg {
-  background-color: $gray;
+  background-color: hsl(var(--muted));
 }
 .cs_gray_bg_2 {
-  background-color: rgba($border, 0.2);
+  background-color: hsl(var(--border) / 0.2);
 }
 .cs_gray_bg_3 {
-  background-color: $border;
+  background-color: hsl(var(--border));
 }
 
 .cs_primary_bg,
@@ -442,7 +442,7 @@ hr {
         content: '';
         height: 22px;
         width: 2px;
-        background-color: $gray2;
+        background-color: hsl(var(--muted-foreground));
         display: inline-block;
         position: absolute;
         right: -1px;
@@ -616,7 +616,7 @@ hr {
   }
 }
 .cs_accordian {
-  border: 1px solid $border;
+  border: 1px solid hsl(var(--border));
   border-radius: 15px;
   &:not(:last-child) {
     margin-bottom: 20px;
@@ -666,7 +666,7 @@ hr {
     border-radius: 0;
     &:not(:last-child) {
       margin-bottom: 0;
-      border-bottom: 1px solid $border;
+      border-bottom: 1px solid hsl(var(--border));
     }
   }
   .cs_accordian_toggle {
@@ -800,7 +800,7 @@ hr {
     right: -250px;
     top: 140px;
     animation: heroShapeAnim 20s linear infinite alternate;
-    color: $border;
+    color: hsl(var(--border));
     @media (max-width: 1199px) {
       display: none;
     }
@@ -822,7 +822,7 @@ hr {
     height: 350px;
     width: 350px;
     border-radius: 50%;
-    border: 7px solid $border;
+    border: 7px solid hsl(var(--border));
     position: absolute;
     @media (max-width: 991px) {
       display: none;
@@ -1479,7 +1479,7 @@ hr {
   display: flex;
   gap: 24px;
   padding: 46px 0 44px;
-  border: 1px solid $gray2;
+  border: 1px solid hsl(var(--muted-foreground));
   border-left: 0;
   border-right: 0;
   @media (max-width: 767px) {
