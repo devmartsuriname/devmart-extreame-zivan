@@ -23,8 +23,21 @@ export default function MediaCard({ media, onSelect, onEdit, onDelete, isSelecte
     toast.success('URL copied to clipboard');
   };
 
+  const handleKeyDown = (e) => {
+    if ((e.key === 'Enter' || e.key === ' ') && onSelect) {
+      e.preventDefault();
+      onSelect(media.id);
+    }
+  };
+
   return (
-    <div className={`media-card ${isSelected ? 'selected' : ''}`} tabIndex={0}>
+    <div 
+      className={`media-card ${isSelected ? 'selected' : ''}`} 
+      tabIndex={onSelect ? 0 : -1}
+      onKeyDown={handleKeyDown}
+      role={onSelect ? 'checkbox' : undefined}
+      aria-checked={onSelect ? isSelected : undefined}
+    >
       {/* Selection Checkbox */}
       {onSelect && (
         <div className="media-card-checkbox">
@@ -32,6 +45,8 @@ export default function MediaCard({ media, onSelect, onEdit, onDelete, isSelecte
             type="checkbox"
             checked={isSelected}
             onChange={() => onSelect(media.id)}
+            tabIndex={-1}
+            aria-label={`Select ${media.original_filename}`}
           />
         </div>
       )}

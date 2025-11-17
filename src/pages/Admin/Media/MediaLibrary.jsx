@@ -23,12 +23,18 @@ export default function MediaLibrary() {
 
   const itemsPerPage = 20;
 
-  const { data: mediaList = [], isLoading, refetch } = useMediaList({
+  const { data: mediaResponse, isLoading, refetch } = useMediaList({
     search: searchTerm,
     folder: selectedFolder,
     tags: selectedTags,
-    mimeType: fileTypeFilter
+    mimeType: fileTypeFilter,
+    page: currentPage,
+    limit: itemsPerPage
   });
+
+  // Handle both old and new response format
+  const mediaList = mediaResponse?.data || mediaResponse || [];
+  const totalCount = mediaResponse?.count || mediaList.length;
 
   const { data: availableTags = [] } = useMediaTags();
   const bulkDelete = useBulkDeleteMedia();
@@ -40,11 +46,8 @@ export default function MediaLibrary() {
   ];
 
   // Pagination
-  const totalPages = Math.ceil(mediaList.length / itemsPerPage);
-  const paginatedMedia = mediaList.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const totalPages = Math.ceil(totalCount / itemsPerPage);
+  const paginatedMedia = mediaList;
 
   const handleToggleSelect = (id) => {
     setSelectedIds(prev =>

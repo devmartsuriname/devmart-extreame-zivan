@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import { useMediaUpload } from '@/hooks/useMediaUpload';
 import { useMediaFolders } from '@/hooks/useMediaLibrary';
@@ -10,9 +10,21 @@ export default function UploadModal({ isOpen, onClose, onUploadComplete }) {
   const [tags, setTags] = useState('');
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
+  const modalRef = useRef(null);
 
   const { uploadFiles, uploading, progress } = useMediaUpload();
   const { data: folders = [] } = useMediaFolders();
+
+  // ESC key handler
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape' && isOpen && !uploading) {
+        handleClose();
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [isOpen, uploading]);
 
   if (!isOpen) return null;
 
@@ -72,7 +84,7 @@ export default function UploadModal({ isOpen, onClose, onUploadComplete }) {
 
   return (
     <div className="modal-overlay" onClick={handleClose}>
-      <div className="modal-content modal-lg" onClick={(e) => e.stopPropagation()}>
+      <div ref={modalRef} className="modal-content modal-lg" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2>Upload Files</h2>
           <button className="btn-icon" onClick={handleClose} disabled={uploading}>
@@ -135,15 +147,15 @@ export default function UploadModal({ isOpen, onClose, onUploadComplete }) {
 
           {/* Tags Input */}
           <div className="form-group">
-            <label>Tags (comma-separated)</label>
+            <label>Tags (lowercase, alphanumeric + hyphens only)</label>
             <input
               type="text"
               value={tags}
-              onChange={(e) => setTags(e.target.value)}
+              onChange={(e) => setTags(e.target.value.toLowerCase())}
               placeholder="e.g. hero, homepage, banner"
               disabled={uploading}
             />
-            <small className="form-hint">Separate multiple tags with commas</small>
+            <small className="form-hint">Separate multiple tags with commas. Auto-converts to lowercase.</small>
           </div>
 
           {/* Selected Files List */}
