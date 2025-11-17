@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { Toaster } from 'sonner';
@@ -12,18 +13,22 @@ import 'swiper/css/pagination';
 import 'slick-carousel/slick/slick.css';
 import './sass/index.scss';
 
+const queryClient = new QueryClient();
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <HelmetProvider>
-      <BrowserRouter>
-        <AuthProvider>
-          <ThemeProvider>
-            <App />
-            <Toaster position="top-right" richColors />
-          </ThemeProvider>
-        </AuthProvider>
-      </BrowserRouter>
-    </HelmetProvider>
+    <QueryClientProvider client={queryClient}>
+      <HelmetProvider>
+        <BrowserRouter>
+          <AuthProvider>
+            <ThemeProvider>
+              <App />
+              <Toaster position="top-right" richColors />
+            </ThemeProvider>
+          </AuthProvider>
+        </BrowserRouter>
+      </HelmetProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
 );
