@@ -19,32 +19,13 @@ export default function SectionHeadingStyle3({
           />
         </div>
         <div className="cs_section_heading_right">
-          {children ? (
-            children
-          ) : (
-            <div className="cs_section_subtitle cs_fs_18">
-              <div className="cs_section_subtitle_icon cs_center">
-                <svg
-                  width={44}
-                  height={44}
-                  viewBox="0 0 44 44"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M16.5 13.75L27.5 22L16.5 30.25V13.75Z"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-              <div className="cs_section_subtitle_text cs_fs_20 cs_medium">
-                {subTitle}
-              </div>
-            </div>
-          )}
+        {children ? (
+          children
+        ) : (
+          <div className="cs_section_subtitle cs_fs_18 cs_fs_20 cs_medium">
+            {subTitle}
+          </div>
+        )}
         </div>
       </div>
       {shape === 'shape_1' && <div className="cs_shape_1" />}
