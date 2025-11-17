@@ -49,6 +49,7 @@ import DynamicPage from './pages/DynamicPage';
 import { useSettings } from './hooks/useSettings';
 import { loadBrandingFromSettings } from './utils/brandingInjection';
 
+// Main App component
 function App() {
   const { pathname } = useLocation();
   const { data: settings } = useSettings();
