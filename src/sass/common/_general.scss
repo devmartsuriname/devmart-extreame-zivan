@@ -501,7 +501,7 @@ hr {
     content: '';
     width: calc(100% - 15px);
     height: calc(100% - 20px);
-    background-color: #fd6219;
+    background-color: hsl(var(--accent));
     border-radius: 15px;
     position: absolute;
     left: -32px;
@@ -864,7 +864,7 @@ hr {
   &.cs_style_1 {
     line-height: 1.2em;
     color: transparent;
-    -webkit-text-stroke: 2px $primary;
+    -webkit-text-stroke: 2px hsl(var(--primary));
     .cs_moving_text {
       animation-duration: 20s;
     }
@@ -1154,7 +1154,7 @@ hr {
       height: 18px;
       width: 18px;
       border-radius: 50%;
-      border: 2px solid $accent;
+      border: 2px solid hsl(var(--accent));
       top: 50%;
       margin-top: -9px;
       background-color: #fff;
@@ -1163,7 +1163,7 @@ hr {
       content: '';
       position: absolute;
       right: -4px;
-      background-color: $accent;
+      background-color: hsl(var(--accent));
       height: 8px;
       width: 8px;
       top: 50%;
@@ -1238,7 +1238,7 @@ hr {
       position: absolute;
       height: 380px;
       width: 380px;
-      border: 15px solid rgba($primary, 0.1);
+      border: 15px solid hsl(var(--primary) / 0.1);
       border-radius: 50%;
       right: -190px;
       top: 50%;
@@ -1251,7 +1251,7 @@ hr {
       position: absolute;
       height: 260px;
       width: 260px;
-      border: 15px solid rgba($primary, 0.1);
+      border: 15px solid hsl(var(--primary) / 0.1);
       right: -130px;
       top: 50%;
       transform: translateY(-50%) rotate(45deg);
@@ -1263,7 +1263,7 @@ hr {
       position: absolute;
       height: 690px;
       width: 690px;
-      border: 15px solid rgba($primary, 0.1);
+      border: 15px solid hsl(var(--primary) / 0.1);
       border-radius: 50%;
       left: 71%;
       top: -550px;
@@ -1368,7 +1368,7 @@ hr {
         position: absolute;
         width: 60px;
         top: 50%;
-        border-top: 1px dashed $accent;
+        border-top: 1px dashed hsl(var(--accent));
         right: -30px;
         @media (max-width: 1199px) {
           width: 20px;
@@ -1525,7 +1525,7 @@ hr {
     left: -2px;
     top: -2px;
     border-radius: 50%;
-    border: 13px solid $primary;
+    border: 13px solid hsl(var(--primary));
   }
 }
 
@@ -1602,11 +1602,11 @@ hr {
       font-size: 24px;
       &:after {
         line-height: 1.2em;
-        color: $accent;
+        color: hsl(var(--accent));
       }
     }
     &:hover {
-      color: $accent;
+      color: hsl(var(--accent));
     }
   }
 }
@@ -1671,13 +1671,13 @@ hr {
   width: 100%;
   display: block;
   border: none;
-  border-bottom: 2px solid $primary;
+  border-bottom: 2px solid hsl(var(--primary));
   padding: 7px 0;
   outline: none;
   transition: all 0.4s ease;
   background-color: transparent;
   &:focus {
-    border-color: $accent;
+    border-color: hsl(var(--accent));
   }
 }
 .cs_map {
@@ -1691,14 +1691,14 @@ hr {
 }
 .cs_category {
   display: inline-block;
-  background: $accent;
+  background: hsl(var(--accent));
   color: #fff;
   padding: 4px 24px;
   @media (max-width: 575px) {
     padding: 4px 15px;
   }
   &:hover {
-    background-color: rgba($accent, 0.8);
+    background-color: hsl(var(--accent) / 0.8);
     color: #fff;
   }
 }
@@ -1716,7 +1716,7 @@ hr {
         height: 15px;
         width: 1px;
         border-radius: 2px;
-        background-color: $accent;
+        background-color: hsl(var(--accent));
         position: absolute;
         right: 0;
         top: 50%;
@@ -1732,7 +1732,7 @@ hr {
   blockquote {
     font-size: 21px;
     line-height: 1.52em;
-    border-left: 5px solid $accent;
+    border-left: 5px solid hsl(var(--accent));
     background-color: #000;
     padding: 40px 35px;
     font-weight: 600;
@@ -1845,7 +1845,7 @@ hr {
   .cs_social_btns.cs_style_1 {
     justify-content: center;
     a {
-      border-color: $primary;
+      border-color: hsl(var(--primary));
     }
   }
   @media (max-width: 575px) {
@@ -1869,12 +1869,12 @@ hr {
   transition: all 0.4s ease;
   z-index: 10;
   background-color: #000000;
-  color: $accent;
-  box-shadow: 0px 1px 5px 1px rgba($black, 0.2);
+  color: hsl(var(--accent));
+  box-shadow: 0px 1px 5px 1px hsl(var(--foreground) / 0.2);
   border-radius: 50%;
   &:hover {
-    background-color: $accent;
-    color: $white;
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
   }
 }
 

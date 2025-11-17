@@ -18,7 +18,7 @@
           content: '';
           height: 56px;
           width: 1px;
-          background-color: $secondary;
+          background-color: hsl(var(--secondary));
           position: absolute;
           right: -50px;
           top: 50%;

@@ -505,7 +505,7 @@ body:not(.cs_dark) .cs_site_header.cs_style_1.cs_color_1.cs_gescout_show {
       width: 100vw;
       left: -100vw;
       background-color: #fff;
-      color: $primary;
+      color: hsl(var(--primary));
       padding: 10px 0;
       top: 0;
       overflow: auto;
@@ -595,7 +595,7 @@ body:not(.cs_dark) .cs_site_header.cs_style_1.cs_color_1.cs_gescout_show {
   }
   .cs_site_header.cs_style_1.cs_color_1 {
     .cs_nav_list {
-      background-color: $primary;
+      background-color: hsl(var(--primary));
       color: #fff;
     }
 

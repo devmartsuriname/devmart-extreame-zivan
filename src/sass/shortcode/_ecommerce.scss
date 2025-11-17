@@ -198,7 +198,7 @@
   margin-top: 20px;
   .slick-current {
     img {
-      border-color: $accent;
+      border-color: hsl(var(--accent));
     }
   }
   .slick-slide:not(.slick-current) {
@@ -508,7 +508,7 @@
   gap: 20px;
   .cs_shop-input {
     min-width: 160px;
-    border-color: $accent;
+    border-color: hsl(var(--accent));
   }
   .cs_cart-offer-col {
     display: flex;
@@ -531,25 +531,25 @@
   input {
     background-color: transparent;
     padding: 9px 15px;
-    border: 1px solid $accent;
+    border: 1px solid hsl(var(--accent));
     border-radius: 15px;
     height: 50px;
     width: 186px;
     outline: none;
     transition: all 0.3s ease;
     &::placeholder {
-      color: $secondary;
+      color: hsl(var(--secondary));
     }
 
     &:-ms-input-placeholder {
-      color: $secondary;
+      color: hsl(var(--secondary));
     }
 
     &::-ms-input-placeholder {
       color: #fff;
     }
     &:focus {
-      border-color: $secondary;
+      border-color: hsl(var(--secondary));
     }
   }
   @media (max-width: 450px) {
@@ -587,7 +587,7 @@
 }
 .cs_checkout-alert {
   a {
-    color: $accent;
+    color: hsl(var(--accent));
     &:hover {
       text-decoration: underline;
     }
@@ -607,7 +607,7 @@
   display: block;
   width: 100%;
   background: transparent;
-  border: 1px solid $border;
+  border: 1px solid hsl(var(--border));
   padding: 11px 15px;
   border-radius: 15px;
   outline: none;
@@ -615,7 +615,7 @@
   margin-bottom: 20px;
   min-height: 50px;
   &:focus {
-    border-color: $primary;
+    border-color: hsl(var(--primary));
   }
 }
 .cs_shop-label {
@@ -627,11 +627,11 @@
   font-size: 14px;
   line-height: 1.6em;
   a {
-    color: $accent;
+    color: hsl(var(--accent));
   }
 }
 .cs_order-summery {
-  background-color: $primary;
+  background-color: hsl(var(--primary));
   list-style: none;
   padding: 25px 30px;
   display: flex;
@@ -674,12 +674,12 @@
   display: inline-block;
   position: relative;
   &:hover {
-    color: $accent;
+    color: hsl(var(--accent));
   }
 }
 .cs_header_cart_label {
   position: absolute;
-  background-color: $accent;
+  background-color: hsl(var(--accent));
   font-weight: 600;
   font-size: 12px;
   line-height: 17px;
@@ -700,16 +700,16 @@
   #amount {
     border: none;
     padding: 0;
-    color: $secondary;
+    color: hsl(var(--secondary));
     width: 100%;
     background-color: transparent;
     outline: none;
   }
 
   .st-filter-btn {
-    border: 1px solid $border;
+    border: 1px solid hsl(var(--border));
     background: transparent;
-    color: $primary;
+    color: hsl(var(--primary));
     font-weight: 500;
     padding: 2px 22px;
     outline: none;
@@ -720,8 +720,8 @@
     line-height: 1.5em;
 
     &:hover {
-      background-color: $accent;
-      border-color: $accent;
+      background-color: hsl(var(--accent));
+      border-color: hsl(var(--accent));
       color: #fff;
     }
   }
@@ -730,12 +730,12 @@
 .ui-widget.ui-widget-content {
   border: 0;
   margin-bottom: 15px;
-  background-color: $border;
+  background-color: hsl(var(--border));
   margin-top: 5px;
 }
 
 .ui-widget-header {
-  background: $accent;
+  background: hsl(var(--accent));
 }
 
 .ui-state-default,
@@ -744,15 +744,15 @@
 .ui-button,
 html .ui-button.ui-state-disabled:hover,
 html .ui-button.ui-state-disabled:active {
-  border: 1px solid $accent;
-  background: $accent;
+  border: 1px solid hsl(var(--accent));
+  background: hsl(var(--accent));
 }
 
 .ui-state-active,
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active {
-  border: 1px solid $accent;
-  background: $accent;
+  border: 1px solid hsl(var(--accent));
+  background: hsl(var(--accent));
   outline: none;
 }
 
@@ -788,7 +788,7 @@ html .ui-button.ui-state-disabled:active {
   border-radius: 15px;
   background-color: #000;
   &.active {
-    background-color: $accent;
+    background-color: hsl(var(--accent));
     color: #fff;
     pointer-events: none;
   }
@@ -839,26 +839,26 @@ html .ui-button.ui-state-disabled:active {
 .cs_shop_form_field {
   width: 100%;
   display: block;
-  border: 1px solid $border;
+  border: 1px solid hsl(var(--border));
   padding: 11px 20px;
   outline: none;
   transition: all 0.4s ease;
   background-color: transparent;
   &:focus {
-    border-color: $primary;
+    border-color: hsl(var(--primary));
   }
 }
 .form-check-input {
   box-shadow: none;
-  border-color: $border;
+  border-color: hsl(var(--border));
   background-color: transparent;
 }
 .form-check-input:focus {
   box-shadow: none;
-  border-color: $border;
+  border-color: hsl(var(--border));
 }
 .form-check-input:checked {
-  border: $accent;
-  background-color: $accent;
+  border: hsl(var(--accent));
+  background-color: hsl(var(--accent));
   box-shadow: none;
 }

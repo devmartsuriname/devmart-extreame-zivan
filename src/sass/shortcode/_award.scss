@@ -52,9 +52,9 @@
   }
 }
 .cs_awaard_1_list {
-  border-top: 1px solid $secondary;
+  border-top: 1px solid hsl(var(--secondary));
   .cs_awaard.cs_style_1 {
-    border-bottom: 1px solid $secondary;
+    border-bottom: 1px solid hsl(var(--secondary));
     padding: 41px 0;
     .cs_awaard_time {
       text-align: right;
