@@ -6,7 +6,7 @@
   left: 0;
   top: 0;
   z-index: 999999;
-  background: $primary;
+  background: hsl(var(--primary));
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -24,7 +24,7 @@
       height: 19px;
       display: inline-block;
       border-radius: 50%;
-      background: $accent;
+      background: hsl(var(--accent));
       &:first-child {
         opacity: 0;
         animation: cs_perloader_dots-ani2 0.58s linear infinite;

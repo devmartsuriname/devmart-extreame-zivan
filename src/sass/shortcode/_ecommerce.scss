@@ -50,8 +50,8 @@
     border-radius: 2px;
     &:hover {
       color: $white;
-      background-color: $accent;
-      border-color: $accent;
+      background-color: hsl(var(--accent));
+      border-color: hsl(var(--accent));
     }
   }
 }
@@ -60,7 +60,7 @@
   .cs_shop_search_input {
     border: 1px solid $ternary;
     transition: all 0.3s ease;
-    color: $primary;
+    color: hsl(var(--primary));
     background-color: transparent;
     border-radius: 2px;
     display: block;
@@ -70,14 +70,14 @@
     outline: none;
 
     &:focus {
-      border-color: $primary;
+      border-color: hsl(var(--primary));
     }
     &::placeholder {
-      color: $secondary;
+      color: hsl(var(--secondary));
     }
 
     &:-ms-input-placeholder {
-      color: $secondary;
+      color: hsl(var(--secondary));
     }
 
     &::-ms-input-placeholder {
@@ -276,7 +276,7 @@
   display: inline-flex;
   justify-content: center;
   padding: 12px 45px;
-  background-color: $accent;
+  background-color: hsl(var(--accent));
   color: #fff;
   border-radius: 15px;
   outline: none;
@@ -289,7 +289,7 @@
   &.cs_color1 {
     background-color: #000;
     &:hover {
-      background-color: $accent;
+      background-color: hsl(var(--accent));
     }
   }
   @media (max-width: 380px) {
@@ -303,7 +303,7 @@
   margin: 0;
   b {
     font-weight: 600;
-    color: $primary;
+    color: hsl(var(--primary));
   }
 }
 .cs_single-product-details {

@@ -66,10 +66,10 @@
     border-radius: 50%;
     border: 1px solid $white;
     &:hover {
-      border-color: $accent;
+      border-color: hsl(var(--accent));
       transform: scale(1.08);
       svg {
-        fill: $accent;
+        fill: hsl(var(--accent));
       }
     }
   }
@@ -87,7 +87,7 @@
     border: none;
     padding: 5px 125px 5px 15px;
     outline: none;
-    color: $primary;
+    color: hsl(var(--primary));
   }
   .cs_btn.cs_style_1 {
     position: absolute;
@@ -97,7 +97,7 @@
     padding: 10px 15px;
     background-color: #fff;
     &:hover {
-      background-color: $accent;
+      background-color: hsl(var(--accent));
     }
   }
   .cs_newsletter_text {

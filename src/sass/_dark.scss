@@ -72,7 +72,7 @@
   }
   .cs_form_field_2:focus,
   .cs_iconbox_3_list .cs_hover_tab.active .cs_iconbox_icon {
-    border-color: $accent;
+    border-color: hsl(var(--accent));
   }
   .cs_iconbox.cs_style_3 .cs_iconbox_icon {
     color: #474747;
@@ -82,7 +82,7 @@
     background-color: rgba(79, 71, 71, 0.1);
   }
   .cs_accent_color {
-    color: $accent;
+    color: hsl(var(--accent));
   }
   .cs_newsletter.cs_style_1 .cs_btn.cs_style_1 {
     border-color: #121212;
@@ -114,11 +114,11 @@
     h2,
     p,
     .cs_primary_color {
-      color: $primary;
+      color: hsl(var(--primary));
     }
   }
   .cs_about.cs_style_2 .cs_sales_card h3 {
-    color: $primary;
+    color: hsl(var(--primary));
   }
   .cs_progress {
     background-color: #dddddd;
@@ -147,12 +147,12 @@
     border-color: #fff;
     color: #fff;
     &:hover {
-      color: $accent;
-      border-color: $accent;
+      color: hsl(var(--accent));
+      border-color: hsl(var(--accent));
     }
   }
   .cs_form_field {
-    color: $primary;
+    color: hsl(var(--primary));
     background-color: #fff;
   }
   .cs_section_heading.cs_style_1.cs_type_3 .cs_shape_1,
@@ -222,7 +222,7 @@
     color: #a3a3a3;
   }
   .cs_shop_sidebar_tag_list a:hover {
-    border-color: $accent;
+    border-color: hsl(var(--accent));
   }
 
   .cs_shape_animation_3 .cs_shape_1 {

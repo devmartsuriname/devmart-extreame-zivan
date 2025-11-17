@@ -78,14 +78,14 @@
       }
     }
     &.cs_gescout_show {
-      background-color: $primary;
+      background-color: hsl(var(--primary));
     }
   }
 }
 
 // Override sticky header styling based on theme
 .cs_dark .cs_site_header.cs_style_1.cs_color_1.cs_gescout_show {
-  background-color: $primary;
+  background-color: hsl(var(--primary));
   
   .cs_nav_list > li > a {
     color: #fff;
@@ -98,7 +98,7 @@
   
   .cs_btn.cs_style_1 {
     color: #fff;
-    border-color: $accent;
+    border-color: hsl(var(--accent));
   }
 }
 
@@ -106,7 +106,7 @@ body:not(.cs_dark) .cs_site_header.cs_style_1.cs_color_1.cs_gescout_show {
   background-color: $white;
   
   .cs_nav_list > li > a {
-    color: $primary;
+    color: hsl(var(--primary));
   }
   
   .cs_theme_toggle {
@@ -120,12 +120,12 @@ body:not(.cs_dark) .cs_site_header.cs_style_1.cs_color_1.cs_gescout_show {
   }
   
   .cs_btn.cs_style_1 {
-    color: $primary;
-    border-color: $accent;
+    color: hsl(var(--primary));
+    border-color: hsl(var(--accent));
     
     &:hover {
       color: #fff;
-      background-color: $accent;
+      background-color: hsl(var(--accent));
     }
   }
 }

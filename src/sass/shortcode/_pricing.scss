@@ -9,7 +9,7 @@
   display: flex;
   justify-content: center;
   margin-bottom: 50px;
-  color: $primary;
+  color: hsl(var(--primary));
   @media (max-width: 991px) {
     margin-bottom: 30px;
   }
@@ -31,7 +31,7 @@
     position: relative;
     height: 28px;
     width: 60px;
-    background: $primary;
+    background: hsl(var(--primary));
     border-radius: 1.6em;
     margin: 0 15px;
     &::before {
@@ -102,7 +102,7 @@
     top: -55px;
     height: 135px;
     width: 135px;
-    background: $accent;
+    background: hsl(var(--accent));
     filter: blur(125px);
     transition: all 0.4s ease;
     opacity: 0;
