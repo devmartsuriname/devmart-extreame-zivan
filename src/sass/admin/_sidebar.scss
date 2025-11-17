@@ -29,22 +29,22 @@
   }
   
   &::-webkit-scrollbar-track {
-    background: rgba($white, 0.1);
+    background: hsl(var(--primary-foreground) / 0.1);
   }
   
   &::-webkit-scrollbar-thumb {
-    background: rgba($white, 0.3);
+    background: hsl(var(--primary-foreground) / 0.3);
     border-radius: 3px;
     
     &:hover {
-      background: rgba($white, 0.5);
+      background: hsl(var(--primary-foreground) / 0.5);
     }
   }
 }
 
 .admin-sidebar-logo {
   padding: $spacing-xl;
-  border-bottom: 1px solid rgba($white, 0.1);
+  border-bottom: 1px solid hsl(var(--primary-foreground) / 0.1);
   
   a {
     display: block;
@@ -101,8 +101,8 @@
 
 .admin-sidebar-footer {
   padding: $spacing-xl;
-  border-top: 1px solid rgba($white, 0.1);
+  border-top: 1px solid hsl(var(--primary-foreground) / 0.1);
   font-size: 13px;
-  color: rgba($white, 0.6);
+  color: hsl(var(--primary-foreground) / 0.6);
   text-align: center;
 }
