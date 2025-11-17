@@ -172,7 +172,7 @@
   }
 
   ul {
-    border-bottom: 1px solid $ternary;
+    border-bottom: 1px solid hsl(var(--muted-foreground));
     flex-wrap: wrap;
     display: inline-flex;
     justify-content: flex-start;
