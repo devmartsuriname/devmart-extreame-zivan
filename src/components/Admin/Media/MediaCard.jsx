@@ -38,7 +38,15 @@ export default function MediaCard({ media, onSelect, onEdit, onDelete, isSelecte
       role={onSelect ? 'checkbox' : undefined}
       aria-checked={onSelect ? isSelected : undefined}
     >
-      {/* Selection Checkbox */}
+      {/* Usage Count Badge */}
+      {media.usage_count > 0 && (
+        <div className="usage-badge">
+          <Icon icon="mdi:link-variant" />
+          {media.usage_count}
+        </div>
+      )}
+
+      {/* Selection Checkbox - Top Right */}
       {onSelect && (
         <div className="media-card-checkbox">
           <input
@@ -48,14 +56,6 @@ export default function MediaCard({ media, onSelect, onEdit, onDelete, isSelecte
             tabIndex={-1}
             aria-label={`Select ${media.original_filename}`}
           />
-        </div>
-      )}
-
-      {/* Usage Count Badge */}
-      {media.usage_count > 0 && (
-        <div className="usage-badge">
-          <Icon icon="mdi:link-variant" />
-          {media.usage_count}
         </div>
       )}
 
@@ -92,30 +92,28 @@ export default function MediaCard({ media, onSelect, onEdit, onDelete, isSelecte
           {media.width && media.height && (
             <span>{media.width} × {media.height}</span>
           )}
-        </div>
-        <div className="media-card-date">
-          {format(new Date(media.created_at), 'MMM d, yyyy')}
+          <span className="media-card-date">{format(new Date(media.created_at), 'MMM d, yyyy')}</span>
         </div>
       </div>
 
-      {/* Actions */}
+      {/* Actions - Always Visible */}
       <div className="media-card-actions">
         <button
-          className="btn-icon"
+          className="btn-icon-sm"
           onClick={() => onEdit?.(media)}
           title="Edit details"
         >
           <Icon icon="mdi:pencil" />
         </button>
         <button
-          className="btn-icon"
+          className="btn-icon-sm"
           onClick={copyUrl}
           title="Copy URL"
         >
           <Icon icon="mdi:content-copy" />
         </button>
         <button
-          className="btn-icon"
+          className="btn-icon-sm"
           onClick={() => onDelete?.(media.id)}
           title="Delete"
         >
