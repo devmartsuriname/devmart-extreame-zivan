@@ -262,8 +262,8 @@
       justify-content: center;
       text-align: center;
       background-color: transparent;
-      border: 2px solid $gray2;
-      color: $gray2;
+      border: 2px solid hsl(var(--muted-foreground));
+      color: hsl(var(--muted-foreground));
       transition: all 0.4s ease;
       opacity: 1;
       margin: 0 !important;
